@@ -82,7 +82,7 @@ nav .links a{transition:color .25s}nav .links a:hover{color:var(--mint)}
 
 /* ---------- HERO ---------- */
 #hero{height:100vh;min-height:640px;overflow:hidden}
-#hero .inner{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+#hero .inner{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:76px 0 112px}
 .aurora{position:absolute;inset:-20%;pointer-events:none;filter:blur(70px);opacity:.75}
 .aurora i{position:absolute;border-radius:50%;mix-blend-mode:screen}
 .aurora i:nth-child(1){width:46vmax;height:46vmax;left:18%;top:20%;background:radial-gradient(circle,rgba(95,227,180,.32),transparent 65%);animation:a1 16s ease-in-out infinite alternate}
@@ -94,13 +94,13 @@ nav .links a{transition:color .25s}nav .links a:hover{color:var(--mint)}
 .leaf{position:absolute;width:var(--s,48px);color:var(--mint);opacity:.55;filter:drop-shadow(0 0 14px rgba(95,227,180,.5));will-change:transform;pointer-events:none}
 .leaf svg{width:100%;height:auto;display:block}
 .hero-copy{position:relative;z-index:3;padding:0 20px;perspective:900px}
-.hero-logo-wrap{perspective:900px;margin:0 auto 6px;width:clamp(150px,19vw,240px)}
+.hero-logo-wrap{perspective:900px;margin:0 auto 6px;width:clamp(110px,min(19vw,17vh),240px)}
 .hero-logo{width:100%;will-change:transform;transform-style:preserve-3d;
   mask-image:radial-gradient(ellipse 78% 72% at 56% 50%,#000 72%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 78% 72% at 56% 50%,#000 72%,transparent 100%)}
 .hero-eyebrow{margin:6px 0 20px;display:inline-flex;gap:10px;align-items:center;padding:8px 16px;border:1px solid var(--line);border-radius:99px;background:rgba(95,227,180,.05);backdrop-filter:blur(8px)}
 .hero-eyebrow b{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint);animation:pulse 1.8s infinite}
 @keyframes pulse{50%{opacity:.35;transform:scale(.7)}}
-h1{font-family:var(--display);font-weight:800;line-height:.95;letter-spacing:-.045em;font-size:clamp(2.7rem,8.6vw,8.2rem)}
+h1{font-family:var(--display);font-weight:800;line-height:.95;letter-spacing:-.045em;font-size:clamp(2.7rem,min(8.6vw,11vh),8.2rem)}
 h1 .ln{display:block;overflow:hidden;padding:.02em .05em .1em}
 .char{display:inline-block;will-change:transform}
 h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
@@ -109,7 +109,8 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
 .flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(95,227,180,.55),rgba(4,9,7,0) 60%);opacity:0;pointer-events:none;z-index:4}
 .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:10px}
 .scrollcue i{width:1px;height:46px;background:linear-gradient(var(--mint),transparent);animation:drip 1.8s infinite}
-@media(max-height:760px){.scrollcue{display:none}.hero-logo-wrap{width:clamp(120px,15vw,180px)}}
+@media(max-height:900px){.scrollcue{bottom:14px}.scrollcue i{height:30px}}
+@media(max-height:760px){.scrollcue{display:none}#hero .inner{padding-bottom:24px}.hero-logo-wrap{width:clamp(110px,min(15vw,18vh),180px)}}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 /* ---------- MARQUEE ---------- */
