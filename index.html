@@ -346,6 +346,7 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
 .bigicon{stroke:var(--mint);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .fw-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .tag{padding:8px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(95,227,180,.06);font-family:var(--mono);font-size:.78rem}
+.tag.main{background:var(--mint);border-color:var(--mint);color:#04120c;font-weight:600;box-shadow:0 0 24px -6px var(--mint)}
 /* I — quadrante cronografo */
 .dial{width:min(320px,82%);height:auto;overflow:visible;filter:drop-shadow(0 40px 60px rgba(0,0,0,.7))}
 .dial .tk{stroke:rgba(200,255,235,.28);stroke-width:1}
@@ -363,7 +364,11 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
 @keyframes pk{from{stroke-dashoffset:6}to{stroke-dashoffset:-150}}
 .cn{position:absolute;left:var(--x);top:var(--y);translate:-50% -50%;padding:8px 14px;border-radius:99px;font-family:var(--mono);font-size:.74rem;white-space:nowrap;
   background:linear-gradient(160deg,rgba(25,48,40,.9),rgba(8,18,14,.95));border:1px solid rgba(160,255,220,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 30px -10px rgba(0,0,0,.8)}
-.cn.core{--x:50%;--y:50%;width:96px;height:96px;padding:18px;border-radius:50%;display:grid;place-items:center;border-color:rgba(160,255,220,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 60px -10px rgba(95,227,180,.6)}
+.cn.core{--x:50%;--y:50%;width:124px;height:124px;padding:0;align-content:center;gap:4px;border-radius:50%;display:grid;place-items:center;border-color:rgba(160,255,220,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 60px -10px rgba(95,227,180,.6)}
+.cn.core b{font-family:var(--display);font-weight:800;font-size:2.1rem;letter-spacing:-.04em;line-height:1}
+.cn.core small{font-size:.52rem;letter-spacing:.24em;color:var(--mint)}
+.cn.sec{opacity:.62;font-size:.68rem;padding:6px 12px}
+.constel .ln.sec{stroke-dasharray:3 5}
 .cn.core::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(95,227,180,.5);animation:halo 2.6s ease-out infinite}
 @keyframes halo{from{scale:.85;opacity:1}to{scale:1.5;opacity:0}}
 /* III — cornice UI */
@@ -392,7 +397,7 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
 .typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:typ 1.2s infinite}
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 @keyframes typ{30%{translate:0 -4px;background:var(--mint)}}
-@media(max-width:860px){.fcard{grid-template-columns:1fr;position:relative;top:0}.fvis{min-height:240px}.sec-title{grid-template-columns:1fr}.float.f2{left:0}.float.f1{right:0}.frame{-webkit-box-reflect:none}.constel{width:min(300px,96%)}.cn{font-size:.64rem;padding:6px 10px}.cn.core{width:72px;height:72px;padding:14px}}
+@media(max-width:860px){.fcard{grid-template-columns:1fr;position:relative;top:0}.fvis{min-height:240px}.sec-title{grid-template-columns:1fr}.float.f2{left:0}.float.f1{right:0}.frame{-webkit-box-reflect:none}.constel{width:min(300px,96%)}.cn{font-size:.64rem;padding:6px 10px}.cn.sec{font-size:.6rem;padding:5px 9px}.cn.core{width:96px;height:96px}.cn.core b{font-size:1.6rem}}
 
 /* ---------- BOT ---------- */
 #bot{min-height:100vh;overflow:hidden;display:flex;align-items:center;padding:10vh 0}
@@ -530,7 +535,7 @@ footer img{width:26px}
         <li><b><i class="lux">II.</i>Risciacquo ad alta pressione</b><span>Pressione, ugello e distanza contano: ogni zona ha il suo progresso.</span></li>
         <li><b><i class="lux">III.</i>Cera protettiva</b><span>Sporco a zero e finitura brillante. Pronto per la strada.</span></li>
       </ol>
-      <div class="fw-row"><span class="tag">ESX</span><span class="tag">QBCore</span><span class="tag">Qbox</span><span class="tag">Standalone</span><span class="tag">ox_target</span></div>
+      <div class="fw-row"><span class="tag main">ESX</span><span class="tag">QBCore</span><span class="tag">Qbox</span><span class="tag">Standalone</span><span class="tag">ox_target</span></div>
       <div class="sc-cta">
         <a class="btn primary mag" data-link="tebex" href="#" target="_blank" rel="noopener">Scoprilo sullo store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn ghost mag" href="#details">Tutti i dettagli</a>
@@ -647,18 +652,18 @@ footer img{width:26px}
     </article>
     <article class="fcard">
       <span class="fc-roman lux" aria-hidden="true">II</span>
-      <div class="fc-copy"><div class="fc-meta"><span class="num">02</span><i></i><span>Compatibilità</span></div>
-        <h3>Compatibile <span class="lux pearl">con tutto.</span></h3>
-        <p>Un solo acquisto, il framework che preferisci. Integrazione immediata, configurazione semplice e file chiari.</p>
-        <ul class="fc-specs"><li>Un solo acquisto</li><li>Config chiara</li><li>Pronto all'uso</li></ul></div>
-      <div class="fvis"><div class="constel" aria-label="Framework supportati: ESX, QBCore, Qbox, Standalone, ox_target">
+      <div class="fc-copy"><div class="fc-meta"><span class="num">02</span><i></i><span>Framework</span></div>
+        <h3>Pensati per <span class="lux pearl">ESX.</span></h3>
+        <p>I miei script nascono principalmente per ESX: integrazione nativa, pronti all'uso, senza bridge da configurare. Disponibili anche adattamenti per altri framework.</p>
+        <ul class="fc-specs"><li>Integrazione nativa ESX</li><li>Config chiara</li><li>Pronto all'uso</li></ul></div>
+      <div class="fvis"><div class="constel" aria-label="Framework principale: ESX. Adattabili anche a QBCore, Qbox, Standalone e ox_target">
         <svg viewBox="0 0 300 300" aria-hidden="true">
           <circle class="orb" cx="150" cy="150" r="120"/><circle class="orb" cx="150" cy="150" r="78"/>
-          <path class="ln" d="M150 150 150 30M150 150 264 113M150 150 221 247M150 150 79 247M150 150 36 113"/>
-          <path class="pk" d="M150 150 150 30"/><path class="pk" d="M150 150 264 113" style="animation-delay:-.5s"/><path class="pk" d="M150 150 221 247" style="animation-delay:-1s"/><path class="pk" d="M150 150 79 247" style="animation-delay:-1.6s"/><path class="pk" d="M150 150 36 113" style="animation-delay:-2.1s"/>
+          <path class="ln sec" d="M150 150 54 66M150 150 246 66M150 150 246 234M150 150 54 234"/>
+          <path class="pk" d="M150 150 54 66"/><path class="pk" d="M150 150 246 66" style="animation-delay:-.65s"/><path class="pk" d="M150 150 246 234" style="animation-delay:-1.3s"/><path class="pk" d="M150 150 54 234" style="animation-delay:-1.95s"/>
         </svg>
-        <div class="cn core"><img src="assets/logo.webp" alt="MintDev"></div>
-        <span class="cn" style="--x:50%;--y:10%">ESX</span><span class="cn" style="--x:88%;--y:37.7%">QBCore</span><span class="cn" style="--x:73.7%;--y:82.3%">Qbox</span><span class="cn" style="--x:26.3%;--y:82.3%">Standalone</span><span class="cn" style="--x:12%;--y:37.7%">ox_target</span>
+        <div class="cn core"><b class="pearl">ESX</b><small>PRINCIPALE</small></div>
+        <span class="cn sec" style="--x:18%;--y:22%">QBCore</span><span class="cn sec" style="--x:82%;--y:22%">Qbox</span><span class="cn sec" style="--x:82%;--y:78%">Standalone</span><span class="cn sec" style="--x:18%;--y:78%">ox_target</span>
       </div></div>
     </article>
     <article class="fcard">
