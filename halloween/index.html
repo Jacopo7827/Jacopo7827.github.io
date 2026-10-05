@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dolcetto o Scherzetto — Script FiveM di Halloween · MintDev</title>
+<meta name="description" content="Dolcetto o Scherzetto: l'evento di Halloween per il tuo server FiveM. Bussa alle porte, raccogli caramelle e scambiale con soldi, cibo stregato e pozioni. ESX, QBCore e Qbox.">
+<meta name="author" content="MintDev.eu">
+<meta name="theme-color" content="#07040b">
+<link rel="canonical" href="https://mintdev.eu/halloween/">
+<link rel="icon" href="../assets/halloween/icons/hw_zucca_lanterna.webp">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MintDev">
+<meta property="og:title" content="Dolcetto o Scherzetto — Script FiveM di Halloween">
+<meta property="og:description" content="Bussa alle porte, raccogli caramelle e scambiale con soldi, cibo stregato e pozioni. ESX · QBCore · Qbox.">
+<meta property="og:url" content="https://mintdev.eu/halloween/">
+<meta property="og:image" content="https://mintdev.eu/assets/halloween/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Creepster&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pk:#ff7a1a; --pk-2:#ffa149; --pk-3:#ffd9a0; --pk-dim:rgba(255,122,26,.12);
+  --pu:#8b5cf6; --pu-2:#5b21b6; --slime:#8cff3f; --gold:#ffcf3f; --blood:#ff3b5c; --mint:#5fe3b4;
+  --bg:#07040b; --bg-2:#0c0613; --card:#120a1c; --line:rgba(255,140,60,.17); --line-2:rgba(170,130,255,.16);
+  --text:#f6eedc; --muted:#a99bb8;
+  --display:'Bricolage Grotesque',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace; --serif:'Instrument Serif',Georgia,serif; --spooky:'Creepster','Bricolage Grotesque',cursive;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:var(--body);color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+::selection{background:var(--pk);color:#1a0a05}
+:focus-visible{outline:2px solid var(--pk);outline-offset:4px;border-radius:6px}
+section{position:relative}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;color:var(--pk)}
+.lux{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.spook{font-family:var(--spooky);font-weight:400;letter-spacing:.02em;background:linear-gradient(180deg,var(--pk-3),var(--pk) 50%,#d9480f);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(255,122,26,.45))}
+.spook.slime{background:linear-gradient(180deg,#e2ffbe,var(--slime) 50%,#3fa30f);filter:drop-shadow(0 0 22px rgba(140,255,63,.4))}
+
+/* grana */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:180;opacity:.05;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* ---------- cursore / barra ---------- */
+#progress{position:fixed;top:0;left:0;height:2px;width:100%;background:linear-gradient(90deg,var(--pu),var(--pk));transform-origin:0 50%;transform:scaleX(0);z-index:160;box-shadow:0 0 12px var(--pk)}
+#cursor,#cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:170;border-radius:50%;will-change:transform}
+#cursor{width:40px;height:40px;border:1px solid rgba(255,140,60,.65);margin:-20px 0 0 -20px;transition:width .35s var(--ease),height .35s var(--ease),margin .35s var(--ease),background .3s;mix-blend-mode:difference}
+#cursor-dot{width:6px;height:6px;background:var(--pk);margin:-3px 0 0 -3px}
+#cursor.hot{width:80px;height:80px;margin:-40px 0 0 -40px;background:rgba(255,122,26,.15)}
+#glow{position:fixed;left:0;top:0;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(255,122,26,.07),transparent 60%);will-change:transform}
+@media (hover:none){#cursor,#cursor-dot,#glow{display:none}}
+
+/* ---------- nav ---------- */
+nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:150;display:flex;width:max-content;white-space:nowrap;align-items:center;gap:28px;padding:9px 10px 9px 18px;border-radius:999px;
+  background:rgba(14,7,20,.6);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border:1px solid var(--line);transition:transform .6s var(--ease)}
+nav.hide{transform:translate(-50%,-150%)}
+nav .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.05rem}
+nav .brand img{width:28px;height:28px;object-fit:contain}
+nav .brand small{font-family:var(--mono);font-weight:400;font-size:.62rem;letter-spacing:.18em;color:var(--pk);text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid var(--line)}
+nav .links{display:flex;gap:22px;font-size:.88rem;color:var(--muted)}
+nav .links a{transition:color .25s}nav .links a:hover{color:var(--pk)}
+@media(max-width:860px){nav .links{display:none}nav{gap:14px}}
+
+/* ---------- bottoni ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;padding:12px 22px;border-radius:999px;cursor:pointer;border:1px solid var(--line);overflow:hidden;isolation:isolate;transition:box-shadow .35s,color .35s,border-color .35s,background .35s;will-change:transform;background:none}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:linear-gradient(180deg,var(--pk-2),var(--pk));color:#1a0a05;border-color:var(--pk)}
+.btn.primary::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);transition:transform .8s var(--ease)}
+.btn.primary:hover::before{transform:translateX(120%)}
+.btn.primary:hover{box-shadow:0 0 50px rgba(255,122,26,.6)}
+.btn.ghost{background:rgba(255,255,255,.03);color:var(--text)}
+.btn.ghost:hover{border-color:var(--pk);color:var(--pk);background:var(--pk-dim)}
+.btn.lg{padding:19px 34px;font-size:1.05rem}
+.btn:disabled{opacity:.55;cursor:default}
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+.btn.ghost::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;z-index:-1;
+  background:conic-gradient(from var(--ang),transparent 0 70%,var(--pk) 85%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinb 3.5s linear infinite}
+@keyframes spinb{to{--ang:360deg}}
+.tag{padding:8px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(255,122,26,.06);font-family:var(--mono);font-size:.78rem}
+.tag.main{background:var(--pk);border-color:var(--pk);color:#1a0a05;font-weight:600;box-shadow:0 0 24px -6px var(--pk)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ---------- HERO ---------- */
+#hero{height:100vh;min-height:680px;overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(91,33,182,.35),transparent 70%),radial-gradient(ellipse 70% 45% at 50% 100%,rgba(255,122,26,.22),transparent 70%),var(--bg)}
+.stars{position:absolute;inset:0;pointer-events:none;opacity:.8}
+.stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:tw var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes tw{50%{opacity:.15;transform:scale(.6)}}
+.moon{position:absolute;top:11vh;right:12vw;width:clamp(110px,13vw,200px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fffaf0,#f6e3b4 45%,#d9b56e 80%,#a07a3a);
+  box-shadow:0 0 60px rgba(255,226,160,.55),0 0 160px rgba(255,190,90,.25),inset -18px -14px 40px rgba(120,80,20,.35)}
+.moon::before,.moon::after{content:"";position:absolute;border-radius:50%;background:rgba(160,120,60,.25)}
+.moon::before{width:22%;height:22%;left:56%;top:22%}.moon::after{width:14%;height:14%;left:30%;top:60%}
+.bats{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.bat{position:absolute;left:0;width:46px;opacity:.85;animation:fly linear infinite}
+.bat svg{width:100%;animation:flap .26s ease-in-out infinite alternate;transform-origin:center;display:block}
+@keyframes fly{0%{transform:translate(-10vw,0)}25%{transform:translate(25vw,-30px)}50%{transform:translate(55vw,20px)}75%{transform:translate(80vw,-22px)}100%{transform:translate(112vw,0)}}
+@keyframes flap{to{transform:scaleY(.5)}}
+#embers{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.skyline{position:absolute;left:0;right:0;bottom:0;height:clamp(150px,26vh,270px);z-index:3;pointer-events:none}
+.skyline svg{width:100%;height:100%;display:block}
+.skyline .win{fill:#ffb14a;filter:drop-shadow(0 0 6px #ff8a1a);animation:flick 4s ease-in-out infinite}
+.skyline .win:nth-child(3n){animation-delay:-1.3s;animation-duration:5s}.skyline .win:nth-child(4n){animation-delay:-2.1s;animation-duration:3.2s}
+@keyframes flick{0%,100%{opacity:1}46%{opacity:.85}48%{opacity:.45}50%{opacity:.95}}
+.skyline .pump{fill:#ff7a1a;filter:drop-shadow(0 0 8px #ff7a1a)}
+.fog{position:absolute;left:-30%;right:-30%;height:180px;pointer-events:none;z-index:4;filter:blur(18px);
+  background:radial-gradient(ellipse 30% 50% at 25% 60%,rgba(190,170,255,.14),transparent 70%),radial-gradient(ellipse 28% 45% at 70% 50%,rgba(190,170,255,.12),transparent 70%);animation:fog 18s ease-in-out infinite alternate}
+.fog.f1{bottom:-40px}.fog.f2{bottom:40px;opacity:.6;animation-duration:24s;animation-direction:alternate-reverse}
+@keyframes fog{to{transform:translateX(9%)}}
+#hero .inner{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:80px 0 clamp(120px,22vh,230px);z-index:5}
+.hero-copy{position:relative;padding:0 20px}
+.eyebrow{margin-bottom:22px;display:inline-flex;gap:10px;align-items:center;padding:8px 16px;border:1px solid var(--line);border-radius:99px;background:rgba(255,122,26,.06);backdrop-filter:blur(8px)}
+.eyebrow b{width:7px;height:7px;border-radius:50%;background:var(--pk);box-shadow:0 0 10px var(--pk);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.7)}}
+h1{font-weight:400;line-height:.86}
+h1 .ln{display:block}
+h1 .l1{font-family:var(--spooky);font-size:clamp(4.2rem,13vw,11.5rem);letter-spacing:.02em;
+  filter:drop-shadow(0 0 30px rgba(255,122,26,.55)) drop-shadow(0 8px 0 #2a0f0a)}
+h1 .l1,h1 .l1 .ch{background:linear-gradient(180deg,#ffe2b0 0%,var(--pk) 48%,#c2410c 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .l1:has(.ch){background:none}
+h1 .l2{font-family:var(--display);font-weight:800;letter-spacing:-.05em;font-size:clamp(2.4rem,7vw,6rem);margin-top:.06em}
+h1 .l2 .lux{color:var(--pk-2);font-size:1.1em;padding-right:.12em}
+h1 .ch{display:inline-block}
+.hero-sub{margin:24px auto 30px;max-width:560px;color:var(--muted);font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero-chips{justify-content:center;margin-top:26px}
+.hprop{position:absolute;z-index:4;pointer-events:none;will-change:transform}
+.hprop img{width:100%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6));animation:bob var(--bd,6s) ease-in-out infinite var(--bdl,0s)}
+@keyframes bob{50%{transform:translateY(-14px) rotate(var(--br,3deg))}}
+.hp1{left:4vw;bottom:13vh;width:clamp(130px,17vw,280px)}
+.hp2{right:5vw;bottom:15vh;width:clamp(110px,14vw,230px);--bdl:-2s}
+.hp3{left:12vw;top:16vh;width:clamp(80px,9vw,150px);--bdl:-1s;--br:-6deg}
+.hp4{right:20vw;top:30vh;width:clamp(60px,6.5vw,110px);--bdl:-3s}
+.hp5{left:19vw;top:44vh;width:clamp(60px,6vw,100px);--bdl:-4s;--br:8deg}
+.hp6{right:26vw;bottom:9vh;width:clamp(50px,5vw,86px);--bdl:-2.5s}
+@media(max-width:1100px){.hp5,.hp6{display:none}.hp3{left:4vw;top:13vh}.hp4{right:4vw;top:15vh}}
+@media(max-width:700px){.hp3,.hp4{display:none}.hp1{left:-6vw;bottom:12vh;width:34vw;opacity:.55}.hp2{right:-4vw;bottom:13vh;width:28vw;opacity:.55}.moon{right:6vw;top:9vh}}
+.scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px}
+.scrollcue i{width:1px;height:40px;background:linear-gradient(var(--pk),transparent);animation:drip 1.8s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-height:760px){.scrollcue{display:none}}
+
+/* ---------- MARQUEE ---------- */
+.marquee{background:var(--bg-2);overflow:hidden;padding:22px 0;border-block:1px solid var(--line);position:relative;z-index:2}
+.marquee .row{display:flex;width:max-content;animation:mq 36s linear infinite}
+.marquee .row.r2{margin-top:10px;animation-direction:reverse;animation-duration:40s}
+@keyframes mq{to{transform:translateX(-50%)}}
+.marquee span{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,4vw,3.6rem);letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,140,60,.55);display:flex;align-items:center;gap:48px;padding-right:48px}
+.marquee span::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--pk);box-shadow:0 0 16px var(--pk)}
+.marquee span.fill{color:var(--text);-webkit-text-stroke:0}
+.marquee span.sp{font-family:var(--spooky);font-weight:400;color:var(--pk);-webkit-text-stroke:0;letter-spacing:.03em}
+
+/* ---------- titoli sezione ---------- */
+.sec{padding:16vh 0}
+.sec-head{display:grid;grid-template-columns:1fr auto;gap:22px 6vw;align-items:end;margin-bottom:8vh}
+.sec-head .mono{grid-column:1/-1}
+.sec-head h2{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.98;font-size:clamp(2.4rem,6vw,5.2rem);max-width:880px}
+.sec-head h2 .spook{letter-spacing:.03em;font-size:1.06em}
+.sec-lead{max-width:320px;color:var(--muted);line-height:1.7;padding-left:20px;border-left:1px solid rgba(255,160,90,.3);margin-bottom:.5em}
+@media(max-width:860px){.sec-head{grid-template-columns:1fr}}
+
+/* ---------- COME FUNZIONA ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{position:relative;padding:34px 30px 30px;border-radius:28px;overflow:hidden;min-height:400px;display:flex;flex-direction:column;
+  background:radial-gradient(500px circle at var(--mx,80%) var(--my,0%),rgba(255,170,100,.09),transparent 45%),linear-gradient(160deg,#1a0e26,#0a0510 75%);
+  border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 50px 100px -40px rgba(0,0,0,.9)}
+.step::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:conic-gradient(from var(--ang),transparent 0 76%,rgba(255,190,130,.85) 88%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinb 9s linear infinite}
+.step:nth-child(2)::before{animation-direction:reverse}
+.step .roman{position:absolute;right:18px;top:-24px;font-size:9rem;line-height:1;color:transparent;background:linear-gradient(180deg,rgba(255,122,26,.16),transparent 70%);-webkit-background-clip:text;background-clip:text;pointer-events:none}
+.step .art{height:170px;display:grid;place-items:center;margin-bottom:18px}
+.step .art img{height:100%;width:auto;filter:drop-shadow(0 22px 30px rgba(0,0,0,.6));transition:transform .5s var(--ease)}
+.step:hover .art img{transform:scale(1.08) rotate(-4deg)}
+.step .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;color:var(--pk);text-transform:uppercase}
+.step h3{font-family:var(--display);font-weight:800;letter-spacing:-.035em;font-size:2.2rem;margin:8px 0 10px}
+.step p{color:var(--muted);line-height:1.65}
+@media(max-width:900px){.steps{grid-template-columns:1fr}.step{min-height:0}}
+
+/* ---------- DEMO ---------- */
+#demo{background:radial-gradient(ellipse 60% 70% at 75% 50%,rgba(91,33,182,.22),transparent 70%)}
+.demo-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:5vw;align-items:center}
+.demo-copy h2{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.96;font-size:clamp(2.4rem,5.2vw,4.6rem);margin:14px 0 18px}
+.demo-copy>p{color:var(--muted);line-height:1.7;max-width:460px}
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:28px 0 22px;max-width:460px}
+.score>div{padding:14px 12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.025);text-align:center;transition:transform .3s}
+.score>div.bump{animation:bump .5s ease}
+@keyframes bump{40%{transform:scale(1.12)}}
+.score img{width:38px;height:38px;margin:0 auto 4px;object-fit:contain}
+.score b{display:block;font-family:var(--display);font-weight:800;font-size:1.9rem;letter-spacing:-.04em;line-height:1}
+.score span{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.score .g b{color:var(--gold)}.score .t b{color:var(--slime)}
+.demo-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.sound{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.03);cursor:pointer;display:grid;place-items:center;transition:border-color .25s,color .25s}
+.sound:hover{border-color:var(--pk);color:var(--pk)}
+.sound svg{width:20px;height:20px}
+.sound .off{display:none}.sound.muted .on{display:none}.sound.muted .off{display:block}
+.log{list-style:none;margin-top:22px;display:grid;gap:6px;max-width:460px;min-height:96px}
+.log li{display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--muted);animation:logIn .4s var(--ease)}
+.log li b{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;padding:3px 8px;border-radius:6px;background:rgba(255,122,26,.14);color:var(--pk)}
+.log li.trick b{background:rgba(140,255,63,.12);color:var(--slime)}.log li.rare b{background:rgba(255,207,63,.14);color:var(--gold)}
+@keyframes logIn{from{opacity:0;transform:translateX(-12px)}}
+
+.porch{position:relative;height:min(620px,78vh);border-radius:30px;overflow:hidden;isolation:isolate;cursor:pointer;
+  background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(255,170,80,.16),transparent 70%),linear-gradient(180deg,#140a22,#0a0510 60%,#06030a);
+  border:1px solid var(--line);box-shadow:0 60px 120px -40px rgba(0,0,0,.95),0 0 100px -40px rgba(255,122,26,.45)}
+.porch::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55))}
+.wall{position:absolute;inset:0 0 18% 0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 2px,transparent 2px 46px),linear-gradient(180deg,#1b1028,#120a1c)}
+.floor{position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(180deg,#2a1a12,#120a06);border-top:2px solid #3b2618}
+.lamp{position:absolute;top:14%;left:calc(50% + 140px);width:26px;height:40px;border-radius:6px 6px 10px 10px;background:#1d1308;border:2px solid #3a2a14;z-index:2}
+.lamp::before{content:"";position:absolute;inset:6px 5px;border-radius:4px;background:#ffd36b;box-shadow:0 0 30px 10px rgba(255,190,80,.55),0 0 120px 40px rgba(255,160,60,.18);animation:flick 5s infinite}
+.frame{position:absolute;left:50%;bottom:18%;width:220px;height:370px;transform:translateX(-50%);background:#24160d;border:10px solid #3a2414;border-bottom:none;border-radius:8px 8px 0 0;perspective:900px;z-index:2;
+  box-shadow:0 0 0 2px #120a06,inset 0 0 30px rgba(0,0,0,.8)}
+.inside{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 70%,#ffcf7a,#e07a1a 55%,#5a2a08);overflow:hidden;display:grid;place-items:end center}
+.porch.k-trick .inside{background:radial-gradient(ellipse at 50% 70%,#d9ff9e,#3fa30f 55%,#0d2a05)}
+.porch.k-rare .inside{background:radial-gradient(ellipse at 50% 70%,#fff6c9,#ffcf3f 55%,#8a5a00)}
+.who{width:150px;margin-bottom:24px;transform:translateY(120%) scale(.6);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.porch.open .who{transform:none}
+.door{position:absolute;inset:0;transform-origin:0 50%;transition:transform .7s cubic-bezier(.6,0,.2,1);transform-style:preserve-3d;
+  background:linear-gradient(90deg,#5a2e14,#6e3a1a 50%,#5a2e14);border-radius:4px 4px 0 0;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.porch.open .door{transform:rotateY(-78deg)}
+.door .pn{position:absolute;left:22px;right:22px;border:3px solid rgba(0,0,0,.28);border-radius:4px;box-shadow:inset 0 0 18px rgba(0,0,0,.35)}
+.door .pn.a{top:26px;height:120px}.door .pn.b{top:166px;bottom:26px}
+.door .win{position:absolute;left:50%;top:44px;width:56px;height:56px;margin-left:-28px;border-radius:50%;background:radial-gradient(circle,#ffd36b,#c76a12);border:4px solid #3a2414;box-shadow:0 0 22px rgba(255,190,80,.6)}
+.door .knob{position:absolute;right:22px;top:50%;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,#c9932a 60%,#6b4a10)}
+.door .knocker{position:absolute;left:50%;top:128px;width:34px;height:34px;margin-left:-17px;border-radius:50%;border:4px solid #c9932a;box-shadow:0 2px 0 #6b4a10}
+.door .web{position:absolute;right:0;top:0;width:90px;opacity:.35}
+.porch.knock .door{animation:knock .3s ease-in-out 3}
+@keyframes knock{30%{transform:translateX(3px)}60%{transform:translateX(-2px)}}
+.porch .pumpkin{position:absolute;bottom:13%;width:120px;z-index:3;filter:drop-shadow(0 18px 20px rgba(0,0,0,.6))}
+.porch .pumpkin.l{left:calc(50% - 250px)}.porch .pumpkin.r{left:calc(50% + 130px);width:84px;bottom:14%}
+.porch .pumpkin::after{content:""}
+.pglow{position:absolute;bottom:12%;width:220px;height:120px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,140,40,.35),transparent 70%);pointer-events:none;z-index:2;animation:flick 3.4s infinite}
+.pglow.l{left:calc(50% - 300px)}.pglow.r{left:calc(50% + 90px);width:160px}
+.mat{position:absolute;left:50%;bottom:9%;width:190px;height:34px;transform:translateX(-50%) perspective(200px) rotateX(48deg);border-radius:6px;background:repeating-linear-gradient(90deg,#4a2a14 0 6px,#3b2010 6px 12px);
+  display:grid;place-items:center;font-family:var(--spooky);font-size:1.15rem;letter-spacing:.08em;color:#ffb062;z-index:3}
+.cobweb{position:absolute;left:0;top:0;width:150px;opacity:.28;z-index:2;pointer-events:none}
+.hint{position:absolute;left:50%;top:18px;transform:translateX(-50%);z-index:6;font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(10,5,16,.7);backdrop-filter:blur(8px);white-space:nowrap;transition:opacity .3s}
+.porch.busy .hint{opacity:0}
+.pbar{position:absolute;left:50%;bottom:24px;width:min(340px,80%);transform:translate(-50%,10px);opacity:0;transition:opacity .2s,transform .2s;z-index:7;text-align:center;pointer-events:none}
+.pbar.show{opacity:1;transform:translate(-50%,0)}
+.pbar p{font-weight:700;font-size:.9rem;margin-bottom:8px;text-shadow:0 2px 8px #000}
+.pbar div{height:12px;border-radius:99px;overflow:hidden;background:rgba(12,6,20,.85);border:1px solid rgba(255,122,26,.45)}
+.pbar i{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,transparent 0 10px,rgba(74,31,110,.55) 10px 20px),linear-gradient(90deg,#c2410c,var(--pk),var(--pk-2));background-size:28px 28px,100% 100%;animation:stripes .6s linear infinite}
+@keyframes stripes{to{background-position:28px 0,0 0}}
+.res{position:absolute;left:50%;top:40%;z-index:8;display:flex;flex-direction:column;align-items:center;text-align:center;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.5);width:92%}
+.res.show{animation:resIn 2.9s cubic-bezier(.2,1.3,.4,1) forwards}
+.res .t{font-family:var(--spooky);font-size:clamp(3rem,6.5vw,5.6rem);line-height:1;letter-spacing:.04em;background:linear-gradient(180deg,#ffe2b0,var(--pk) 48%,#c2410c);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(255,122,26,.7)) drop-shadow(0 5px 0 #2a0f0a)}
+.res.trick .t{background:linear-gradient(180deg,#e2ffbe,var(--slime) 45%,#3fa30f);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 20px rgba(140,255,63,.6)) drop-shadow(0 5px 0 #0d2a05)}
+.res.rare .t{background:linear-gradient(180deg,#fff6c9,var(--gold) 45%,#b8860b);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 24px rgba(255,207,63,.8)) drop-shadow(0 5px 0 #3a2a00)}
+.res .s{margin-top:8px;padding:8px 18px;border-radius:99px;font-weight:800;font-size:1rem;background:rgba(10,5,16,.82);border:1px solid rgba(255,122,26,.4)}
+.res.trick .s{border-color:rgba(140,255,63,.45)}
+@keyframes resIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-6deg)}14%{opacity:1;transform:translate(-50%,-50%) scale(1.06) rotate(1deg)}22%{transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-62%) scale(.96)}}
+.porch.fx-shake{animation:shake .5s linear 2}
+@keyframes shake{20%{transform:translate(-10px,4px)}40%{transform:translate(9px,-3px)}60%{transform:translate(-7px,2px)}80%{transform:translate(5px,-2px)}}
+.porch.fx-hallu{animation:hallu 3s ease-in-out}
+@keyframes hallu{25%{filter:hue-rotate(120deg) saturate(2) blur(1px)}50%{filter:hue-rotate(240deg) saturate(2.4)}75%{filter:hue-rotate(60deg) blur(2px)}}
+.porch.fx-curse{animation:curse 3s ease-in-out}
+@keyframes curse{20%{transform:rotate(-3deg) skewX(4deg)}45%{transform:rotate(3deg) skewX(-5deg)}70%{transform:rotate(-2deg) skewX(3deg)}}
+.flash{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;background:radial-gradient(circle,transparent 30%,rgba(140,255,63,.45))}
+.flash.go{animation:fl 1.1s ease-out}
+@keyframes fl{from{opacity:1}to{opacity:0}}
+.fly{position:fixed;width:44px;height:44px;z-index:190;pointer-events:none}
+@media(max-width:960px){.demo-grid{grid-template-columns:1fr}.porch{height:560px}}
+@media(max-width:560px){.porch .pumpkin.l{left:4%;width:90px}.porch .pumpkin.r,.pglow.r{display:none}.pglow.l{left:-6%}.lamp{left:calc(50% + 122px)}.frame{width:190px;height:330px}}
+
+/* ---------- BOTTEGA ---------- */
+.shop-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:5vw;align-items:center}
+.shot{position:relative;perspective:1600px}
+.shot .tilt{position:relative;border-radius:22px;padding:10px;transform:rotateY(14deg) rotateX(5deg);transform-style:preserve-3d;transition:transform .8s var(--ease);
+  background:linear-gradient(150deg,rgba(255,200,150,.16),rgba(255,122,26,.04) 40%,rgba(170,130,255,.12));border:1px solid rgba(255,160,90,.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 60px 120px -30px rgba(0,0,0,.95),0 0 100px -30px rgba(255,122,26,.55)}
+.shot:hover .tilt{transform:rotateY(4deg) rotateX(2deg)}
+.shot img{border-radius:14px;width:100%}
+.float{position:absolute;padding:10px 14px;border-radius:12px;font-size:.8rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:8px;z-index:2;
+  background:linear-gradient(160deg,rgba(40,20,55,.94),rgba(14,7,20,.97));border:1px solid rgba(255,160,90,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 20px 40px -12px rgba(0,0,0,.9);animation:bob 5s ease-in-out infinite}
+.float img{width:24px;height:24px}
+.float.f1{top:-5%;right:4%}.float.f2{bottom:6%;left:-3%;animation-delay:-2.5s}.float.f3{top:42%;right:-4%;animation-delay:-1.2s}
+.shop-copy h2{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.96;font-size:clamp(2.3rem,4.6vw,4rem);margin:14px 0 18px}
+.shop-copy>p{color:var(--muted);line-height:1.7}
+.tabs{list-style:none;display:grid;gap:10px;margin:26px 0}
+.tabs li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02);transition:border-color .3s,background .3s}
+.tabs li:hover{border-color:rgba(255,140,60,.45);background:rgba(255,122,26,.05)}
+.tabs img{width:40px;height:40px;object-fit:contain}
+.tabs b{display:block;font-family:var(--display);font-weight:600}
+.tabs span{font-size:.84rem;color:var(--muted)}
+.rate{display:flex;flex-wrap:wrap;gap:10px}
+.rate div{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(255,122,26,.06);font-family:var(--mono);font-size:.78rem}
+.rate img{width:22px;height:22px}
+@media(max-width:960px){.shop-grid{grid-template-columns:1fr}.shot .tilt{transform:none}.float.f3{right:0}.float.f2{left:0}}
+
+/* ---------- MENU ---------- */
+#menu{background:linear-gradient(180deg,transparent,rgba(91,33,182,.08) 40%,transparent)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.filters button{padding:10px 18px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s}
+.filters button:hover{color:var(--text);border-color:rgba(255,140,60,.45)}
+.filters button.on{background:linear-gradient(180deg,var(--pk-2),var(--pk));color:#1a0a05;border-color:var(--pk);box-shadow:0 0 22px -6px var(--pk)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{position:relative;display:flex;flex-direction:column;padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.07);
+  background:radial-gradient(300px circle at var(--mx,50%) var(--my,0%),rgba(255,160,90,.1),transparent 50%),linear-gradient(170deg,rgba(74,31,110,.45),rgba(16,8,26,.9));
+  transition:transform .3s var(--ease),border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-6px);border-color:rgba(255,140,60,.5);box-shadow:0 26px 50px -20px rgba(0,0,0,.8),0 0 30px -10px rgba(255,122,26,.4)}
+.card.hide{display:none}
+.card .ic{height:116px;display:grid;place-items:center;margin-bottom:10px;position:relative}
+.card .ic::before{content:"";position:absolute;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.25),transparent 70%)}
+.card .ic img{position:relative;width:108px;height:108px;object-fit:contain;transition:transform .35s var(--ease)}
+.card:hover .ic img{transform:scale(1.1) rotate(-5deg)}
+.card h3{font-family:var(--display);font-weight:800;font-size:1.12rem;letter-spacing:-.02em}
+.card p{color:var(--muted);font-size:.85rem;line-height:1.45;margin-top:4px;flex:1}
+.card .tg{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.card .tg span{padding:3px 9px;border-radius:99px;font-size:.72rem;font-weight:700;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09)}
+.card .tg .h{color:#ffbe7a}.card .tg .w{color:#7cc8ff}.card .tg .v{color:#ff7a9a}.card .tg .s{color:#c4a8ff}.card .tg .fx{color:var(--slime);border-color:rgba(140,255,63,.3)}
+.card .pr{display:flex;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:1.2rem;color:var(--pk-2)}
+.card .pr img{width:26px;height:26px}
+.card .pr small{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-left:auto}
+.note{margin-top:22px;color:var(--muted);font-size:.86rem}
+
+/* ---------- SCHERZETTI ---------- */
+.tricks{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.trick{position:relative;padding:26px 20px 22px;border-radius:24px;border:1px solid rgba(140,255,63,.14);overflow:hidden;
+  background:radial-gradient(260px circle at 50% 0%,rgba(140,255,63,.1),transparent 60%),linear-gradient(170deg,#0f1a10,#08050c 70%);transition:transform .35s var(--ease),border-color .35s}
+.trick:hover{transform:translateY(-6px) rotate(-1deg);border-color:rgba(140,255,63,.45)}
+.trick svg{width:56px;height:56px;stroke:var(--slime);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 10px rgba(140,255,63,.5));margin-bottom:18px}
+.trick h3{font-family:var(--spooky);font-weight:400;font-size:1.7rem;letter-spacing:.04em;color:var(--slime);line-height:1}
+.trick p{color:var(--muted);font-size:.86rem;line-height:1.5;margin-top:10px}
+.trick .pct{display:block;margin-top:16px;font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--text);opacity:.7}
+.trick .bar{height:3px;border-radius:3px;background:rgba(255,255,255,.07);margin-top:6px;overflow:hidden}
+.trick .bar i{display:block;height:100%;background:var(--slime);box-shadow:0 0 8px var(--slime)}
+.odds{display:flex;gap:4px;height:14px;border-radius:99px;overflow:hidden;margin:0 0 30px;max-width:720px}
+.odds i{display:block;height:100%}
+.odds-l{display:flex;flex-wrap:wrap;gap:8px 22px;margin:-18px 0 34px;font-size:.85rem;color:var(--muted)}
+.odds-l span{display:flex;align-items:center;gap:8px}
+.odds-l span::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
+@media(max-width:1100px){.tricks{grid-template-columns:repeat(2,1fr)}.trick:last-child{grid-column:1/-1}}
+@media(max-width:560px){.tricks{grid-template-columns:1fr}}
+
+/* ---------- PROP 3D ---------- */
+#prop{overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(255,122,26,.08),transparent 70%)}
+.props{display:grid;grid-template-columns:repeat(6,1fr);gap:8px 14px}
+.prop{position:relative;text-align:center}
+.prop .pi{position:relative;aspect-ratio:1;display:grid;place-items:center}
+.prop .pi::before{content:"";position:absolute;inset:18% 12% 4%;border-radius:50%;background:radial-gradient(ellipse at 50% 85%,rgba(255,122,26,.22),transparent 65%)}
+.prop img{position:relative;width:88%;filter:drop-shadow(0 20px 26px rgba(0,0,0,.55));transition:transform .5s var(--ease);animation:bob var(--bd,7s) ease-in-out infinite var(--bdl,0s)}
+.prop:hover img{transform:scale(1.12) rotate(-6deg)}
+.prop span{display:block;margin-top:4px;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.prop.big{grid-column:span 2;grid-row:span 2}
+.prop.big span{font-size:.75rem;color:var(--pk)}
+.prop-note{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6vh}
+.prop-note div{padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.prop-note b{display:block;font-family:var(--display);font-weight:800;font-size:1.05rem;margin-bottom:4px}
+.prop-note span{color:var(--muted);font-size:.88rem;line-height:1.5}
+@media(max-width:960px){.props{grid-template-columns:repeat(3,1fr)}.prop-note{grid-template-columns:1fr}}
+@media(max-width:560px){.props{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- SPECIFICHE ---------- */
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.spec{padding:24px 22px;border-radius:22px;border:1px solid var(--line-2);background:linear-gradient(170deg,rgba(40,22,60,.5),rgba(10,5,16,.9));transition:border-color .3s,transform .3s var(--ease)}
+.spec:hover{border-color:rgba(255,140,60,.45);transform:translateY(-4px)}
+.spec svg{width:30px;height:30px;stroke:var(--pk);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:16px}
+.spec b{display:block;font-family:var(--display);font-weight:800;font-size:1.08rem;margin-bottom:6px}
+.spec span{color:var(--muted);font-size:.87rem;line-height:1.5}
+.term{margin-top:20px;border-radius:22px;border:1px solid var(--line);background:#0a0610;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+.term-top{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.term-top i{width:10px;height:10px;border-radius:50%;background:#ff5f57}.term-top i:nth-child(2){background:#febc2e}.term-top i:nth-child(3){background:#28c840}
+.term-top span{margin-left:8px}
+.term pre{padding:20px 22px;font-family:var(--mono);font-size:.84rem;line-height:1.9;overflow-x:auto;color:#d9cfe6}
+.term .c{color:var(--pk)}.term .a{color:var(--slime)}.term .m{color:#7f7392}
+@media(max-width:1000px){.specs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.specs{grid-template-columns:1fr}}
+
+/* ---------- CTA ---------- */
+#cta{min-height:92vh;display:grid;place-items:center;text-align:center;overflow:hidden;padding:16vh 0 12vh;
+  background:radial-gradient(ellipse 60% 50% at 50% 60%,rgba(255,122,26,.16),transparent 70%)}
+#cta .bigpump{position:absolute;left:50%;top:52%;width:min(760px,110vw);transform:translate(-50%,-50%);opacity:.14;pointer-events:none;filter:blur(1px)}
+#cta .inner{position:relative;z-index:2}
+#cta h2{font-family:var(--display);font-weight:800;letter-spacing:-.05em;line-height:.92;font-size:clamp(3rem,9.5vw,8.6rem)}
+#cta h2 .spook{display:block;letter-spacing:.03em;font-size:1.05em}
+#cta p{color:var(--muted);margin:26px auto 40px;max-width:500px;line-height:1.6}
+.cta-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.85rem;position:relative;z-index:2}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:var(--display);font-weight:800}
+footer img{width:26px}
+footer a:hover{color:var(--pk)}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="glow"></div>
+<div id="cursor"></div><div id="cursor-dot"></div>
+
+<nav id="nav">
+  <a href="../" class="brand"><img src="../assets/logo.webp" alt="">MintDev <small>Halloween</small></a>
+  <div class="links"><a href="#come-funziona">Come funziona</a><a href="#demo">Demo</a><a href="#menu">Menù</a><a href="#prop">Prop 3D</a><a href="../">Torna al sito</a></div>
+  <a class="btn primary mag" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="bats" id="bats" aria-hidden="true"></div>
+
+  <div class="hprop hp1" data-depth="1.2"><img src="../assets/halloween/props/zucca_lanterna.webp" alt=""></div>
+  <div class="hprop hp2" data-depth="1"><img src="../assets/halloween/props/secchiello.webp" alt=""></div>
+  <div class="hprop hp3" data-depth=".7"><img src="../assets/halloween/props/caramella.webp" alt=""></div>
+  <div class="hprop hp4" data-depth=".6"><img src="../assets/halloween/props/pozione_strega.webp" alt=""></div>
+  <div class="hprop hp5" data-depth=".45"><img src="../assets/halloween/props/candy_corn.webp" alt=""></div>
+  <div class="hprop hp6" data-depth=".5"><img src="../assets/halloween/props/mela_caramellata.webp" alt=""></div>
+
+  <div class="inner">
+    <div class="hero-copy">
+      <div class="eyebrow mono"><b></b>Script FiveM · Evento di Halloween</div>
+      <h1 aria-label="Dolcetto o Scherzetto">
+        <span class="ln l1 split">Dolcetto</span>
+        <span class="ln l2"><span class="lux">o</span>Scherzetto</span>
+      </h1>
+      <p class="hero-sub">Bussa alle porte, raccogli caramelle e scambiale con soldi, cibo stregato e pozioni. L'evento di Halloween completo per il tuo server FiveM.</p>
+      <div class="hero-cta">
+        <a class="btn primary lg mag" data-link="tebex" href="#" target="_blank" rel="noopener">Acquista sullo store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost lg mag" href="#demo">Prova la demo</a>
+      </div>
+      <div class="chips hero-chips"><span class="tag main">ESX</span><span class="tag">QBCore</span><span class="tag">Qbox</span><span class="tag">ox_inventory</span></div>
+    </div>
+  </div>
+
+  <div class="skyline" aria-hidden="true">
+    <svg viewBox="0 0 1600 270" preserveAspectRatio="xMidYMax slice">
+      <g fill="#05020a">
+        <rect x="0" y="240" width="1600" height="30"/>
+        <path d="M30 160 115 102 200 160Z"/><rect x="42" y="158" width="146" height="84"/><rect x="152" y="108" width="16" height="34"/>
+        <path d="M250 112 325 52 400 112Z"/><rect x="262" y="110" width="126" height="132"/><rect x="356" y="72" width="34" height="60"/><path d="M350 74 373 28 396 74Z"/>
+        <path d="M455 242V170M455 196l-26-24M455 186l22-26M455 172l-10-28M440 184l-16 4M468 170l16-6" stroke="#05020a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M512 168 605 116 698 168Z"/><rect x="524" y="166" width="162" height="76"/>
+        <path d="M806 128 905 64 1004 128Z"/><rect x="818" y="126" width="174" height="116"/><rect x="886" y="22" width="38" height="70"/><path d="M880 26 905-14 930 26Z"/>
+        <path d="M1080 156 1160 104 1240 156Z"/><rect x="1092" y="154" width="138" height="88"/><rect x="1190" y="112" width="14" height="30"/>
+        <path d="M1300 134 1375 78 1450 134Z"/><rect x="1312" y="132" width="126" height="110"/>
+        <path d="M1452 180 1510 142 1568 180Z"/><rect x="1462" y="178" width="96" height="64"/>
+        <path d="M1590 242V182M1590 204l-22-18M1590 196l14-20" stroke="#05020a" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <g opacity=".95"><rect x="0" y="228" width="1600" height="4"/>
+          <path d="M8 228V214M28 228V214M48 228V214M68 228V214M88 228V214M208 228V214M228 228V214M248 228V214M420 228V214M440 228V214M480 228V214M500 228V214M710 228V214M730 228V214M750 228V214M770 228V214M790 228V214M1020 228V214M1040 228V214M1060 228V214M1250 228V214M1270 228V214M1290 228V214M1570 228V214" stroke="#05020a" stroke-width="5"/></g>
+      </g>
+      <g>
+        <rect class="win" x="70" y="180" width="22" height="22" rx="2"/><rect class="win" x="138" y="180" width="22" height="22" rx="2"/>
+        <rect class="win" x="286" y="134" width="20" height="30" rx="10"/><rect class="win" x="342" y="134" width="20" height="30" rx="10"/><rect class="win" x="300" y="188" width="20" height="28" rx="2"/><circle class="win" cx="325" cy="88" r="9"/><rect class="win" x="366" y="88" width="14" height="18" rx="2"/>
+        <rect class="win" x="548" y="184" width="24" height="20" rx="2"/><rect class="win" x="640" y="184" width="24" height="20" rx="2"/>
+        <rect class="win" x="846" y="150" width="22" height="34" rx="11"/><rect class="win" x="894" y="150" width="22" height="34" rx="11"/><rect class="win" x="942" y="150" width="22" height="34" rx="11"/><circle class="win" cx="905" cy="104" r="10"/><rect class="win" x="898" y="44" width="14" height="22" rx="7"/>
+        <rect class="win" x="1112" y="176" width="22" height="22" rx="2"/><rect class="win" x="1186" y="176" width="22" height="22" rx="2"/>
+        <rect class="win" x="1334" y="152" width="22" height="26" rx="2"/><rect class="win" x="1394" y="152" width="22" height="26" rx="2"/><rect class="win" x="1362" y="196" width="22" height="22" rx="2"/>
+        <rect class="win" x="1486" y="196" width="20" height="18" rx="2"/>
+        <ellipse class="pump" cx="118" cy="236" rx="9" ry="7"/><ellipse class="pump" cx="336" cy="236" rx="10" ry="8"/><ellipse class="pump" cx="600" cy="236" rx="8" ry="6"/><ellipse class="pump" cx="880" cy="236" rx="11" ry="8"/><ellipse class="pump" cx="930" cy="237" rx="7" ry="5"/><ellipse class="pump" cx="1160" cy="236" rx="9" ry="7"/><ellipse class="pump" cx="1420" cy="236" rx="10" ry="7"/>
+      </g>
+    </svg>
+  </div>
+  <div class="fog f2" aria-hidden="true"></div><div class="fog f1" aria-hidden="true"></div>
+  <div class="scrollcue mono"><span>Scroll</span><i></i></div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="row"><span class="sp">Dolcetto</span><span>Scherzetto</span><span class="fill">Caramelle d'oro</span><span>11 cibi a tema</span><span class="sp">Buuuh!</span><span class="fill">Prop 3D</span><span>UI stregata</span><span class="sp">Dolcetto</span><span>Scherzetto</span><span class="fill">Caramelle d'oro</span><span>11 cibi a tema</span><span class="sp">Buuuh!</span><span class="fill">Prop 3D</span><span>UI stregata</span></div>
+  <div class="row r2"><span class="fill">ESX</span><span>QBCore</span><span class="fill">Qbox</span><span>ox_inventory</span><span class="fill">Anti-exploit</span><span>Classifica</span><span class="fill">MintDev</span><span class="fill">ESX</span><span>QBCore</span><span class="fill">Qbox</span><span>ox_inventory</span><span class="fill">Anti-exploit</span><span>Classifica</span><span class="fill">MintDev</span></div>
+</div>
+
+<!-- ============ COME FUNZIONA ============ -->
+<section id="come-funziona" class="sec"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="mono">Come funziona</div>
+    <h2>Bussa, raccogli, <span class="spook">scambia.</span></h2>
+    <p class="sec-lead">Tre passi semplici per i giocatori, un evento che tiene vivo il server per tutto ottobre.</p>
+  </div>
+  <div class="steps">
+    <article class="step rv">
+      <span class="roman lux" aria-hidden="true">I</span>
+      <div class="art"><img src="../assets/halloween/props/zucca_lanterna.webp" alt="Zucca intagliata accanto a una porta" loading="lazy"></div>
+      <span class="k">01 · Le porte</span>
+      <h3>Bussa</h3>
+      <p>Le case dell'evento hanno una zucca illuminata accanto alla porta. Premi <b>E</b>, parte l'animazione "toc toc" e qualcuno ti apre.</p>
+    </article>
+    <article class="step rv">
+      <span class="roman lux" aria-hidden="true">II</span>
+      <div class="art"><img src="../assets/halloween/props/caramella.webp" alt="Caramella di Halloween" loading="lazy"></div>
+      <span class="k">02 · Il bottino</span>
+      <h3>Raccogli</h3>
+      <p>Un residente ti regala caramelle, a volte una rarissima <b>Caramella d'Oro</b>. Oppure apre un mostro... ed è <b>scherzetto</b>.</p>
+    </article>
+    <article class="step rv">
+      <span class="roman lux" aria-hidden="true">III</span>
+      <div class="art"><img src="../assets/halloween/icons/soldi.webp" alt="Sacco di soldi" loading="lazy"></div>
+      <span class="k">03 · La bottega</span>
+      <h3>Scambia</h3>
+      <p>Alla <b>Bottega delle Caramelle</b>, nel punto che decidi tu, le caramelle diventano soldi, cibo stregato, pozioni e oggetti.</p>
+    </article>
+  </div>
+</div></section>
+
+<!-- ============ DEMO ============ -->
+<section id="demo" class="sec"><div class="wrap demo-grid">
+  <div class="demo-copy rv">
+    <div class="mono">Demo interattiva</div>
+    <h2>Bussa alla porta. <span class="spook">Se hai il coraggio.</span></h2>
+    <p>Stesse probabilità dello script: 62% dolcetto, 8% dolcetto d'oro, 30% scherzetto. In gioco i risultati li decide il server e ci sono animazioni, NPC alla porta ed effetti sullo schermo.</p>
+    <div class="score">
+      <div id="sc-c"><img src="../assets/halloween/icons/hw_caramella.webp" alt=""><b>0</b><span>Caramelle</span></div>
+      <div id="sc-g" class="g"><img src="../assets/halloween/icons/hw_caramella_oro.webp" alt=""><b>0</b><span>D'oro</span></div>
+      <div id="sc-t" class="t"><img src="../assets/halloween/icons/fantasma.webp" alt=""><b>0</b><span>Scherzetti</span></div>
+    </div>
+    <div class="demo-actions">
+      <button class="btn primary mag" id="knockBtn" type="button">Bussa alla porta
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8a8 8 0 0 0 16 0v-2a2 2 0 0 0-4 0"/></svg></button>
+      <button class="sound" id="soundBtn" type="button" aria-label="Attiva o disattiva i suoni" title="Suoni">
+        <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+        <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6"/></svg>
+      </button>
+    </div>
+    <ul class="log" id="log" aria-live="polite"></ul>
+  </div>
+
+  <div class="porch rv" id="porch" role="button" tabindex="0" aria-label="Porta: clicca per bussare">
+    <div class="wall"></div><div class="floor"></div>
+    <svg class="cobweb" viewBox="0 0 170 170" fill="none" stroke="#f6eedc" stroke-width="1.3"><path d="M0 0L170 30M0 0L150 90M0 0L100 150M0 0L35 170"/><path d="M0 38Q20 30 33 6M0 72Q38 58 66 12M0 108Q58 88 99 18M0 144Q76 120 132 24"/></svg>
+    <div class="hint">Clicca la porta per bussare</div>
+    <div class="lamp"></div>
+    <div class="frame">
+      <div class="inside"><img class="who" id="who" src="../assets/halloween/icons/hw_secchiello.webp" alt=""></div>
+      <div class="door">
+        <div class="pn a"></div><div class="pn b"></div><div class="win"></div><div class="knocker"></div><div class="knob"></div>
+      </div>
+    </div>
+    <div class="pglow l"></div><div class="pglow r"></div>
+    <img class="pumpkin l" src="../assets/halloween/props/zucca_lanterna.webp" alt="">
+    <img class="pumpkin r" src="../assets/halloween/props/secchiello.webp" alt="">
+    <div class="mat">Benvenuti?</div>
+    <div class="flash" id="flash"></div>
+    <div class="pbar" id="pbar"><p>Toc toc toc... dolcetto o scherzetto?</p><div><i></i></div></div>
+    <div class="res" id="res"><div class="t"></div><div class="s"></div></div>
+  </div>
+</div></section>
+
+<!-- ============ BOTTEGA ============ -->
+<section id="bottega" class="sec"><div class="wrap shop-grid">
+  <div class="shot rv">
+    <div class="tilt"><img src="../assets/halloween/bottega.webp" alt="Interfaccia della Bottega delle Caramelle in gioco" loading="lazy"></div>
+    <span class="float f1"><img src="../assets/halloween/icons/hw_caramella.webp" alt="">Paghi in caramelle</span>
+    <span class="float f2"><img src="../assets/halloween/icons/soldi.webp" alt="">Caramelle → contanti</span>
+    <span class="float f3"><img src="../assets/halloween/icons/hw_caramella_oro.webp" alt="">Classifica live</span>
+  </div>
+  <div class="shop-copy rv">
+    <div class="mono">Il punto di scambio</div>
+    <h2>La Bottega <span class="spook">delle Caramelle.</span></h2>
+    <p>Un venditore zombie, zucche illuminate e un'interfaccia a tema con pipistrelli, ragnatele e suoni. La posizione la decidi tu: dal config oppure in gioco con <b>/hwnegozio</b>.</p>
+    <ul class="tabs">
+      <li><img src="../assets/halloween/icons/hw_burger_mostro.webp" alt=""><div><b>Cibo stregato</b><span>9 piatti a tema che saziano davvero</span></div></li>
+      <li><img src="../assets/halloween/icons/hw_pozione_strega.webp" alt=""><div><b>Pozioni</b><span>Bevande con effetti speciali</span></div></li>
+      <li><img src="../assets/halloween/icons/hw_scatola_misteriosa.webp" alt=""><div><b>Oggetti</b><span>Zucche, secchiello, scatola misteriosa</span></div></li>
+      <li><img src="../assets/halloween/icons/soldi.webp" alt=""><div><b>Scambio e classifica</b><span>Caramelle in soldi e top 10 dei cacciatori</span></div></li>
+    </ul>
+    <div class="rate">
+      <div><img src="../assets/halloween/icons/hw_caramella.webp" alt="">1 = $25</div>
+      <div><img src="../assets/halloween/icons/hw_caramella_oro.webp" alt="">1 = $350</div>
+      <div><img src="../assets/halloween/icons/hw_caramella_oro.webp" alt="">1 = 12 caramelle</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ MENU ============ -->
+<section id="menu" class="sec"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="mono">Il menù stregato</div>
+    <h2>Cibo a tema, <span class="spook">effetti veri.</span></h2>
+    <p class="sec-lead">Ogni piatto ha la sua icona per l'inventario, il suo prop in mano e l'animazione per mangiare o bere.</p>
+  </div>
+  <div class="filters rv" id="filters">
+    <button class="on" data-f="all" type="button">Tutto</button><button data-f="cibo" type="button">Cibo stregato</button><button data-f="bevande" type="button">Pozioni</button><button data-f="oggetti" type="button">Oggetti</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="note">Prezzi in caramelle d'esempio: tutto è modificabile dal config, così come fame, sete ed effetti.</p>
+</div></section>
+
+<!-- ============ SCHERZETTI ============ -->
+<section id="scherzetti" class="sec"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="mono">Quando apre un mostro</div>
+    <h2>Cinque <span class="spook slime">scherzetti.</span></h2>
+    <p class="sec-lead">Il 30% delle volte la porta non porta niente di buono. Ogni scherzetto ha il suo effetto in gioco.</p>
+  </div>
+  <div class="odds rv" aria-hidden="true"><i style="flex:62;background:var(--pk)"></i><i style="flex:8;background:var(--gold)"></i><i style="flex:30;background:var(--slime)"></i></div>
+  <div class="odds-l rv"><span style="--c:var(--pk)">Dolcetto 62%</span><span style="--c:var(--gold)">Dolcetto d'oro 8%</span><span style="--c:var(--slime)">Scherzetto 30%</span></div>
+  <div class="tricks">
+    <article class="trick rv"><svg viewBox="0 0 48 48"><path d="M24 5C14 5 9 13 9 22v20l5-4 5 5 5-5 5 5 5-5 5 4V22c0-9-5-17-15-17z"/><circle cx="19" cy="21" r="2.5"/><circle cx="29" cy="21" r="2.5"/><ellipse cx="24" cy="30" rx="3" ry="4"/></svg>
+      <h3>Spavento</h3><p>Zombie, clown, alieno o Bigfoot apre la porta: urlo e cadi a terra dalla paura.</p><span class="pct">30% degli scherzetti</span><div class="bar"><i style="width:100%"></i></div></article>
+    <article class="trick rv"><svg viewBox="0 0 48 48"><path d="M24 24c0-2 2-3 3.5-2s2 4-.5 6-6.5 1.5-8-1.5-1-8.5 3.5-10 10 0 12 5 0 12-5 14.5-14 1.5-17.5-4"/></svg>
+      <h3>Allucinazione</h3><p>Lo schermo impazzisce e tre clown compaiono tutto intorno a fissarti.</p><span class="pct">20% degli scherzetti</span><div class="bar"><i style="width:67%"></i></div></article>
+    <article class="trick rv"><svg viewBox="0 0 48 48"><path d="M8 38h32M14 38c2-8 4-16 10-30 6 14 8 22 10 30"/><path d="M17 30h14"/><path d="M36 10l1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5z"/></svg>
+      <h3>Maledizione</h3><p>Per 40 secondi cammini come un ubriaco, con la telecamera che ondeggia.</p><span class="pct">20% degli scherzetti</span><div class="bar"><i style="width:67%"></i></div></article>
+    <article class="trick rv"><svg viewBox="0 0 48 48"><circle cx="28" cy="8" r="3.5"/><path d="M18 20l7-5 6 6 6 2M25 15l-4 11 7 5-2 11M21 26l-7 4-4-1M28 31l-8 5"/></svg>
+      <h3>Inseguimento</h3><p>Uno zombie esce di casa e ti corre dietro. Seminalo prima che ti prenda!</p><span class="pct">18% degli scherzetti</span><div class="bar"><i style="width:60%"></i></div></article>
+    <article class="trick rv"><svg viewBox="0 0 48 48"><path d="M10 26l-6-6M10 26l-6 6M10 26c0-6 5-10 14-10s14 4 14 10-5 10-14 10-14-4-14-10zM38 26l6-6M38 26l6 6"/><path d="M19 12l-3-5M29 12l3-5"/></svg>
+      <h3>Furto</h3><p>Una scimmia ti strappa qualche caramella dal secchiello e scappa via.</p><span class="pct">12% degli scherzetti</span><div class="bar"><i style="width:40%"></i></div></article>
+  </div>
+</div></section>
+
+<!-- ============ PROP 3D ============ -->
+<section id="prop" class="sec"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="mono">Modelli originali</div>
+    <h2>11 prop 3D, <span class="spook">fatti apposta.</span></h2>
+    <p class="sec-lead">Il cibo che hai in mano è quello che vedi nell'inventario. Niente panini al posto della torta di zucca.</p>
+  </div>
+  <div class="props" id="props">
+    <div class="prop big rv"><div class="pi"><img src="../assets/halloween/props/zucca_lanterna.webp" alt="Prop zucca intagliata" loading="lazy"></div><span>Zucca intagliata</span></div>
+    <div class="prop rv" style="--bdl:-1s"><div class="pi"><img src="../assets/halloween/props/secchiello.webp" alt="Prop secchiello zucca" loading="lazy"></div><span>Secchiello</span></div>
+    <div class="prop rv" style="--bdl:-2s"><div class="pi"><img src="../assets/halloween/props/cupcake_fantasma.webp" alt="Prop cupcake fantasma" loading="lazy"></div><span>Cupcake fantasma</span></div>
+    <div class="prop rv" style="--bdl:-3s"><div class="pi"><img src="../assets/halloween/props/pozione_strega.webp" alt="Prop pozione della strega" loading="lazy"></div><span>Pozione</span></div>
+    <div class="prop rv" style="--bdl:-4s"><div class="pi"><img src="../assets/halloween/props/torta_zucca.webp" alt="Prop torta di zucca" loading="lazy"></div><span>Torta di zucca</span></div>
+    <div class="prop rv" style="--bdl:-1.5s"><div class="pi"><img src="../assets/halloween/props/mela_caramellata.webp" alt="Prop mela caramellata" loading="lazy"></div><span>Mela caramellata</span></div>
+    <div class="prop rv" style="--bdl:-2.5s"><div class="pi"><img src="../assets/halloween/props/sangue_vampiro.webp" alt="Prop sangue di vampiro" loading="lazy"></div><span>Sangue di vampiro</span></div>
+    <div class="prop rv" style="--bdl:-3.5s"><div class="pi"><img src="../assets/halloween/props/lecca_lecca.webp" alt="Prop lecca-lecca" loading="lazy"></div><span>Lecca-lecca</span></div>
+    <div class="prop rv" style="--bdl:-.5s"><div class="pi"><img src="../assets/halloween/props/biscotto_teschio.webp" alt="Prop biscotto teschio" loading="lazy"></div><span>Biscotto teschio</span></div>
+    <div class="prop rv" style="--bdl:-4.5s"><div class="pi"><img src="../assets/halloween/props/caramella.webp" alt="Prop caramella" loading="lazy"></div><span>Caramella</span></div>
+    <div class="prop rv" style="--bdl:-5s"><div class="pi"><img src="../assets/halloween/props/candy_corn.webp" alt="Prop candy corn" loading="lazy"></div><span>Candy corn</span></div>
+  </div>
+  <div class="prop-note">
+    <div class="rv"><b>Pronti per Sollumz</b><span>Modelli sorgente, texture e .ytyp inclusi, con la guida passo passo per convertirli.</span></div>
+    <div class="rv"><b>Funziona anche senza</b><span>Finché non li aggiungi, lo script usa in automatico prop originali di GTA.</span></div>
+    <div class="rv"><b>Icone abbinate</b><span>16 icone per ox_inventory e qb-inventory nello stesso stile dei prop.</span></div>
+  </div>
+</div></section>
+
+<!-- ============ SPECIFICHE ============ -->
+<section id="specifiche" class="sec"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="mono">Sotto il cofano</div>
+    <h2>Pronto da mettere <span class="spook">in città.</span></h2>
+    <p class="sec-lead">Riconosce da solo framework e inventario. Tutto il resto è nel config, commentato in italiano.</p>
+  </div>
+  <div class="specs">
+    <div class="spec rv"><svg viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg><b>ESX · QBCore · Qbox</b><span>Rilevamento automatico, con ox_inventory o inventario del framework.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><b>Anti-exploit</b><span>Distanze, tempi e cooldown controllati lato server. Niente caramelle infinite.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8M5 9v12h14V9"/><path d="M10 21v-6h4v6"/></svg><b>Case in gioco</b><span>Crea il tuo quartiere con /hwcasa aggiungi, senza toccare coordinate.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3a3 3 0 0 1-3 4M7 5H4a3 3 0 0 0 3 4"/></svg><b>Classifica</b><span>Top 10 dei cacciatori di caramelle, salvata e mostrata nella bottega.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="7"/><path d="M12 7c0-2 1-4 3-4"/><path d="M9 13l1.5-1.5L12 13M15 13l-1.5-1.5L12 13"/></svg><b>Zucche posizionabili</b><span>Le piazzi dove vuoi, si illuminano di notte e restano dopo i riavvii.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><b>Effetti speciali</b><span>Super velocità, trasparenza sincronizzata, cure, ipnosi e scherzetti.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg><b>Config chiara</b><span>Probabilità, prezzi, cooldown, oggetti e testi: tutto commentato in italiano.</span></div>
+    <div class="spec rv"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><b>Evento a comando</b><span>Lo avvii e lo fermi con /hwevento, anche solo di notte se vuoi.</span></div>
+  </div>
+  <div class="term rv">
+    <div class="term-top"><i></i><i></i><i></i><span>comandi admin</span></div>
+<pre><span class="c">/hwcasa</span> <span class="a">aggiungi</span> Via delle Zucche   <span class="m"># aggiunge la casa davanti a te</span>
+<span class="c">/hwnegozio</span>                        <span class="m"># sposta qui la Bottega delle Caramelle</span>
+<span class="c">/hwevento</span> <span class="a">on</span>                      <span class="m"># l'evento parte, avviso a tutti i giocatori</span>
+<span class="c">/hwdai</span> <span class="a">12 50 oro</span>                  <span class="m"># regala 50 caramelle d'oro al giocatore 12</span>
+<span class="c">/hwprova</span> <span class="a">hw_torta_zucca</span>           <span class="m"># prova il prop in mano</span></pre>
+  </div>
+</div></section>
+
+<!-- ============ CTA ============ -->
+<section id="cta">
+  <img class="bigpump" src="../assets/halloween/props/zucca_lanterna.webp" alt="" loading="lazy">
+  <div class="wrap inner rv">
+    <div class="mono">Halloween si avvicina</div>
+    <h2>Il tuo server,<span class="spook">versione Halloween.</span></h2>
+    <p>Prendi lo script sullo store oppure scrivimi su Discord per una versione su misura del tuo evento.</p>
+    <div class="cta-row">
+      <a class="btn primary lg mag" data-link="tebex" href="#" target="_blank" rel="noopener">Acquista sullo store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a class="btn ghost lg mag" data-link="discord" href="#" target="_blank" rel="noopener">Apri un ticket su Discord</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <a href="../" class="brand"><img src="../assets/logo.webp" alt="">MintDev</a>
+  <div>Dolcetto o Scherzetto · © <span id="yr">2026</span> MintDev · Tutti i diritti riservati</div>
+  <a href="../">← Torna a MintDev</a>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* ======================================================
+   LINK — gli stessi della home (modifica qui se cambiano)
+   ====================================================== */
+const LINKS = {
+  discord: "https://discord.gg/UNeFWPYmEq",
+  tebex:   "https://mintdev.tebex.store/"
+};
+document.querySelectorAll('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]);
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const ICON='../assets/halloween/icons/', PROP='../assets/halloween/props/';
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const $=s=>document.querySelector(s);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+
+/* ---------- menù ---------- */
+const MENU=[
+  ['hw_burger_mostro','Burger del Mostro','Doppio burger con pane verde e occhi di mozzarella.','cibo',10,{h:60}],
+  ['hw_torta_zucca','Torta di Zucca','Una fetta di torta di zucca con panna montata.','cibo',8,{h:35}],
+  ['hw_hotdog_mummia','Hot Dog Mummia','Würstel avvolto in bende di pasta sfoglia, con due occhietti.','cibo',7,{h:45}],
+  ['hw_cupcake_fantasma','Cupcake Fantasma',"Chi lo mangia diventa mezzo trasparente per un po'.",'cibo',6,{h:20,fx:'👻 Diventi un fantasma'}],
+  ['hw_mela_caramellata','Mela Caramellata','Mela croccante ricoperta di caramello rosso sangue.','cibo',5,{h:20,w:5}],
+  ['hw_ciambella_ragno','Ciambella Ragnatela','Glassa viola e ragnatela di zucchero. Attento al ragno!','cibo',4,{h:25}],
+  ['hw_biscotto_teschio','Biscotto Teschio','Pasta frolla con glassa a forma di teschio.','cibo',3,{h:15}],
+  ['hw_lecca_lecca','Lecca-Lecca Ipnotico','Fissa la spirale... rilassati...','cibo',2,{h:8,s:-15,fx:'🌀 Ipnosi'}],
+  ['hw_candy_corn','Candy Corn','Le classiche caramelle a forma di chicco di mais.','cibo',2,{h:10}],
+  ['hw_pozione_strega','Pozione della Strega','Ti rende velocissimo per un minuto intero.','bevande',12,{w:30,fx:'⚡ Super velocità'}],
+  ['hw_sangue_vampiro','Sangue di Vampiro','Succo di frutti rossi... o forse no. Cura le ferite.','bevande',6,{w:40,v:25}],
+  ['hw_scatola_misteriosa','Scatola Misteriosa','Caramelle, soldi, cibo... oppure uno scherzetto.','oggetti',20,{fx:'🎁 Premio a sorpresa'}],
+  ['hw_zucca_lanterna','Zucca Intagliata','Posizionala dove vuoi: si illumina nella notte.','oggetti',15,{fx:'🕯️ Luce tremolante'}],
+  ['hw_secchiello','Secchiello Zucca','Il secchiello per le caramelle, da tenere in mano.','oggetti',3,{}],
+];
+const CAT={cibo:'Cibo',bevande:'Pozione',oggetti:'Oggetto'};
+$('#grid').innerHTML=MENU.map(([id,name,desc,cat,price,t])=>{
+  const tg=[t.h&&`<span class="h">🍖 +${t.h}% fame</span>`,t.w&&`<span class="w">💧 +${t.w}% sete</span>`,t.v&&`<span class="v">❤ +${t.v} vita</span>`,t.s&&`<span class="s">🧠 ${t.s} stress</span>`,t.fx&&`<span class="fx">${t.fx}</span>`].filter(Boolean).join('');
+  return `<article class="card" data-cat="${cat}"><div class="ic"><img src="${ICON}${id}.webp" alt="" loading="lazy"></div><h3>${name}</h3><p>${desc}</p><div class="tg">${tg}</div>
+    <div class="pr"><img src="${ICON}hw_caramella.webp" alt="">${price}<small>${CAT[cat]}</small></div></article>`;
+}).join('');
+$('#filters').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('#grid .card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.cat!==b.dataset.f));
+  if(window.gsap&&!reduce)gsap.fromTo('#grid .card:not(.hide)',{y:24,opacity:0},{y:0,opacity:1,stagger:.04,duration:.5,ease:'power3.out',overwrite:true});
+  window.ScrollTrigger&&ScrollTrigger.refresh();
+});
+document.querySelectorAll('.card,.step').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
+
+/* ---------- cielo: stelle e pipistrelli ---------- */
+(function(){
+  const st=$('#stars');let h='';
+  for(let i=0;i<70;i++)h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*62).toFixed(1)}%;--d:${(2+Math.random()*4).toFixed(1)}s;--dl:${(-Math.random()*5).toFixed(1)}s;opacity:${(.3+Math.random()*.7).toFixed(2)}"></i>`;
+  st.innerHTML=h;
+  const BAT='<svg viewBox="0 0 120 50"><path fill="#0b0410" d="M60 18c2-6 5-9 7-9-1 4 0 7 2 9 6-7 18-11 32-8-7 3-11 8-12 14 6 0 12 2 16 8-11-3-20-2-27 3-3-3-8-4-12-2-2-3-4-4-6-4s-4 1-6 4c-4-2-9-1-12 2-7-5-16-6-27-3 4-6 10-8 16-8-1-6-5-11-12-14 14-3 26 1 32 8 2-2 3-5 2-9 2 0 5 3 7 9z"/></svg>';
+  const bats=$('#bats');
+  for(let i=0;i<7;i++){const b=document.createElement('div');b.className='bat';b.innerHTML=BAT;
+    b.style.top=(6+Math.random()*48).toFixed(1)+'%';b.style.width=(26+Math.random()*34).toFixed(0)+'px';
+    b.style.animationDuration=(13+Math.random()*16).toFixed(1)+'s';b.style.animationDelay=(-Math.random()*22).toFixed(1)+'s';bats.appendChild(b)}
+})();
+
+/* ---------- braci che salgono ---------- */
+(function(){
+  const cv=$('#embers'),ctx=cv.getContext('2d');let W,H,P=[];const dpr=Math.min(devicePixelRatio||1,2);
+  function size(){const r=cv.getBoundingClientRect();W=cv.width=r.width*dpr;H=cv.height=r.height*dpr;
+    P=Array.from({length:Math.round(Math.min(80,r.width/18))},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.6+.4)*dpr,vy:-(Math.random()*.4+.1)*dpr,vx:(Math.random()-.5)*.25*dpr,a:Math.random()*.6+.2,tw:Math.random()*6}))}
+  size();addEventListener('resize',size);
+  let vis=true;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
+  let t=0;(function loop(){requestAnimationFrame(loop);if(!vis||reduce)return;t+=.02;ctx.clearRect(0,0,W,H);
+    for(const p of P){p.x+=p.vx+Math.sin(t+p.tw)*.15*dpr;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W}
+      ctx.globalAlpha=p.a*(.55+.45*Math.sin(t*1.5+p.tw));ctx.fillStyle=p.tw>3?'#ffa149':'#ff7a1a';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()}
+    ctx.globalAlpha=1})();
+})();
+
+/* ======================================================
+   DEMO: BUSSA ALLA PORTA
+   ====================================================== */
+let VOL=.35,muted=false,actx=null;
+try{muted=localStorage.getItem('hw-muted')==='1'}catch(e){}
+$('#soundBtn').classList.toggle('muted',muted);
+$('#soundBtn').addEventListener('click',()=>{muted=!muted;$('#soundBtn').classList.toggle('muted',muted);try{localStorage.setItem('hw-muted',muted?'1':'0')}catch(e){}});
+function ac(){if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
+function tone({freq=440,type='sine',dur=.2,vol=1,delay=0,slide=null,attack=.005,vibrato=0}){
+  const c=ac(),t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);
+  if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+dur);
+  if(vibrato){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=6;lg.gain.value=vibrato;l.connect(lg).connect(o.frequency);l.start(t);l.stop(t+dur+.05)}
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,vol*VOL),t+attack);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g).connect(c.destination);o.start(t);o.stop(t+dur+.05)}
+function noise({dur=.1,vol=1,delay=0,freq=800,q=1,sweep=null}){
+  const c=ac(),t=c.currentTime+delay,len=Math.floor(c.sampleRate*dur),buf=c.createBuffer(1,len,c.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+  const s=c.createBufferSource();s.buffer=buf;const f=c.createBiquadFilter();f.type='bandpass';f.frequency.setValueAtTime(freq,t);if(sweep)f.frequency.exponentialRampToValueAtTime(sweep,t+dur);f.Q.value=q;
+  const g=c.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,vol*VOL),t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  s.connect(f).connect(g).connect(c.destination);s.start(t);s.stop(t+dur+.02)}
+const SFX={
+  knock(){[0,.3,.6].forEach(d=>{noise({dur:.09,vol:1.2,delay:d,freq:160,q:.7});tone({freq:110,dur:.14,vol:.9,delay:d,slide:55})})},
+  treat(){[523,659,784,1047].forEach((f,i)=>tone({freq:f,type:'triangle',dur:.38,vol:.45,delay:i*.08}));tone({freq:1568,dur:.6,vol:.2,delay:.32})},
+  rare(){[523,659,784,1047,1319,1568].forEach((f,i)=>tone({freq:f,type:'triangle',dur:.45,vol:.42,delay:i*.07}));for(let i=0;i<8;i++)tone({freq:2000+Math.random()*2000,dur:.25,vol:.12,delay:.45+i*.06})},
+  trick(){tone({freq:480,dur:1.8,vol:.45,slide:160,attack:.3,vibrato:18});tone({freq:70,type:'sawtooth',dur:1.6,vol:.18,attack:.2});tone({freq:233,type:'triangle',dur:1.2,vol:.2,delay:.4,slide:110,vibrato:10})},
+  scream(){noise({dur:.9,vol:.7,freq:900,q:2,sweep:2600});tone({freq:620,type:'sawtooth',dur:.9,vol:.22,slide:980,attack:.03,vibrato:40});tone({freq:55,type:'square',dur:.5,vol:.25,slide:35})},
+  door(){noise({dur:.7,vol:.35,freq:300,q:6,sweep:900});tone({freq:180,type:'sawtooth',dur:.6,vol:.08,slide:260,vibrato:14})},
+};
+function play(n){if(muted)return;try{SFX[n]()}catch(e){}}
+
+const TRICKS=[
+  {id:'spavento',w:30,text:'Qualcosa di orribile ha aperto la porta...',fx:'fx-shake',snd:'scream'},
+  {id:'allucinazione',w:20,text:'Quelle caramelle erano... strane',fx:'fx-hallu',snd:'trick'},
+  {id:'maledizione',w:20,text:'Sei stato maledetto! Non riesci a camminare dritto',fx:'fx-curse',snd:'trick'},
+  {id:'inseguimento',w:18,text:'Uno zombie ti insegue! SCAPPA!',fx:'fx-shake',snd:'scream'},
+  {id:'furto',w:12,text:'Una scimmia ti ha rubato {n} caramelle!',fx:'',snd:'trick'},
+];
+function pick(list){let r=Math.random()*list.reduce((a,b)=>a+b.w,0);for(const x of list){r-=x.w;if(r<=0)return x}return list[0]}
+
+const S={c:0,g:0,t:0,busy:false};
+const porch=$('#porch'),res=$('#res'),pbar=$('#pbar'),who=$('#who');
+function setScore(key,val){S[key]=val;const box=$('#sc-'+key);box.querySelector('b').textContent=val;box.classList.remove('bump');void box.offsetWidth;box.classList.add('bump')}
+function log(kind,tag,text){const li=document.createElement('li');li.className=kind;li.innerHTML=`<b>${tag}</b><span></span>`;li.querySelector('span').textContent=text;
+  const ul=$('#log');ul.prepend(li);while(ul.children.length>4)ul.lastChild.remove()}
+function showRes(kind,title,text){res.className='res '+kind;res.querySelector('.t').textContent=title;res.querySelector('.s').textContent=text;void res.offsetWidth;res.classList.add('show')}
+function burst(icon,n){
+  if(reduce)return;const from=who.getBoundingClientRect(),to=$('#sc-'+(icon==='hw_caramella_oro'?'g':'c')).getBoundingClientRect();
+  for(let i=0;i<n;i++){const im=document.createElement('img');im.src=ICON+icon+'.webp';im.className='fly';document.body.appendChild(im);
+    const sx=from.left+from.width/2-22+rnd(-30,30),sy=from.top+from.height/2-22,ex=to.left+to.width/2-22,ey=to.top+12;
+    const a=im.animate([{transform:`translate(${sx}px,${sy}px) scale(.4) rotate(0deg)`,opacity:0},{transform:`translate(${(sx+ex)/2+rnd(-60,60)}px,${Math.min(sy,ey)-rnd(80,180)}px) scale(1.1) rotate(${rnd(-180,180)}deg)`,opacity:1,offset:.45},{transform:`translate(${ex}px,${ey}px) scale(.5) rotate(${rnd(-360,360)}deg)`,opacity:.2}],{duration:900+i*90,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+    a.onfinish=()=>im.remove()}
+}
+async function knock(){
+  if(S.busy)return;S.busy=true;$('#knockBtn').disabled=true;porch.classList.add('busy');
+  porch.className=porch.className.replace(/\b(k-\w+|fx-\w+|open)\b/g,'').trim();porch.classList.add('busy');
+  play('knock');porch.classList.add('knock');
+  pbar.querySelector('i').animate([{width:'0%'},{width:'100%'}],{duration:1800,fill:'forwards'});pbar.classList.add('show');
+  await wait(1850);porch.classList.remove('knock');pbar.classList.remove('show');
+  const r=Math.random()*100;let kind,title,text,icon;
+  if(r<62){const n=rnd(2,5);kind='treat';title='DOLCETTO!';text=`Ti hanno regalato ${n} caramelle`;icon='hw_secchiello';
+    who.src=ICON+'hw_caramella.webp';porch.classList.add('k-treat','open');play('door');await wait(450);
+    showRes('treat',title,text);play('treat');burst('hw_caramella',Math.min(n,5));await wait(700);setScore('c',S.c+n);log('','+'+n,'Dolcetto: '+n+' caramelle');
+  }else if(r<70){const n=rnd(4,8);kind='rare';who.src=ICON+'hw_caramella_oro.webp';porch.classList.add('k-rare','open');play('door');await wait(450);
+    showRes('rare',"DOLCETTO D'ORO!",`Una Caramella d'Oro e ${n} caramelle!`);play('rare');burst('hw_caramella_oro',1);burst('hw_caramella',4);await wait(700);
+    setScore('g',S.g+1);setScore('c',S.c+n);log('rare','ORO',"Caramella d'Oro + "+n+' caramelle');
+  }else{let t=pick(TRICKS),stolen=0;
+    if(t.id==='furto'){stolen=Math.min(S.c,rnd(1,3));if(!stolen)t=TRICKS[0]}
+    who.src=ICON+'fantasma.webp';porch.classList.add('k-trick','open');play('door');await wait(350);
+    showRes('trick','SCHERZETTO!',t.text.replace('{n}',stolen));play(t.snd);
+    const fl=$('#flash');fl.classList.remove('go');void fl.offsetWidth;fl.classList.add('go');if(t.fx&&!reduce)porch.classList.add(t.fx);
+    await wait(700);setScore('t',S.t+1);if(stolen)setScore('c',S.c-stolen);log('trick','BUUH',t.id[0].toUpperCase()+t.id.slice(1)+(stolen?` (−${stolen})`:''));
+  }
+  await wait(2000);porch.classList.remove('open');await wait(700);
+  porch.className=porch.className.replace(/\b(k-\w+|fx-\w+|busy)\b/g,'').trim();
+  S.busy=false;$('#knockBtn').disabled=false;
+}
+$('#knockBtn').addEventListener('click',knock);
+porch.addEventListener('click',knock);
+porch.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();knock()}});
+
+/* ======================================================
+   ANIMAZIONI (GSAP)
+   ====================================================== */
+if(window.gsap){
+  gsap.registerPlugin(ScrollTrigger);
+  let lenis;
+  if(!reduce&&window.Lenis){lenis=new Lenis({lerp:.08,smoothWheel:true});lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0)}
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');if(id.length<2)return;const t=document.querySelector(id);if(!t)return;e.preventDefault();
+    lenis?lenis.scrollTo(t,{duration:1.6,offset:-20}):t.scrollIntoView({behavior:'smooth'})}));
+
+  const nav=$('#nav'),prog=$('#progress');let lastY=0;
+  ScrollTrigger.create({start:0,end:'max',onUpdate:s=>{gsap.set(prog,{scaleX:s.progress});const y=s.scroll();nav.classList.toggle('hide',y>lastY&&y>200);lastY=y}});
+
+  if(fine&&!reduce){
+    const c=$('#cursor'),d=$('#cursor-dot'),g=$('#glow'),q=(el,p,du)=>gsap.quickTo(el,p,{duration:du,ease:'power3'});
+    const cx=q(c,'x',.35),cy=q(c,'y',.35),dx=q(d,'x',.06),dy=q(d,'y',.06),gx=q(g,'x',1.2),gy=q(g,'y',1.2);
+    addEventListener('mousemove',e=>{cx(e.clientX);cy(e.clientY);dx(e.clientX);dy(e.clientY);gx(e.clientX);gy(e.clientY)});
+    document.querySelectorAll('a,button,.card,.porch,.trick,.prop').forEach(el=>{el.addEventListener('mouseenter',()=>c.classList.add('hot'));el.addEventListener('mouseleave',()=>c.classList.remove('hot'))});
+    document.querySelectorAll('.mag').forEach(el=>{
+      const x=gsap.quickTo(el,'x',{duration:.6,ease:'elastic.out(1,.45)'}),y=gsap.quickTo(el,'y',{duration:.6,ease:'elastic.out(1,.45)'});
+      el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();x((e.clientX-r.left-r.width/2)*.32);y((e.clientY-r.top-r.height/2)*.42)});
+      el.addEventListener('mouseleave',()=>{x(0);y(0)})});
+    const props=[...document.querySelectorAll('.hprop')];
+    $('#hero').addEventListener('mousemove',e=>{const nx=e.clientX/innerWidth-.5,ny=e.clientY/innerHeight-.5;
+      props.forEach(p=>gsap.to(p,{x:nx*-60*p.dataset.depth,y:ny*-40*p.dataset.depth,duration:1.2,ease:'power3',overwrite:'auto'}))});
+  }
+
+  if(!reduce){
+    const sp=$('.l1.split');sp.innerHTML=[...sp.textContent].map(ch=>`<span class="ch">${ch}</span>`).join('');
+    gsap.timeline({defaults:{ease:'expo.out'}})
+      .from('.moon',{scale:.4,opacity:0,duration:2},0)
+      .from('.eyebrow',{y:20,opacity:0,duration:1},.2)
+      .from('.l1 .ch',{yPercent:-160,rotation:()=>gsap.utils.random(-30,30),opacity:0,duration:1.4,stagger:.06,ease:'bounce.out'},.3)
+      .from('.l2',{y:40,opacity:0,duration:1.2},.9)
+      .from('.hero-sub,.hero-cta,.hero-chips',{y:30,opacity:0,duration:1.1,stagger:.1},1.1)
+      .from('.hprop',{scale:0,opacity:0,rotation:-25,duration:1.4,stagger:.08,ease:'back.out(1.8)'},.6)
+      .from('.skyline',{yPercent:40,opacity:0,duration:1.6},.2)
+      .from('nav',{top:-90,opacity:0,duration:1.2},1);
+    gsap.to('.skyline',{yPercent:18,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+    gsap.to('.hero-copy',{yPercent:-30,opacity:0,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+    gsap.to('.moon',{yPercent:60,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+
+    gsap.utils.toArray('.rv').forEach(el=>{
+      gsap.from(el,{y:60,opacity:0,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+    });
+    ScrollTrigger.batch('#grid .card',{start:'top 92%',once:true,onEnter:b=>gsap.from(b,{y:50,opacity:0,stagger:.06,duration:.9,ease:'expo.out'})});
+    gsap.from('.trick .bar i',{scaleX:0,transformOrigin:'0 50%',duration:1.4,ease:'power3.out',stagger:.1,scrollTrigger:{trigger:'.tricks',start:'top 80%'}});
+    gsap.fromTo('#cta .bigpump',{scale:.6,rotation:-12},{scale:1.1,rotation:8,ease:'none',scrollTrigger:{trigger:'#cta',start:'top bottom',end:'bottom bottom',scrub:true}});
+  }
+  addEventListener('load',()=>ScrollTrigger.refresh());
+}
+</script>
+</body>
+</html>

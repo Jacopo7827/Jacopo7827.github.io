@@ -10,7 +10,7 @@
 <link rel="preload" as="image" href="assets/logo-big.webp?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Creepster&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --mint:#5fe3b4; --mint-2:#2fc990; --mint-dim:rgba(95,227,180,.12);
@@ -68,6 +68,9 @@ nav .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);f
 nav .brand img{width:28px;height:28px;object-fit:contain}
 nav .links{display:flex;gap:22px;font-size:.88rem;color:var(--muted);white-space:nowrap}
 nav .links a{transition:color .25s}nav .links a:hover{color:var(--mint)}
+nav .links a.nav-hw{display:inline-flex;align-items:center;gap:7px;color:#ff9a3c}
+nav .links a.nav-hw::before{content:"";width:7px;height:7px;border-radius:50%;background:#ff7a1a;box-shadow:0 0 10px #ff7a1a;animation:pulse 1.8s infinite}
+nav .links a.nav-hw:hover{color:#ffc27a}
 @media(max-width:760px){nav .links{display:none}nav{gap:14px}}
 
 .btn{position:relative;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;padding:12px 22px;border-radius:999px;cursor:pointer;border:1px solid var(--line);overflow:hidden;isolation:isolate;transition:box-shadow .35s,color .35s,border-color .35s;will-change:transform}
@@ -453,6 +456,35 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 footer .brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:var(--display);font-weight:800}
 footer img{width:26px}
 
+/* ---------- HALLOWEEN (anteprima → /halloween/) ---------- */
+#halloween{padding:14vh 0 2vh}
+.hw-card{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center;min-height:520px;padding:clamp(28px,4.4vw,64px);border-radius:32px;overflow:hidden;isolation:isolate;
+  background:radial-gradient(ellipse 60% 70% at 85% 65%,rgba(255,122,26,.22),transparent 65%),radial-gradient(ellipse 50% 60% at 8% 0%,rgba(139,92,246,.22),transparent 65%),linear-gradient(150deg,#160b22,#09050e 70%);
+  border:1px solid rgba(255,140,60,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 60px 120px -40px rgba(0,0,0,.95),0 0 100px -40px rgba(255,122,26,.45);transition:border-color .4s,box-shadow .4s}
+.hw-card:hover{border-color:rgba(255,140,60,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 60px 120px -40px rgba(0,0,0,.95),0 0 140px -30px rgba(255,122,26,.6)}
+.hw-card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:3;
+  background:conic-gradient(from var(--ang),transparent 0 74%,rgba(255,190,130,.9) 87%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinb 9s linear infinite}
+.hw-copy{position:relative;z-index:2}
+#halloween .mono{color:#ff9a3c}
+.hw-card h2{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.95;font-size:clamp(2.6rem,5.6vw,5rem);margin:14px 0 18px}
+.hw-spook{display:block;font-family:'Creepster',var(--display);font-weight:400;letter-spacing:.03em;padding:.04em 0;
+  background:linear-gradient(180deg,#ffe2b0,#ff7a1a 50%,#c2410c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(255,122,26,.5))}
+.hw-card p{color:var(--muted);line-height:1.7;max-width:470px}
+#halloween .tag{border-color:rgba(255,140,60,.3);background:rgba(255,122,26,.06)}
+#halloween .tag.hw-main{background:#ff7a1a;border-color:#ff7a1a;color:#1a0a05;font-weight:600;box-shadow:0 0 24px -6px #ff7a1a}
+.hw-btn{margin-top:28px;background:linear-gradient(180deg,#ffa149,#ff7a1a);color:#1a0a05;border-color:#ff7a1a}
+.hw-card:hover .hw-btn{box-shadow:0 0 50px rgba(255,122,26,.6)}
+.hw-art{position:relative;align-self:stretch;min-height:380px}
+.hw-art img{position:absolute;filter:drop-shadow(0 26px 30px rgba(0,0,0,.6));animation:hwbob 6s ease-in-out infinite}
+.hw-art .a1{width:58%;left:4%;bottom:0}
+.hw-art .a2{width:40%;right:0;bottom:8%;animation-delay:-2s}
+.hw-art .a3{width:21%;right:16%;top:0;animation-delay:-1s}
+.hw-art .a4{width:24%;left:2%;top:4%;animation-delay:-3s}
+.hw-art .a5{width:21%;left:40%;top:10%;animation-delay:-4s}
+@keyframes hwbob{50%{transform:translateY(-14px) rotate(3deg)}}
+@media(max-width:860px){.hw-card{grid-template-columns:1fr}.hw-art{min-height:300px}}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important}#loader{display:none}}
 </style>
 </head>
@@ -471,7 +503,7 @@ footer img{width:26px}
 
 <nav id="nav">
   <a href="#hero" class="brand"><img src="assets/logo.webp" alt="">MintDev</a>
-  <div class="links"><a href="#showcase">Script</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a></div>
+  <div class="links"><a href="#showcase">Script</a><a href="halloween/" class="nav-hw">Halloween</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a></div>
   <a class="btn primary mag" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 </nav>
 
@@ -621,6 +653,26 @@ footer img{width:26px}
   </div></div>
   <div class="hz-bar"><i id="hzBar"></i></div>
 </section>
+
+<!-- ============ HALLOWEEN (anteprima) ============ -->
+<section id="halloween"><div class="wrap">
+  <a class="hw-card" href="halloween/">
+    <div class="hw-copy">
+      <div class="mono" data-scramble>Novità di stagione · Halloween</div>
+      <h2>Dolcetto <span class="hw-spook">o Scherzetto</span></h2>
+      <p>L'evento di Halloween per il tuo server: bussa alle porte, raccogli caramelle e scambiale con soldi, cibo stregato e pozioni. Con 11 prop 3D originali e un'interfaccia tutta a tema.</p>
+      <div class="fw-row"><span class="tag hw-main">ESX</span><span class="tag">QBCore</span><span class="tag">Qbox</span><span class="tag">ox_inventory</span></div>
+      <span class="btn hw-btn">Entra nella zona Halloween <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </div>
+    <div class="hw-art" aria-hidden="true">
+      <img class="a1" src="assets/halloween/props/zucca_lanterna.webp" alt="" loading="lazy">
+      <img class="a2" src="assets/halloween/props/secchiello.webp" alt="" loading="lazy">
+      <img class="a3" src="assets/halloween/props/pozione_strega.webp" alt="" loading="lazy">
+      <img class="a4" src="assets/halloween/props/caramella.webp" alt="" loading="lazy">
+      <img class="a5" src="assets/halloween/props/cupcake_fantasma.webp" alt="" loading="lazy">
+    </div>
+  </a>
+</div></section>
 
 <!-- ============ FEATURES ============ -->
 <section id="features"><div class="wrap">
@@ -1038,6 +1090,10 @@ function setupScroll(){
       scrollTrigger:{trigger:c,containerAnimation:hz,start:'left right',end:'right left',scrub:true}});
   });
   gsap.from('.hz-intro > *',{y:60,opacity:0,stagger:.12,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:'#details',start:'top 70%'}});
+
+  /* ---- HALLOWEEN: anteprima ---- */
+  gsap.from('.hw-copy > *',{y:50,opacity:0,stagger:.08,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:'#halloween',start:'top 70%'}});
+  gsap.from('.hw-art',{scale:.6,rotation:-8,opacity:0,duration:1.4,ease:'back.out(1.6)',scrollTrigger:{trigger:'#halloween',start:'top 65%'}});
 
   /* ---- FEATURES: stacked cards ---- */
   gsap.from('.sec-title h2',{y:80,opacity:0,duration:1.3,ease:'expo.out',scrollTrigger:{trigger:'.sec-title',start:'top 80%'}});
