@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentazione · Dolcetto o Scherzetto — MintDev</title>
+<meta name="description" content="Documentazione ufficiale di Dolcetto o Scherzetto by MintDev: installazione, configurazione, comandi, prop personalizzati e risoluzione problemi.">
+<meta name="author" content="MintDev.eu">
+<meta name="theme-color" content="#07040b">
+<link rel="canonical" href="https://mintdev.eu/halloween/docs/">
+<link rel="icon" href="../../assets/halloween/icons/hw_zucca_lanterna.webp">
+<meta property="og:title" content="Documentazione · Dolcetto o Scherzetto — MintDev">
+<meta property="og:description" content="Installazione, configurazione e uso dello script FiveM di Halloween Dolcetto o Scherzetto.">
+<meta property="og:image" content="https://mintdev.eu/assets/halloween/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Creepster&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pk:#ff7a1a;--pk-2:#ffa149;--pk-dim:rgba(255,122,26,.1);--pu:#8b5cf6;--slime:#8cff3f;--gold:#ffcf3f;--red:#ff5c7a;--mint:#5fe3b4;
+  --bg:#07040b;--bg-2:#0b0612;--card:#110a1a;--line:rgba(255,140,60,.15);--line-2:rgba(255,255,255,.07);
+  --text:#efe7da;--muted:#a597b5;--head:#fff8ec;
+  --display:'Bricolage Grotesque',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--spooky:'Creepster',cursive;
+  --side:290px;--top:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--top) + 18px);background:var(--bg)}
+body{font-family:var(--body);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.7;font-size:15.5px}
+a{color:var(--pk-2);text-decoration:none}a:hover{text-decoration:underline}
+img{display:block;max-width:100%}
+::selection{background:var(--pk);color:#1a0a05}
+:focus-visible{outline:2px solid var(--pk);outline-offset:3px;border-radius:4px}
+
+/* barra in alto */
+.top{position:fixed;inset:0 0 auto 0;height:var(--top);z-index:50;display:flex;align-items:center;gap:18px;padding:0 22px;
+  background:rgba(9,5,14,.82);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--line)}
+.top .brand{display:flex;align-items:center;gap:10px;color:var(--head);font-family:var(--display);font-weight:800;font-size:1.05rem;text-decoration:none}
+.top .brand img{width:28px;height:28px}
+.top .brand small{font-family:var(--mono);font-weight:400;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--pk);padding:3px 8px;border:1px solid var(--line);border-radius:99px}
+.top nav{margin-left:auto;display:flex;gap:6px;align-items:center}
+.top nav a{color:var(--muted);font-size:.88rem;font-weight:500;padding:8px 12px;border-radius:99px;text-decoration:none;transition:color .2s,background .2s}
+.top nav a:hover{color:var(--head);background:rgba(255,255,255,.05)}
+.top nav a.cta{background:linear-gradient(180deg,var(--pk-2),var(--pk));color:#1a0a05;font-weight:700}
+.top nav a.cta:hover{box-shadow:0 0 30px rgba(255,122,26,.5)}
+.menu-btn{display:none;margin-left:auto;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--text);cursor:pointer}
+@media(max-width:980px){.top nav a:not(.cta){display:none}.menu-btn{display:grid;place-items:center;margin-left:0}.top nav{margin-left:auto}}
+
+/* barra laterale */
+.side{position:fixed;top:var(--top);bottom:0;left:0;width:var(--side);overflow-y:auto;padding:22px 16px 40px;border-right:1px solid var(--line);background:var(--bg-2);z-index:40}
+.side::-webkit-scrollbar{width:6px}.side::-webkit-scrollbar-thumb{background:rgba(255,122,26,.3);border-radius:6px}
+.search{position:relative;margin-bottom:18px}
+.search input{width:100%;padding:10px 12px 10px 36px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);font:inherit;font-size:.88rem;outline:none}
+.search input:focus{border-color:rgba(255,140,60,.5)}
+.search svg{position:absolute;left:11px;top:50%;width:16px;height:16px;transform:translateY(-50%);stroke:var(--muted)}
+.side h4{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pk);margin:18px 10px 6px;font-weight:600}
+.side a{display:block;padding:6px 10px;border-radius:8px;color:var(--muted);font-size:.88rem;line-height:1.45;text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s}
+.side a:hover{color:var(--head);background:rgba(255,255,255,.04)}
+.side a.on{color:var(--head);background:var(--pk-dim);border-left-color:var(--pk)}
+.side a.sub{padding-left:22px;font-size:.84rem}
+.side a.hide,.side h4.hide{display:none}
+.side .ver{margin:24px 10px 0;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+@media(max-width:980px){.side{transform:translateX(-100%);transition:transform .3s;box-shadow:20px 0 60px rgba(0,0,0,.6)}body.nav-open .side{transform:none}}
+
+/* contenuto */
+main{margin-left:var(--side);padding:calc(var(--top) + 40px) clamp(20px,5vw,72px) 80px}
+@media(max-width:980px){main{margin-left:0}}
+.doc{max-width:860px}
+.hero{position:relative;padding:34px 34px 30px;border-radius:24px;border:1px solid var(--line);overflow:hidden;margin-bottom:46px;
+  background:radial-gradient(ellipse 70% 90% at 100% 0%,rgba(255,122,26,.18),transparent 60%),radial-gradient(ellipse 50% 80% at 0% 100%,rgba(139,92,246,.18),transparent 60%),var(--card)}
+.hero img{position:absolute;right:18px;bottom:-10px;width:170px;filter:drop-shadow(0 20px 30px rgba(0,0,0,.6));opacity:.95}
+.hero .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pk)}
+.hero h1{font-family:var(--spooky);font-weight:400;font-size:clamp(2.6rem,6vw,4rem);line-height:1.02;letter-spacing:.03em;margin:8px 0 6px;
+  background:linear-gradient(180deg,#ffe2b0,var(--pk) 50%,#c2410c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(255,122,26,.4))}
+.hero p{color:var(--muted);max-width:520px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
+.badge{font-family:var(--mono);font-size:.72rem;padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:rgba(255,122,26,.07);color:var(--text)}
+.badge.v{background:var(--pk);color:#1a0a05;border-color:var(--pk);font-weight:600}
+@media(max-width:640px){.hero img{display:none}}
+
+h2{font-family:var(--display);font-weight:800;letter-spacing:-.03em;color:var(--head);font-size:1.9rem;line-height:1.15;margin:64px 0 14px;padding-top:6px}
+h2 .n{font-family:var(--mono);font-size:.8rem;font-weight:400;color:var(--pk);margin-right:10px;vertical-align:middle;letter-spacing:.1em}
+h3{font-family:var(--display);font-weight:600;color:var(--head);font-size:1.25rem;margin:36px 0 10px;letter-spacing:-.01em}
+h3 code{font-size:.95em}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px}
+li{margin:4px 0}
+li::marker{color:var(--pk)}
+strong{color:var(--head);font-weight:600}
+hr{border:none;border-top:1px solid var(--line);margin:56px 0}
+code{font-family:var(--mono);font-size:.86em;padding:2px 6px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--line-2);color:#ffd2a6}
+pre{position:relative;margin:14px 0 18px;border-radius:14px;border:1px solid var(--line);background:#0a0610;overflow:hidden}
+pre .bar{display:flex;align-items:center;justify-content:space-between;padding:7px 10px 7px 14px;border-bottom:1px solid var(--line-2);font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+pre .copy{font:inherit;font-size:.66rem;letter-spacing:.1em;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer}
+pre .copy:hover{color:var(--head);border-color:rgba(255,140,60,.5)}
+pre .copy.ok{color:var(--slime);border-color:rgba(140,255,63,.4)}
+pre code{display:block;padding:14px 16px;overflow-x:auto;background:none;border:none;border-radius:0;color:#ddd3ea;font-size:.83rem;line-height:1.75;white-space:pre}
+.tk-c{color:#7a6e8c;font-style:italic}.tk-s{color:#b6f27a}.tk-n{color:#ffb86b}.tk-k{color:#c4a1ff}.tk-f{color:#7cc8ff}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.88rem;border:1px solid var(--line)}
+@media(max-width:700px){table{display:block;overflow-x:auto}}
+thead{background:rgba(255,122,26,.08)}
+th{text-align:left;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pk);font-weight:600;padding:10px 14px;white-space:nowrap}
+td{padding:10px 14px;border-top:1px solid var(--line-2);vertical-align:top}
+td:first-child{white-space:nowrap}
+td code{white-space:nowrap}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+
+.note{display:flex;gap:12px;padding:14px 16px;border-radius:14px;margin:16px 0;border:1px solid rgba(124,200,255,.25);background:rgba(124,200,255,.06)}
+.note.tip{border-color:rgba(140,255,63,.25);background:rgba(140,255,63,.05)}
+.note.warn{border-color:rgba(255,207,63,.3);background:rgba(255,207,63,.06)}
+.note b{display:block;color:var(--head);font-size:.9rem}
+.note p{margin:2px 0 0;font-size:.9rem;color:var(--text)}
+.note .ic{flex:none;width:22px;height:22px;margin-top:2px}
+.note .ic svg{width:100%;height:100%;stroke:#7cc8ff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.note.tip .ic svg{stroke:var(--slime)}.note.warn .ic svg{stroke:var(--gold)}
+
+.steps{counter-reset:s;list-style:none;margin:16px 0;padding:0}
+.steps>li{counter-increment:s;position:relative;padding:0 0 22px 50px;margin:0;border-left:1px dashed rgba(255,140,60,.3);margin-left:16px}
+.steps>li:last-child{border-left-color:transparent;padding-bottom:4px}
+.steps>li::before{content:counter(s);position:absolute;left:-17px;top:-2px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--display);font-weight:800;color:#1a0a05;background:linear-gradient(180deg,var(--pk-2),var(--pk));box-shadow:0 0 18px -4px var(--pk)}
+.steps>li>b{display:block;color:var(--head);font-size:1.02rem;margin-bottom:2px}
+
+.tabs{margin:14px 0 20px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tabs .tl{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.tabs .tl button{flex:1;min-width:150px;padding:11px 14px;border:none;background:none;color:var(--muted);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent}
+.tabs .tl button.on{color:var(--head);border-bottom-color:var(--pk);background:var(--pk-dim)}
+.tabs .tp{display:none;padding:4px 16px 8px}.tabs .tp.on{display:block}
+.tabs pre{margin:10px 0}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.mini{padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
+.mini b{display:flex;align-items:center;gap:10px;color:var(--head);margin-bottom:4px}
+.mini b img{width:30px;height:30px}
+.mini p{margin:0;font-size:.88rem;color:var(--muted)}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+
+details{border:1px solid var(--line);border-radius:12px;margin:10px 0;background:rgba(255,255,255,.015)}
+details summary{cursor:pointer;padding:13px 16px;font-weight:600;color:var(--head);list-style:none;display:flex;justify-content:space-between;gap:12px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-family:var(--mono);color:var(--pk);font-size:1.1rem;line-height:1}
+details[open] summary::after{content:"−"}
+details>div{padding:0 16px 12px}
+
+.foot{margin-top:70px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.totop{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(17,10,26,.9);color:var(--pk);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:30;text-decoration:none}
+.totop.show{opacity:1;pointer-events:auto}
+.totop svg{width:18px;height:18px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button class="menu-btn" id="menuBtn" aria-label="Apri il menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="../../"><img src="../../assets/logo.webp" alt="">MintDev <small>Docs</small></a>
+  <nav>
+    <a href="../">Pagina dello script</a>
+    <a data-link="discord" href="#" target="_blank" rel="noopener">Supporto</a>
+    <a class="cta" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
+  </nav>
+</header>
+
+<aside class="side" id="side">
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Cerca nella documentazione" aria-label="Cerca nella documentazione">
+  </div>
+  <h4>Inizia</h4>
+  <a href="#introduzione">Introduzione</a>
+  <a href="#requisiti">Requisiti</a>
+  <a href="#pacchetto">Contenuto del pacchetto</a>
+  <a href="#installazione">Installazione</a>
+  <a href="#primo-avvio">Primo avvio</a>
+  <h4>Configurazione</h4>
+  <a href="#config-generale">Generale</a>
+  <a href="#config-evento">Evento</a>
+  <a href="#config-dolcetto">Dolcetto o scherzetto</a>
+  <a href="#config-case">Case</a>
+  <a href="#config-bottega">Bottega delle Caramelle</a>
+  <a href="#config-oggetti">Oggetti e cibo</a>
+  <a href="#config-effetti">Animazioni ed effetti</a>
+  <a href="#config-extra">Zucche, secchiello, scatola</a>
+  <h4>Uso</h4>
+  <a href="#uso">Come si gioca</a>
+  <a href="#comandi">Comandi admin</a>
+  <a href="#permessi">Permessi</a>
+  <h4>Avanzate</h4>
+  <a href="#prop">Prop personalizzati</a>
+  <a href="#traduzioni">Testi e traduzioni</a>
+  <a href="#dati">Dati salvati</a>
+  <a href="#compatibilita">Compatibilità e integrazioni</a>
+  <h4>Aiuto</h4>
+  <a href="#problemi">Risoluzione problemi</a>
+  <a href="#supporto">Supporto</a>
+  <a href="#changelog">Changelog</a>
+  <a href="#licenza">Licenza</a>
+  <div class="ver">Dolcetto o Scherzetto · v1.0.0</div>
+</aside>
+
+<main>
+<article class="doc">
+
+<div class="hero" id="introduzione">
+  <img src="../../assets/halloween/props/zucca_lanterna.webp" alt="">
+  <div class="k">Documentazione ufficiale · MintDev</div>
+  <h1>Dolcetto o Scherzetto</h1>
+  <p>Grazie per aver scelto uno script MintDev! Qui trovi tutto per installare, configurare e gestire l'evento di Halloween sul tuo server FiveM.</p>
+  <div class="badges"><span class="badge v">v1.0.0</span><span class="badge">ESX Legacy</span><span class="badge">QBCore</span><span class="badge">Qbox</span><span class="badge">ox_inventory</span><span class="badge">qb-inventory</span></div>
+</div>
+
+<h2><span class="n">01</span>Introduzione</h2>
+<p><strong>Dolcetto o Scherzetto</strong> trasforma il tuo server in un quartiere di Halloween. I giocatori bussano alle porte, raccolgono caramelle e le scambiano alla <strong>Bottega delle Caramelle</strong> con soldi, cibo a tema, pozioni e oggetti.</p>
+<div class="grid2">
+  <div class="mini"><b><img src="../../assets/halloween/icons/hw_caramella.webp" alt="">Dolcetto</b><p>Un residente apre la porta e regala 2–5 caramelle. A volte esce la rarissima Caramella d'Oro.</p></div>
+  <div class="mini"><b><img src="../../assets/halloween/icons/fantasma.webp" alt="">Scherzetto</b><p>5 scherzetti: spavento, allucinazione, maledizione, inseguimento di uno zombie e furto di caramelle.</p></div>
+  <div class="mini"><b><img src="../../assets/halloween/icons/soldi.webp" alt="">Bottega delle Caramelle</b><p>Interfaccia a tema con cibo, pozioni, oggetti, scambio caramelle → soldi e classifica dei giocatori.</p></div>
+  <div class="mini"><b><img src="../../assets/halloween/icons/hw_pozione_strega.webp" alt="">Cibo con effetti</b><p>11 cibi e bevande con fame, sete ed effetti speciali, più zucche posizionabili e scatola misteriosa.</p></div>
+</div>
+
+<h2 id="requisiti"><span class="n">02</span>Requisiti</h2>
+<table>
+  <thead><tr><th>Componente</th><th>Supporto</th></tr></thead>
+  <tbody>
+    <tr><td>Framework</td><td><strong>ESX Legacy</strong>, <strong>QBCore</strong> o <strong>Qbox</strong> (rilevato in automatico)</td></tr>
+    <tr><td>Inventario</td><td><code>ox_inventory</code> oppure l'inventario del framework (inventario ESX, <code>qb-inventory</code>, <code>ps-inventory</code>, <code>lj-inventory</code>)</td></tr>
+    <tr><td>Fame e sete</td><td><code>esx_status</code> su ESX, metadata <code>hunger</code> / <code>thirst</code> / <code>stress</code> su QBCore e Qbox</td></tr>
+    <tr><td>OneSync</td><td>Consigliato: permette al server di verificare la posizione dei giocatori (anti-exploit)</td></tr>
+    <tr><td>Dipendenze extra</td><td>Nessuna: non servono ox_lib, ox_target o altre risorse</td></tr>
+  </tbody>
+</table>
+
+<h2 id="pacchetto"><span class="n">03</span>Contenuto del pacchetto</h2>
+<pre data-lang="struttura"><code>hw_dolcetto_scherzetto/
+├── config.lua              impostazioni (commentate)
+├── fxmanifest.lua
+├── shared/lang.lua         tutti i testi del gioco
+├── client/  server/  bridge/
+├── html/                   interfaccia della bottega e popup
+├── install/
+│   ├── ox_inventory_items.lua
+│   ├── qb-core_items.lua
+│   ├── esx_items.sql
+│   └── immagini_inventario/   16 icone PNG
+├── stream/                 prop personalizzati (facoltativi)
+├── data/                   dati salvati dallo script
+└── LICENZA.txt
+prop_sorgenti/              modelli 3D, texture, .ytyp e GUIDA_PROP.md</code></pre>
+
+<h2 id="installazione"><span class="n">04</span>Installazione</h2>
+<ol class="steps">
+  <li><b>Copia la risorsa</b>Metti la cartella <code>hw_dolcetto_scherzetto</code> dentro <code>resources/</code>. Non rinominare le sottocartelle.</li>
+  <li><b>Avviala dopo framework e inventario</b>Nel <code>server.cfg</code> l'ordine è importante: lo script riconosce il framework all'avvio.
+<pre data-lang="server.cfg"><code>ensure es_extended        # oppure qb-core / qbx_core
+ensure ox_inventory       # solo se lo usi
+ensure hw_dolcetto_scherzetto</code></pre></li>
+  <li><b>Registra gli oggetti</b>Scegli il file giusto per il tuo inventario:
+    <div class="tabs" data-tabs>
+      <div class="tl"><button class="on" type="button">ox_inventory</button><button type="button">QBCore (qb-inventory)</button><button type="button">ESX (inventario base)</button></div>
+      <div class="tp on"><p>Vale per <strong>ESX + ox_inventory</strong>, <strong>QBCore + ox_inventory</strong> e <strong>Qbox</strong>. Copia il contenuto di <code>install/ox_inventory_items.lua</code> dentro <code>ox_inventory/data/items.lua</code>, all'interno della tabella <code>return { ... }</code>:</p>
+<pre data-lang="lua"><code>['hw_caramella'] = {
+    label = 'Caramella di Halloween',
+    weight = 5,
+    stack = true,
+    close = true,
+    description = 'La moneta di Halloween. Scambiala alla Bottega delle Caramelle!',
+},
+-- ...e gli altri 15 oggetti del file</code></pre></div>
+      <div class="tp"><p>Copia le righe di <code>install/qb-core_items.lua</code> dentro <code>qb-core/shared/items.lua</code>, nella tabella <code>QBShared.Items</code>:</p>
+<pre data-lang="lua"><code>hw_caramella = { name = 'hw_caramella', label = 'Caramella di Halloween', weight = 5, type = 'item', image = 'hw_caramella.png', unique = false, useable = true, shouldClose = true, description = 'La moneta di Halloween.' },
+-- ...e gli altri 15 oggetti del file</code></pre></div>
+      <div class="tp"><p>Esegui <code>install/esx_items.sql</code> nel database del server (HeidiSQL, phpMyAdmin...). Le caramelle hanno peso 0, così non riempiono l'inventario.</p>
+<pre data-lang="sql"><code>INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
+    ('hw_caramella', 'Caramella di Halloween', 0, 0, 1),
+    -- ...
+ON DUPLICATE KEY UPDATE `label` = VALUES(`label`), `weight` = VALUES(`weight`);</code></pre></div>
+    </div></li>
+  <li><b>Copia le immagini</b>Le 16 icone sono in <code>install/immagini_inventario/</code>:
+    <ul><li>ox_inventory → <code>ox_inventory/web/images/</code></li><li>qb-inventory → <code>qb-inventory/html/images/</code></li><li>altri inventari → la cartella immagini del tuo inventario</li></ul></li>
+  <li><b>Dai i permessi admin</b>Aggiungi l'ace nel <code>server.cfg</code> (dettagli in <a href="#permessi">Permessi</a>):
+<pre data-lang="server.cfg"><code>add_ace group.admin hw_dolcetto.admin allow</code></pre></li>
+  <li><b>Riavvia e controlla la console</b>All'avvio deve comparire una riga come questa:
+<pre data-lang="console"><code>[hw_dolcetto] Dolcetto o Scherzetto by MintDev.eu | framework: esx | inventario: ox_inventory</code></pre>
+    Se leggi <code>Nessun framework trovato</code>, la risorsa parte prima del framework: sistema l'ordine degli <code>ensure</code>.</li>
+</ol>
+
+<h2 id="primo-avvio"><span class="n">05</span>Primo avvio</h2>
+<p>Lo script è subito utilizzabile, ma le case e la posizione della bottega le decidi tu. In 5 minuti:</p>
+<ol class="steps">
+  <li><b>Posiziona la Bottega</b>Vai dove vuoi il punto di scambio, guarda nella direzione in cui deve guardare il venditore e scrivi <code>/hwnegozio</code>. Di base è a Legion Square.</li>
+  <li><b>Crea il quartiere</b>Mettiti davanti a una porta, a circa 1,5 metri, <strong>guardando la porta</strong>, e scrivi <code>/hwcasa aggiungi Via delle Zucche 1</code>. Ripeti per tutte le case dell'evento.</li>
+  <li><b>Controlla</b>Con <code>/hwcasa debug</code> vedi tutte le case con il loro ID. Accanto alle porte compare una zucca illuminata.</li>
+  <li><b>Avvia l'evento</b><code>/hwevento on</code> avvisa tutti i giocatori. A fine evento usa <code>/hwevento off</code>.</li>
+</ol>
+<div class="note tip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></span><div><b>Consiglio</b><p>Raggruppa 15–30 case nella stessa zona (es. Mirror Park o Vinewood Hills): i giocatori si muovono in gruppo e l'evento sembra più vivo.</p></div></div>
+
+<hr>
+
+<h2 id="config-generale"><span class="n">06</span>Configurazione · Generale</h2>
+<p>Tutte le impostazioni sono in <code>config.lua</code>, commentate. Dopo una modifica riavvia la risorsa con <code>ensure hw_dolcetto_scherzetto</code>.</p>
+<pre data-lang="lua"><code>Config.Framework = 'auto'   -- 'auto' | 'esx' | 'qb' | 'qbx'
+Config.Inventory = 'auto'   -- 'auto' | 'ox' | 'framework'
+
+Config.AdminAce = 'hw_dolcetto.admin'
+Config.AdminGroups = { 'admin', 'superadmin', 'god' }
+
+Config.InteractKey = 38         -- E
+Config.InteractKeyLabel = 'E'
+Config.CancelKey = 73           -- X
+Config.SoundVolume = 0.35
+Config.PreferCustomProps = true
+
+Config.CandyItem = 'hw_caramella'
+Config.GoldCandyItem = 'hw_caramella_oro'
+Config.GoldScore = 10</code></pre>
+<table>
+  <thead><tr><th>Opzione</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>Framework</code></td><td>Lascia <code>'auto'</code>: riconosce da solo ESX, QBCore o Qbox. Forzalo solo se hai un framework rinominato.</td></tr>
+    <tr><td><code>Inventory</code></td><td><code>'auto'</code> usa ox_inventory se è avviato, altrimenti l'inventario del framework.</td></tr>
+    <tr><td><code>AdminAce</code> / <code>AdminGroups</code></td><td>Chi può usare i comandi admin (vedi <a href="#permessi">Permessi</a>).</td></tr>
+    <tr><td><code>InteractKey</code> / <code>CancelKey</code></td><td>Tasti per interagire e per annullare un'azione in corso (<a href="https://docs.fivem.net/docs/game-references/controls/" target="_blank" rel="noopener">lista dei controlli</a>).</td></tr>
+    <tr><td><code>SoundVolume</code></td><td>Volume degli effetti sonori dell'interfaccia, da 0.0 a 1.0.</td></tr>
+    <tr><td><code>PreferCustomProps</code></td><td>Se i prop personalizzati sono in <code>stream/</code> usa quelli, altrimenti i prop originali di GTA.</td></tr>
+    <tr><td><code>CandyItem</code> / <code>GoldCandyItem</code></td><td>Nomi degli oggetti usati come moneta dell'evento.</td></tr>
+    <tr><td><code>GoldScore</code></td><td>Quanti punti vale una Caramella d'Oro nella classifica.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="config-evento"><span class="n">07</span>Configurazione · Evento</h2>
+<pre data-lang="lua"><code>Config.Event = {
+    ActiveOnStart = true,   -- l'evento parte già attivo
+    OnlyAtNight = false,    -- true = si bussa solo di notte (ora di gioco)
+    NightStart = 19,
+    NightEnd = 6,
+}</code></pre>
+<p>Con <code>ActiveOnStart = false</code> l'evento resta spento finché un admin non scrive <code>/hwevento on</code>. Utile per lanciarlo a un orario preciso con un annuncio.</p>
+
+<h2 id="config-dolcetto"><span class="n">08</span>Configurazione · Dolcetto o scherzetto</h2>
+<pre data-lang="lua"><code>Config.TrickOrTreat = {
+    RequireBucket = false,      -- serve il Secchiello Zucca per bussare
+    KnockTime = 3500,           -- durata del "toc toc" (ms)
+    InteractDistance = 1.6,
+    HouseCooldown = 30 * 60,    -- secondi prima di ribussare alla stessa casa
+    KnockSpam = 6,              -- secondi minimi tra due bussate
+
+    DecorateDoors = true,
+    DoorMarker = true,
+    ShowBlips = false,
+
+    Chances = { treat = 62, rare = 8, trick = 30 },   -- la somma deve fare 100
+    Treat = { min = 2, max = 5 },
+    Rare = { gold = 1, candies = { min = 4, max = 8 } },
+
+    Tricks = {
+        { id = 'spavento',      weight = 30 },
+        { id = 'allucinazione', weight = 20 },
+        { id = 'maledizione',   weight = 20 },
+        { id = 'inseguimento',  weight = 18 },
+        { id = 'furto',         weight = 12, steal = { min = 1, max = 3 } },
+    },
+    -- ...
+}</code></pre>
+<table>
+  <thead><tr><th>Opzione</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>RequireBucket</code></td><td>Se <code>true</code> serve il Secchiello Zucca. In quel caso metti il suo prezzo a 0 nel catalogo, così tutti possono prenderlo.</td></tr>
+    <tr><td><code>HouseCooldown</code></td><td>Il cooldown vale per giocatore e per casa: ogni giocatore può ribussare alla stessa porta dopo questo tempo.</td></tr>
+    <tr><td><code>KnockSpam</code></td><td>Pausa minima tra due bussate qualsiasi, contro chi corre da una porta all'altra.</td></tr>
+    <tr><td><code>DecorateDoors</code></td><td>Zucca illuminata accanto a ogni porta creata con <code>/hwcasa</code>. Si spegne quando hai già bussato.</td></tr>
+    <tr><td><code>Chances</code></td><td>Probabilità in percentuale di dolcetto, dolcetto d'oro e scherzetto.</td></tr>
+    <tr><td><code>Tricks</code></td><td>Gli scherzetti possibili. <code>weight</code> indica quanto spesso escono; per disattivarne uno toglilo dalla lista.</td></tr>
+    <tr><td><code>HallucinationTime</code>, <code>CurseTime</code>, <code>ChaseTime</code></td><td>Durata in secondi di allucinazione, maledizione e inseguimento.</td></tr>
+    <tr><td><code>ResidentPeds</code> / <code>MonsterPeds</code></td><td>Modelli dei personaggi che aprono la porta (dolcetto / scherzetto).</td></tr>
+    <tr><td><code>ChaserPed</code> / <code>ThiefPed</code></td><td>Lo zombie dell'inseguimento e la scimmia ladra.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="config-case"><span class="n">09</span>Configurazione · Case</h2>
+<p>Il modo consigliato è crearle in gioco con <code>/hwcasa aggiungi</code>: vengono salvate in <code>data/luoghi.json</code> e funzionano subito, senza riavvio. Puoi anche scriverle nel config:</p>
+<pre data-lang="lua"><code>Config.Houses = {
+    { x = -14.87, y = -1441.18, z = 31.19, label = 'Forum Drive' },          -- punto = porta
+    { x = 123.45, y = -678.90, z = 30.10, h = 90.0, label = 'La mia casa' },  -- punto = chi bussa (esempio)
+}</code></pre>
+<ul>
+  <li><code>h</code> (heading) è la direzione in cui guarda chi bussa. Con <code>h</code> il punto è "dove sta il giocatore" e accanto alla porta compare la zucca decorativa.</li>
+  <li>Senza <code>h</code> il punto è considerato la porta stessa e la zucca non viene messa.</li>
+  <li>Le case del config hanno ID <code>c1</code>, <code>c2</code>...; quelle create in gioco <code>h1</code>, <code>h2</code>.... Le prime si rimuovono dal config, le seconde con <code>/hwcasa rimuovi</code>.</li>
+</ul>
+
+<h2 id="config-bottega"><span class="n">10</span>Configurazione · Bottega delle Caramelle</h2>
+<pre data-lang="lua"><code>Config.Shop = {
+    Name = 'Bottega delle Caramelle',
+    Coords = vec4(195.17, -933.77, 29.7, 144.5),   -- oppure /hwnegozio in gioco
+    Ped = 'u_m_y_zombie_01',
+    PedScenario = 'WORLD_HUMAN_STAND_IMPATIENT',
+    Distance = 2.2,
+    MaxQuantity = 50,
+    MoneyAccount = 'cash',                         -- 'cash' oppure 'bank'
+    Blip = { Enabled = true, Sprite = 52, Color = 17, Scale = 0.9 },
+    Decorations = true,
+    -- ...
+}</code></pre>
+<h3>Catalogo</h3>
+<p>Ogni voce è un oggetto acquistabile con le caramelle. <code>category</code> decide la scheda: <code>'cibo'</code>, <code>'bevande'</code> o <code>'oggetti'</code>.</p>
+<pre data-lang="lua"><code>Catalog = {
+    { item = 'hw_burger_mostro',  price = 10, category = 'cibo' },
+    { item = 'hw_pozione_strega', price = 12, category = 'bevande' },
+    { item = 'hw_zucca_lanterna', price = 15, category = 'oggetti' },
+    -- puoi vendere anche oggetti di altri script:
+    { item = 'lockpick',          price = 30, category = 'oggetti' },
+},</code></pre>
+<div class="note"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><div><b>Oggetti esterni</b><p>Se vendi un oggetto che non è dello script, aggiungi anche <code>label</code> e <code>description</code> in <code>Config.Items</code> (con <code>type = 'currency'</code> se non deve essere usabile) così la bottega mostra nome e descrizione corretti. Ricorda di mettere la sua immagine in <code>html/img/</code>.</p></div></div>
+<h3>Scambi</h3>
+<pre data-lang="lua"><code>Exchanges = {
+    { id = 'caramelle_soldi', give = 'hw_caramella',     giveAmount = 1, money = 25 },
+    { id = 'oro_soldi',       give = 'hw_caramella_oro', giveAmount = 1, money = 350 },
+    { id = 'oro_caramelle',   give = 'hw_caramella_oro', giveAmount = 1, item = 'hw_caramella', itemAmount = 12 },
+},</code></pre>
+<p><code>give</code> è l'oggetto che il giocatore consegna. Con <code>money</code> riceve soldi sul conto <code>MoneyAccount</code>, con <code>item</code> + <code>itemAmount</code> riceve un oggetto. Il pulsante "Tutte" scambia tutto in una volta (fino a <code>MaxQuantity</code>).</p>
+
+<h2 id="config-oggetti"><span class="n">11</span>Configurazione · Oggetti e cibo</h2>
+<pre data-lang="lua"><code>hw_torta_zucca = {
+    label = 'Torta di Zucca',
+    description = 'Una fetta di torta di zucca con panna montata.',
+    type = 'food',          -- 'food' | 'drink' | 'currency' | 'placeable' | 'bucket' | 'box'
+    time = 5000,            -- durata dell'animazione (ms)
+    hunger = 35,            -- 0-100
+    -- thirst = 10, stress = -15, heal = 25, effect = 'velocita'
+    prop = { custom = 'hw_prop_torta_zucca', base = 'prop_sandwich_01' },
+},</code></pre>
+<table>
+  <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>hunger</code> / <code>thirst</code></td><td>Quanto riempie, in percentuale (0–100).</td></tr>
+    <tr><td><code>stress</code></td><td>Valore negativo per togliere stress (QBCore e Qbox).</td></tr>
+    <tr><td><code>heal</code></td><td>Punti vita recuperati.</td></tr>
+    <tr><td><code>effect</code></td><td><code>'velocita'</code> super velocità · <code>'fantasma'</code> giocatore trasparente (lo vedono tutti) · <code>'ipnosi'</code> effetto visivo · <code>'vampiro'</code> lampo rosso.</td></tr>
+    <tr><td><code>prop.custom</code> / <code>prop.base</code></td><td>Prop personalizzato e prop originale di GTA usato se il personalizzato non c'è.</td></tr>
+    <tr><td><code>prop.placement</code> / <code>prop.customPlacement</code></td><td><code>{ x, y, z, rotX, rotY, rotZ }</code> per sistemare il prop in mano (prova con <code>/hwprova</code>).</td></tr>
+  </tbody>
+</table>
+<h3>Aggiungere un nuovo cibo</h3>
+<ol>
+  <li>Registra l'oggetto nel tuo inventario (come in <a href="#installazione">Installazione</a>) e aggiungi la sua icona.</li>
+  <li>Aggiungilo in <code>Config.Items</code> con <code>type = 'food'</code> o <code>'drink'</code>: diventa usabile da solo.</li>
+  <li>Se vuoi venderlo, aggiungilo a <code>Config.Shop.Catalog</code> e metti l'icona anche in <code>html/img/</code>.</li>
+</ol>
+
+<h2 id="config-effetti"><span class="n">12</span>Configurazione · Animazioni ed effetti</h2>
+<pre data-lang="lua"><code>Config.Anims = {
+    food  = { dict = 'mp_player_inteat@burger', anim = 'mp_player_int_eat_burger', flag = 49, bone = 18905,
+              placement = { 0.13, 0.05, 0.02, -50.0, 16.0, 60.0 } },
+    drink = { dict = 'mp_player_intdrink', anim = 'loop_bottle', flag = 49, bone = 18905,
+              placement = { 0.12, 0.008, 0.03, 240.0, -60.0, 0.0 } },
+}
+
+Config.Effects = {
+    SpeedMultiplier = 1.25,  -- Pozione della Strega (massimo 1.49)
+    SpeedTime = 60,
+    GhostAlpha = 110,        -- Cupcake Fantasma (0 invisibile, 255 normale)
+    GhostTime = 45,
+    HypnosisTime = 8,        -- Lecca-Lecca Ipnotico
+}</code></pre>
+<div class="note warn"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3 2 21h20zM12 10v5M12 18h.01"/></svg></span><div><b>Anticheat</b><p>Alcuni anticheat segnalano i moltiplicatori di velocità. Se il tuo lo fa, abbassa <code>SpeedMultiplier</code> o aggiungi un'eccezione.</p></div></div>
+
+<h2 id="config-extra"><span class="n">13</span>Zucche, secchiello e scatola misteriosa</h2>
+<pre data-lang="lua"><code>Config.Pumpkins = {
+    Item = 'hw_zucca_lanterna',
+    MaxPerPlayer = 3,
+    Persist = true,          -- restano dopo un riavvio (data/zucche.json)
+    Light = { color = { 255, 110, 20 }, range = 3.5, intensity = 5.0, height = 0.35, flicker = true },
+}
+
+Config.MysteryBox = {
+    Item = 'hw_scatola_misteriosa',
+    OpenTime = 3000,
+    Rewards = {
+        { type = 'candies', weight = 35, min = 4, max = 12 },
+        { type = 'gold',    weight = 10, amount = 1 },
+        { type = 'food',    weight = 30 },                 -- un cibo a caso del catalogo
+        { type = 'money',   weight = 15, min = 200, max = 800 },
+        { type = 'trick',   weight = 10 },
+    },
+}</code></pre>
+<p>Il secchiello (<code>Config.Bucket</code>) si prende in mano usandolo dall'inventario. Con <code>Bone</code> e <code>BasePlacement</code> / <code>CustomPlacement</code> puoi spostarlo nell'altra mano o correggerne la posizione.</p>
+
+<hr>
+
+<h2 id="uso"><span class="n">14</span>Come si gioca</h2>
+<h3>Bussare alle porte</h3>
+<p>Vicino a una casa dell'evento compare una freccia arancione sopra la porta. A meno di 1,6 metri appare il suggerimento <strong>[E] Bussa</strong>: parte l'animazione e dopo il "toc toc" qualcuno apre. Con <strong>X</strong> si annulla.</p>
+<h3>Scherzetti</h3>
+<table>
+  <thead><tr><th>Scherzetto</th><th>Cosa succede</th></tr></thead>
+  <tbody>
+    <tr><td>Spavento</td><td>Un mostro (zombie, clown, alieno, Bigfoot...) apre la porta tra il fumo: urlo e il giocatore cade a terra.</td></tr>
+    <tr><td>Allucinazione</td><td>Schermo distorto e tre clown che compaiono intorno al giocatore per 25 secondi.</td></tr>
+    <tr><td>Maledizione</td><td>Camminata da ubriaco e telecamera che ondeggia per 40 secondi.</td></tr>
+    <tr><td>Inseguimento</td><td>Uno zombie esce e insegue il giocatore. Se lo raggiunge, il giocatore cade.</td></tr>
+    <tr><td>Furto</td><td>Una scimmia ruba 1–3 caramelle e scappa. Senza caramelle diventa uno spavento.</td></tr>
+  </tbody>
+</table>
+<h3>Bottega, cibo e oggetti</h3>
+<ul>
+  <li>Alla bottega premi <strong>E</strong>: scegli la quantità e compra, oppure scambia le caramelle nella scheda <em>Scambio</em>. <strong>ESC</strong> per chiudere.</li>
+  <li>Cibo e bevande si usano dall'inventario: animazione con il prop in mano, poi fame/sete ed eventuali effetti.</li>
+  <li><strong>Zucca Intagliata</strong>: usala per posizionarla davanti a te. Per raccoglierla avvicinati e premi <strong>E</strong> (solo il proprietario o un admin).</li>
+  <li><strong>Secchiello Zucca</strong>: usalo per prenderlo o metterlo via.</li>
+  <li><strong>Scatola Misteriosa</strong>: usala per aprirla e scoprire il premio... o lo scherzetto.</li>
+</ul>
+
+<h2 id="comandi"><span class="n">15</span>Comandi admin</h2>
+<table>
+  <thead><tr><th>Comando</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>/hwcasa aggiungi [nome]</code></td><td>Aggiunge la casa davanti a te (salvata subito).</td></tr>
+    <tr><td><code>/hwcasa rimuovi</code></td><td>Rimuove la casa più vicina entro 3 metri.</td></tr>
+    <tr><td><code>/hwcasa debug</code></td><td>Mostra o nasconde tutte le case con il loro ID.</td></tr>
+    <tr><td><code>/hwnegozio</code></td><td>Sposta la bottega nella tua posizione. <code>/hwnegozio reset</code> torna alle coordinate del config.</td></tr>
+    <tr><td><code>/hwevento on|off</code></td><td>Avvia o ferma l'evento con un avviso a tutti i giocatori.</td></tr>
+    <tr><td><code>/hwdai [id] [quantità] [oro]</code></td><td>Dà caramelle a un giocatore (aggiungi <code>oro</code> per le caramelle d'oro).</td></tr>
+    <tr><td><code>/hwreset [id]</code></td><td>Azzera i cooldown delle case di tutti o di un solo giocatore.</td></tr>
+    <tr><td><code>/hwprova [oggetto]</code></td><td>Mostra il prop in mano per 10 secondi, per sistemarne la posizione.</td></tr>
+  </tbody>
+</table>
+<p><code>/hwevento</code>, <code>/hwdai</code> e <code>/hwreset</code> funzionano anche dalla console del server (senza la <code>/</code>).</p>
+
+<h2 id="permessi"><span class="n">16</span>Permessi</h2>
+<p>Un giocatore è admin per lo script se vale almeno una di queste condizioni:</p>
+<ul>
+  <li>ha l'ace <code>hw_dolcetto.admin</code> (o il permesso generale <code>command</code>);</li>
+  <li>su ESX il suo gruppo è in <code>Config.AdminGroups</code>;</li>
+  <li>su QBCore ha uno dei permessi in <code>Config.AdminGroups</code>;</li>
+  <li>su Qbox ha l'ace <code>group.&lt;gruppo&gt;</code> di uno dei gruppi in <code>Config.AdminGroups</code>.</li>
+</ul>
+<pre data-lang="server.cfg"><code>add_ace group.admin hw_dolcetto.admin allow
+# oppure per un singolo giocatore:
+add_principal identifier.license:xxxxxxxx group.admin</code></pre>
+
+<hr>
+
+<h2 id="prop"><span class="n">17</span>Prop personalizzati</h2>
+<p>Lo script include 11 prop 3D originali (zucca intagliata, secchiello, torta, mela caramellata, cupcake, pozione e altri). Sono <strong>facoltativi</strong>: finché la cartella <code>stream/</code> è vuota lo script usa prop originali di GTA.</p>
+<ol class="steps">
+  <li><b>Converti i modelli</b>Segui <code>prop_sorgenti/GUIDA_PROP.md</code>: con Blender + Sollumz importi gli OBJ ed esporti i <code>.ydr</code>. Il file <code>.ytyp</code> è già pronto in formato XML.</li>
+  <li><b>Mettili in stream</b>Copia i <code>.ydr</code> e <code>hw_halloween_props.ytyp</code> in <code>hw_dolcetto_scherzetto/stream/</code>.</li>
+  <li><b>Attiva il ytyp</b>In <code>fxmanifest.lua</code> togli il commento a:
+<pre data-lang="lua"><code>data_file 'DLC_ITYP_REQUEST' 'stream/hw_halloween_props.ytyp'</code></pre></li>
+  <li><b>Controlla in gioco</b>Con <code>/hwprova hw_torta_zucca</code> verifichi il prop in mano e correggi <code>customPlacement</code> se serve.</li>
+</ol>
+
+<h2 id="traduzioni"><span class="n">18</span>Testi e traduzioni</h2>
+<p>Tutti i testi (notifiche, suggerimenti, popup) sono in <code>shared/lang.lua</code>. Per tradurre lo script basta cambiare i valori, lasciando uguali le chiavi e i segnaposto <code>%s</code> / <code>%d</code>:</p>
+<pre data-lang="lua"><code>Lang = {
+    prompt_knock    = 'Knock: trick or treat?',
+    res_treat_title = 'TREAT!',
+    res_treat_text  = 'You got %d candies',
+    -- ...
+}</code></pre>
+<p>I nomi e le descrizioni degli oggetti sono in <code>Config.Items</code>, i testi fissi della bottega in <code>html/index.html</code> e <code>html/script.js</code>.</p>
+
+<h2 id="dati"><span class="n">19</span>Dati salvati</h2>
+<table>
+  <thead><tr><th>File</th><th>Contenuto</th></tr></thead>
+  <tbody>
+    <tr><td><code>data/luoghi.json</code></td><td>Case create con <code>/hwcasa</code> e posizione della bottega impostata con <code>/hwnegozio</code>.</td></tr>
+    <tr><td><code>data/zucche.json</code></td><td>Zucche intagliate posizionate dai giocatori.</td></tr>
+    <tr><td><code>data/classifica.json</code></td><td>Classifica: caramelle, caramelle d'oro e case visitate per personaggio.</td></tr>
+  </tbody>
+</table>
+<p>Per azzerare la classifica a fine evento: ferma la risorsa, cancella <code>classifica.json</code> e riavviala. I cooldown delle case sono in memoria e si azzerano al riavvio (o con <code>/hwreset</code>).</p>
+
+<h2 id="compatibilita"><span class="n">20</span>Compatibilità e integrazioni</h2>
+<ul>
+  <li><strong>Fame e sete</strong>: su ESX vengono aggiornate con <code>esx_status</code>; su QBCore/Qbox con i metadata del giocatore e l'evento <code>hud:client:UpdateNeeds</code>, compatibile con gli HUD più diffusi.</li>
+  <li><strong>Oggetti usabili</strong>: vengono registrati tramite il framework, quindi funzionano sia con ox_inventory sia con l'inventario del framework.</li>
+  <li><strong>Altri framework o inventari</strong>: tutta la parte che parla con framework e inventario è in <code>bridge/server.lua</code>. Adattando quelle funzioni puoi usare lo script anche con sistemi personalizzati.</li>
+  <li><strong>Prestazioni</strong>: i cicli si "addormentano" quando non ci sono case o zucche vicine; personaggi e decorazioni vengono creati solo vicino al giocatore.</li>
+</ul>
+
+<hr>
+
+<h2 id="problemi"><span class="n">21</span>Risoluzione problemi</h2>
+<details><summary>In console compare "Nessun framework trovato"</summary><div><p>La risorsa parte prima del framework. Nel <code>server.cfg</code> metti <code>ensure hw_dolcetto_scherzetto</code> <strong>dopo</strong> <code>es_extended</code> / <code>qb-core</code> / <code>qbx_core</code> e dopo <code>ox_inventory</code>.</p></div></details>
+<details><summary>Gli oggetti non si possono usare o non compaiono</summary><div><p>Controlla di aver registrato tutti i 16 oggetti nel file giusto per il tuo inventario (vedi <a href="#installazione">Installazione</a>) e di aver riavviato l'inventario. Su qb-inventory gli oggetti devono avere <code>useable = true</code>.</p></div></details>
+<details><summary>Le icone degli oggetti non si vedono</summary><div><p>Copia le immagini di <code>install/immagini_inventario/</code> nella cartella immagini del tuo inventario. Il nome del file deve essere identico al nome dell'oggetto (es. <code>hw_caramella.png</code>).</p></div></details>
+<details><summary>Vicino alle porte non succede niente</summary><div><p>Verifica che l'evento sia attivo (<code>/hwevento on</code>), che <code>OnlyAtNight</code> non sia attivo di giorno e di essere entro 1,6 metri dal punto della casa (<code>/hwcasa debug</code> lo mostra). Se hai già bussato, il suggerimento indica quanto manca al cooldown.</p></div></details>
+<details><summary>Non trovo la bottega</summary><div><p>Ha un blip arancione sulla mappa. Se l'hai spostata con <code>/hwnegozio</code> la posizione è salvata in <code>data/luoghi.json</code>: per tornare a quella del config usa <code>/hwnegozio reset</code>.</p></div></details>
+<details><summary>Il prop in mano è storto o fluttua</summary><div><p>Usa <code>/hwprova nome_oggetto</code> e correggi <code>placement</code> (prop di GTA) o <code>customPlacement</code> (prop personalizzati) in <code>Config.Items</code> o <code>Config.Anims</code>.</p></div></details>
+<details><summary>I prop personalizzati sono invisibili</summary><div><p>Controlla che i <code>.ydr</code> e il <code>.ytyp</code> siano in <code>stream/</code>, che la riga <code>data_file</code> in <code>fxmanifest.lua</code> sia attiva e che i nomi dei file corrispondano a quelli in <code>Config.Items</code>. Svuota la cache del server e riavvia.</p></div></details>
+<details><summary>Il server dice "Sei troppo lontano" anche quando sono vicino</summary><div><p>Succede se il punto della casa è stato salvato male (ad esempio da un piano diverso). Rimuovi la casa con <code>/hwcasa rimuovi</code> e ricreala stando davanti alla porta.</p></div></details>
+
+<h2 id="supporto"><span class="n">22</span>Supporto</h2>
+<p>Hai un problema o vuoi una modifica su misura? Apri un ticket sul <a data-link="discord" href="#" target="_blank" rel="noopener">Discord di MintDev</a>. Indica la versione dello script, il framework e l'inventario che usi e, se c'è, l'errore della console F8 o del server.</p>
+
+<h2 id="changelog"><span class="n">23</span>Changelog</h2>
+<h3>v1.0.0 · Prima versione</h3>
+<ul>
+  <li>Dolcetto o scherzetto con NPC alla porta, dolcetto d'oro e 5 scherzetti</li>
+  <li>Bottega delle Caramelle con cibo, pozioni, oggetti, scambio in soldi e classifica</li>
+  <li>11 cibi e bevande a tema con effetti, zucche posizionabili, secchiello e scatola misteriosa</li>
+  <li>Supporto ESX, QBCore, Qbox, ox_inventory e inventari dei framework</li>
+  <li>16 icone per l'inventario e 11 prop 3D originali</li>
+</ul>
+
+<h2 id="licenza"><span class="n">24</span>Licenza</h2>
+<p>© 2026 MintDev.eu — Tutti i diritti riservati. Lo script è concesso in licenza per l'uso sul server dell'acquirente. Non è consentito rivenderlo, ridistribuirlo o ripubblicarlo, in tutto o in parte, né rimuovere le indicazioni di copyright. I termini completi sono nel file <code>LICENZA.txt</code> incluso nello script.</p>
+
+<div class="foot">
+  <span>© <span id="yr">2026</span> MintDev · Dolcetto o Scherzetto v1.0.0</span>
+  <span><a href="../">Pagina dello script</a> · <a href="../../">mintdev.eu</a></span>
+</div>
+</article>
+</main>
+
+<a class="totop" id="totop" href="#introduzione" aria-label="Torna su"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></a>
+
+<script>
+const LINKS = {
+  discord: "https://discord.gg/UNeFWPYmEq",
+  tebex:   "https://mintdev.tebex.store/"
+};
+document.querySelectorAll('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]);
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* evidenziazione codice */
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const RX=/(--[^\n]*|#[^\n]*)|('(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`[^`\n]*`)|\b(true|false|nil|local|function|end|return|if|then|else|ensure|add_ace|add_principal|allow|INSERT|INTO|VALUES|ON|DUPLICATE|KEY|UPDATE)\b|\b(\d+(?:\.\d+)?)\b|\b(vec4|Config|Lang|data_file)\b/g;
+document.querySelectorAll('pre').forEach(pre=>{
+  const code=pre.querySelector('code'),lang=pre.dataset.lang||'',raw=code.textContent;
+  if(lang!=='struttura'&&lang!=='console'){
+    let out='',last=0;
+    raw.replace(RX,(m,c,s,k,n,f,i)=>{
+      if(c&&lang==='lua'&&c[0]==='#'){return m}
+      out+=esc(raw.slice(last,i));last=i+m.length;
+      const cls=c?'tk-c':s?'tk-s':k?'tk-k':n?'tk-n':'tk-f';
+      out+=`<span class="${cls}">${esc(m)}</span>`;return m;
+    });
+    out+=esc(raw.slice(last));code.innerHTML=out;
+  }
+  const bar=document.createElement('div');bar.className='bar';
+  bar.innerHTML=`<span>${lang}</span><button class="copy" type="button">Copia</button>`;pre.prepend(bar);
+  bar.querySelector('.copy').addEventListener('click',e=>{
+    const b=e.currentTarget;
+    const done=()=>{b.textContent='Copiato';b.classList.add('ok');setTimeout(()=>{b.textContent='Copia';b.classList.remove('ok')},1600)};
+    if(navigator.clipboard)navigator.clipboard.writeText(raw).then(done,()=>{});else done();
+  });
+});
+
+/* schede */
+document.querySelectorAll('[data-tabs]').forEach(t=>{
+  const bs=[...t.querySelectorAll('.tl button')],ps=[...t.querySelectorAll('.tp')];
+  bs.forEach((b,i)=>b.addEventListener('click',()=>{bs.forEach((x,j)=>x.classList.toggle('on',i===j));ps.forEach((x,j)=>x.classList.toggle('on',i===j))}));
+});
+
+/* menu laterale: sezione attiva */
+const links=[...document.querySelectorAll('.side a[href^="#"]')];
+const targets=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function onScroll(){
+  let cur=targets[0];
+  for(const t of targets){if(t.getBoundingClientRect().top<120)cur=t}
+  links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur.id));
+  document.getElementById('totop').classList.toggle('show',scrollY>900);
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ricerca */
+document.getElementById('q').addEventListener('input',e=>{
+  const v=e.target.value.trim().toLowerCase();
+  links.forEach(a=>{
+    const sec=document.querySelector(a.getAttribute('href'));
+    let text=a.textContent;
+    if(sec){let el=sec.nextElementSibling;let n=0;while(el&&el.tagName!=='H2'&&n<30){text+=' '+el.textContent;el=el.nextElementSibling;n++}}
+    a.classList.toggle('hide',v&&!text.toLowerCase().includes(v));
+  });
+  document.querySelectorAll('.side h4').forEach(h=>{
+    let el=h.nextElementSibling,any=false;while(el&&el.tagName==='A'){if(!el.classList.contains('hide'))any=true;el=el.nextElementSibling}
+    h.classList.toggle('hide',!any);
+  });
+});
+
+/* menu mobile */
+document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+links.forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+</script>
+</body>
+</html>
