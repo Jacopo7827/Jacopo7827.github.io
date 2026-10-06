@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentazione · Caccia ai Regali — MintDev</title>
+<meta name="description" content="Documentazione ufficiale di Caccia ai Regali by MintDev: installazione, configurazione, comandi, prop personalizzati e risoluzione problemi.">
+<meta name="author" content="MintDev.eu">
+<meta name="theme-color" content="#07040b">
+<link rel="canonical" href="https://mintdev.eu/natale/docs/">
+<link rel="icon" href="../../assets/natale/icons/xm_regalo.webp">
+<meta property="og:title" content="Documentazione · Caccia ai Regali — MintDev">
+<meta property="og:description" content="Installazione, configurazione e uso dello script FiveM di Natale Caccia ai Regali.">
+<meta property="og:image" content="https://mintdev.eu/assets/natale/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Mountains+of+Christmas:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pk:#ffcc4d;--pk-2:#ffe08a;--pk-dim:rgba(255,204,77,.1);--pu:#8b5cf6;--slime:#8cff3f;--gold:#ffcf3f;--red:#ff5c7a;--mint:#5fe3b4;
+  --bg:#050d16;--bg-2:#081624;--card:#0c1d2c;--line:rgba(255,204,77,.16);--line-2:rgba(255,255,255,.07);
+  --text:#e6eef5;--muted:#9db2c4;--head:#ffffff;
+  --display:'Bricolage Grotesque',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--spooky:'Mountains of Christmas',cursive;
+  --side:290px;--top:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--top) + 18px);background:var(--bg)}
+body{font-family:var(--body);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.7;font-size:15.5px}
+a{color:var(--pk-2);text-decoration:none}a:hover{text-decoration:underline}
+img{display:block;max-width:100%}
+::selection{background:var(--pk);color:#2a1a00}
+:focus-visible{outline:2px solid var(--pk);outline-offset:3px;border-radius:4px}
+
+/* barra in alto */
+.top{position:fixed;inset:0 0 auto 0;height:var(--top);z-index:50;display:flex;align-items:center;gap:18px;padding:0 22px;
+  background:rgba(5,13,22,.84);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--line)}
+.top .brand{display:flex;align-items:center;gap:10px;color:var(--head);font-family:var(--display);font-weight:800;font-size:1.05rem;text-decoration:none}
+.top .brand img{width:28px;height:28px}
+.top .brand small{font-family:var(--mono);font-weight:400;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--pk);padding:3px 8px;border:1px solid var(--line);border-radius:99px}
+.top nav{margin-left:auto;display:flex;gap:6px;align-items:center}
+.top nav a{color:var(--muted);font-size:.88rem;font-weight:500;padding:8px 12px;border-radius:99px;text-decoration:none;transition:color .2s,background .2s}
+.top nav a:hover{color:var(--head);background:rgba(255,255,255,.05)}
+.top nav a.cta{background:linear-gradient(180deg,var(--pk-2),var(--pk));color:#2a1a00;font-weight:700}
+.top nav a.cta:hover{box-shadow:0 0 30px rgba(255,204,77,.5)}
+.menu-btn{display:none;margin-left:auto;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--text);cursor:pointer}
+@media(max-width:980px){.top nav a:not(.cta){display:none}.menu-btn{display:grid;place-items:center;margin-left:0}.top nav{margin-left:auto}}
+
+/* barra laterale */
+.side{position:fixed;top:var(--top);bottom:0;left:0;width:var(--side);overflow-y:auto;padding:22px 16px 40px;border-right:1px solid var(--line);background:var(--bg-2);z-index:40}
+.side::-webkit-scrollbar{width:6px}.side::-webkit-scrollbar-thumb{background:rgba(255,122,26,.3);border-radius:6px}
+.search{position:relative;margin-bottom:18px}
+.search input{width:100%;padding:10px 12px 10px 36px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);font:inherit;font-size:.88rem;outline:none}
+.search input:focus{border-color:rgba(255,140,60,.5)}
+.search svg{position:absolute;left:11px;top:50%;width:16px;height:16px;transform:translateY(-50%);stroke:var(--muted)}
+.side h4{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pk);margin:18px 10px 6px;font-weight:600}
+.side a{display:block;padding:6px 10px;border-radius:8px;color:var(--muted);font-size:.88rem;line-height:1.45;text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s}
+.side a:hover{color:var(--head);background:rgba(255,255,255,.04)}
+.side a.on{color:var(--head);background:var(--pk-dim);border-left-color:var(--pk)}
+.side a.sub{padding-left:22px;font-size:.84rem}
+.side a.hide,.side h4.hide{display:none}
+.side .ver{margin:24px 10px 0;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+@media(max-width:980px){.side{transform:translateX(-100%);transition:transform .3s;box-shadow:20px 0 60px rgba(0,0,0,.6)}body.nav-open .side{transform:none}}
+
+/* contenuto */
+main{margin-left:var(--side);padding:calc(var(--top) + 40px) clamp(20px,5vw,72px) 80px}
+@media(max-width:980px){main{margin-left:0}}
+.doc{max-width:860px}
+.hero{position:relative;padding:34px 34px 30px;border-radius:24px;border:1px solid var(--line);overflow:hidden;margin-bottom:46px;
+  background:radial-gradient(ellipse 70% 90% at 100% 0%,rgba(227,37,60,.2),transparent 60%),radial-gradient(ellipse 50% 80% at 0% 100%,rgba(31,138,95,.22),transparent 60%),var(--card)}
+.hero img{position:absolute;right:18px;bottom:-10px;width:170px;filter:drop-shadow(0 20px 30px rgba(0,0,0,.6));opacity:.95}
+.hero .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pk)}
+.hero h1{font-family:var(--spooky);font-weight:700;font-size:clamp(2.6rem,6vw,4rem);line-height:1.02;letter-spacing:.03em;margin:8px 0 6px;
+  background:linear-gradient(180deg,#fff6d6,var(--pk) 50%,#c98a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(255,204,77,.4))}
+.hero p{color:var(--muted);max-width:520px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
+.badge{font-family:var(--mono);font-size:.72rem;padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:rgba(255,204,77,.07);color:var(--text)}
+.badge.v{background:var(--pk);color:#2a1a00;border-color:var(--pk);font-weight:600}
+@media(max-width:640px){.hero img{display:none}}
+
+h2{font-family:var(--display);font-weight:800;letter-spacing:-.03em;color:var(--head);font-size:1.9rem;line-height:1.15;margin:64px 0 14px;padding-top:6px}
+h2 .n{font-family:var(--mono);font-size:.8rem;font-weight:400;color:var(--pk);margin-right:10px;vertical-align:middle;letter-spacing:.1em}
+h3{font-family:var(--display);font-weight:600;color:var(--head);font-size:1.25rem;margin:36px 0 10px;letter-spacing:-.01em}
+h3 code{font-size:.95em}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px}
+li{margin:4px 0}
+li::marker{color:var(--pk)}
+strong{color:var(--head);font-weight:600}
+hr{border:none;border-top:1px solid var(--line);margin:56px 0}
+code{font-family:var(--mono);font-size:.86em;padding:2px 6px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--line-2);color:#ffd2a6}
+pre{position:relative;margin:14px 0 18px;border-radius:14px;border:1px solid var(--line);background:#0a0610;overflow:hidden}
+pre .bar{display:flex;align-items:center;justify-content:space-between;padding:7px 10px 7px 14px;border-bottom:1px solid var(--line-2);font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+pre .copy{font:inherit;font-size:.66rem;letter-spacing:.1em;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer}
+pre .copy:hover{color:var(--head);border-color:rgba(255,140,60,.5)}
+pre .copy.ok{color:var(--slime);border-color:rgba(140,255,63,.4)}
+pre code{display:block;padding:14px 16px;overflow-x:auto;background:none;border:none;border-radius:0;color:#ddd3ea;font-size:.83rem;line-height:1.75;white-space:pre}
+.tk-c{color:#7a6e8c;font-style:italic}.tk-s{color:#b6f27a}.tk-n{color:#ffb86b}.tk-k{color:#c4a1ff}.tk-f{color:#7cc8ff}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.88rem;border:1px solid var(--line)}
+@media(max-width:700px){table{display:block;overflow-x:auto}}
+thead{background:rgba(255,122,26,.08)}
+th{text-align:left;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pk);font-weight:600;padding:10px 14px;white-space:nowrap}
+td{padding:10px 14px;border-top:1px solid var(--line-2);vertical-align:top}
+td:first-child{white-space:nowrap}
+td code{white-space:nowrap}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+
+.note{display:flex;gap:12px;padding:14px 16px;border-radius:14px;margin:16px 0;border:1px solid rgba(124,200,255,.25);background:rgba(124,200,255,.06)}
+.note.tip{border-color:rgba(140,255,63,.25);background:rgba(140,255,63,.05)}
+.note.warn{border-color:rgba(255,207,63,.3);background:rgba(255,207,63,.06)}
+.note b{display:block;color:var(--head);font-size:.9rem}
+.note p{margin:2px 0 0;font-size:.9rem;color:var(--text)}
+.note .ic{flex:none;width:22px;height:22px;margin-top:2px}
+.note .ic svg{width:100%;height:100%;stroke:#7cc8ff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.note.tip .ic svg{stroke:var(--slime)}.note.warn .ic svg{stroke:var(--gold)}
+
+.steps{counter-reset:s;list-style:none;margin:16px 0;padding:0}
+.steps>li{counter-increment:s;position:relative;padding:0 0 22px 50px;margin:0;border-left:1px dashed rgba(255,140,60,.3);margin-left:16px}
+.steps>li:last-child{border-left-color:transparent;padding-bottom:4px}
+.steps>li::before{content:counter(s);position:absolute;left:-17px;top:-2px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--display);font-weight:800;color:#2a1a00;background:linear-gradient(180deg,var(--pk-2),var(--pk));box-shadow:0 0 18px -4px var(--pk)}
+.steps>li>b{display:block;color:var(--head);font-size:1.02rem;margin-bottom:2px}
+
+.tabs{margin:14px 0 20px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tabs .tl{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.tabs .tl button{flex:1;min-width:150px;padding:11px 14px;border:none;background:none;color:var(--muted);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent}
+.tabs .tl button.on{color:var(--head);border-bottom-color:var(--pk);background:var(--pk-dim)}
+.tabs .tp{display:none;padding:4px 16px 8px}.tabs .tp.on{display:block}
+.tabs pre{margin:10px 0}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.mini{padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
+.mini b{display:flex;align-items:center;gap:10px;color:var(--head);margin-bottom:4px}
+.mini b img{width:30px;height:30px}
+.mini p{margin:0;font-size:.88rem;color:var(--muted)}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+
+details{border:1px solid var(--line);border-radius:12px;margin:10px 0;background:rgba(255,255,255,.015)}
+details summary{cursor:pointer;padding:13px 16px;font-weight:600;color:var(--head);list-style:none;display:flex;justify-content:space-between;gap:12px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-family:var(--mono);color:var(--pk);font-size:1.1rem;line-height:1}
+details[open] summary::after{content:"−"}
+details>div{padding:0 16px 12px}
+
+.foot{margin-top:70px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.totop{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(12,29,44,.92);color:var(--pk);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:30;text-decoration:none}
+.totop.show{opacity:1;pointer-events:auto}
+.totop svg{width:18px;height:18px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button class="menu-btn" id="menuBtn" aria-label="Apri il menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="../../"><img src="../../assets/logo.webp" alt="">MintDev <small>Docs</small></a>
+  <nav>
+    <a href="../">Pagina dello script</a>
+    <a data-link="discord" href="#" target="_blank" rel="noopener">Supporto</a>
+    <a class="cta" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
+  </nav>
+</header>
+
+<aside class="side" id="side">
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Cerca nella documentazione" aria-label="Cerca nella documentazione">
+  </div>
+  <h4>Inizia</h4>
+  <a href="#introduzione">Introduzione</a>
+  <a href="#requisiti">Requisiti</a>
+  <a href="#pacchetto">Contenuto del pacchetto</a>
+  <a href="#installazione">Installazione</a>
+  <a href="#primo-avvio">Primo avvio</a>
+  <h4>Configurazione</h4>
+  <a href="#config-generale">Generale</a>
+  <a href="#config-caccia">Caccia ai regali</a>
+  <a href="#config-punti">Punti dei regali</a>
+  <a href="#config-mercatino">Mercatino di Natale</a>
+  <a href="#config-calendario">Calendario dell'Avvento</a>
+  <a href="#config-oggetti">Oggetti e cibo</a>
+  <a href="#config-effetti">Animazioni ed effetti</a>
+  <a href="#config-extra">Alberi, regali, calza</a>
+  <h4>Uso</h4>
+  <a href="#uso">Come si gioca</a>
+  <a href="#comandi">Comandi admin</a>
+  <a href="#permessi">Permessi</a>
+  <h4>Avanzate</h4>
+  <a href="#prop">Prop personalizzati</a>
+  <a href="#traduzioni">Testi e traduzioni</a>
+  <a href="#dati">Dati salvati</a>
+  <a href="#compatibilita">Compatibilità e integrazioni</a>
+  <h4>Aiuto</h4>
+  <a href="#problemi">Risoluzione problemi</a>
+  <a href="#supporto">Supporto</a>
+  <a href="#changelog">Changelog</a>
+  <a href="#licenza">Licenza</a>
+  <div class="ver">Caccia ai Regali · v1.0.0</div>
+</aside>
+
+<main>
+<article class="doc">
+
+<div class="hero" id="introduzione">
+  <img src="../../assets/natale/props/regalo.webp" alt="">
+  <div class="k">Documentazione ufficiale · MintDev</div>
+  <h1>Caccia ai Regali</h1>
+  <p>Grazie per aver scelto uno script MintDev! Qui trovi tutto per installare, configurare e gestire l'evento di Natale sul tuo server FiveM.</p>
+  <div class="badges"><span class="badge v">v1.0.0</span><span class="badge">ESX Legacy</span><span class="badge">QBCore</span><span class="badge">Qbox</span><span class="badge">ox_inventory</span><span class="badge">qb-inventory</span></div>
+</div>
+
+<h2><span class="n">01</span>Introduzione</h2>
+<p><strong>Caccia ai Regali</strong> riempie la città di regali nascosti. I giocatori li cercano con un rilevatore "freddo / caldo", li aprono per primi e spendono i fiocchi di neve al <strong>Mercatino di Natale</strong>, dove c'è anche il <strong>calendario dell'Avvento</strong>.</p>
+<div class="grid2">
+  <div class="mini"><b><img src="../../assets/natale/icons/xm_regalo.webp" alt="">Regali nascosti</b><p>Regali in punti casuali della mappa: zona sul radar, rilevatore con i campanellini, chi apre per primo vince.</p></div>
+  <div class="mini"><b><img src="../../assets/natale/icons/xm_carbone.webp" alt="">Sorprese</b><p>4 sorprese: carbone, scivolone sul ghiaccio, renna impazzita e bufera di neve.</p></div>
+  <div class="mini"><b><img src="../../assets/natale/icons/soldi.webp" alt="">Mercatino di Natale</b><p>Dolci, bevande calde, oggetti, scambio fiocchi → soldi, calendario dell'Avvento e classifica.</p></div>
+  <div class="mini"><b><img src="../../assets/natale/icons/xm_albero.webp" alt="">Extra</b><p>Alberi con luci da posizionare, regali da donare ad altri giocatori e calza della Befana.</p></div>
+</div>
+
+<h2 id="requisiti"><span class="n">02</span>Requisiti</h2>
+<table>
+  <thead><tr><th>Componente</th><th>Supporto</th></tr></thead>
+  <tbody>
+    <tr><td>Framework</td><td><strong>ESX Legacy</strong>, <strong>QBCore</strong> o <strong>Qbox</strong> (rilevato in automatico)</td></tr>
+    <tr><td>Inventario</td><td><code>ox_inventory</code> oppure l'inventario del framework (inventario ESX, <code>qb-inventory</code>, <code>ps-inventory</code>, <code>lj-inventory</code>)</td></tr>
+    <tr><td>Fame e sete</td><td><code>esx_status</code> su ESX, metadata <code>hunger</code> / <code>thirst</code> / <code>stress</code> su QBCore e Qbox</td></tr>
+    <tr><td>OneSync</td><td>Consigliato: permette al server di verificare la posizione dei giocatori (anti-exploit)</td></tr>
+    <tr><td>Dipendenze extra</td><td>Nessuna: non servono ox_lib, ox_target o altre risorse</td></tr>
+  </tbody>
+</table>
+
+<h2 id="pacchetto"><span class="n">03</span>Contenuto del pacchetto</h2>
+<pre data-lang="struttura"><code>xm_caccia_regali/
+├── config.lua              impostazioni (commentate)
+├── fxmanifest.lua
+├── shared/lang.lua         tutti i testi del gioco
+├── client/  server/  bridge/
+├── html/                   interfaccia del mercatino, rilevatore e popup
+├── install/
+│   ├── ox_inventory_items.lua
+│   ├── qb-core_items.lua
+│   ├── esx_items.sql
+│   └── immagini_inventario/   14 icone PNG
+├── prop_sorgenti/          modelli 3D, texture e .ytyp
+├── stream/                 prop personalizzati (facoltativi)
+├── data/                   dati salvati dallo script
+├── DOCUMENTAZIONE.html     questa documentazione, offline
+└── LICENZA.txt</code></pre>
+
+<h2 id="installazione"><span class="n">04</span>Installazione</h2>
+<ol class="steps">
+  <li><b>Copia la risorsa</b>Metti la cartella <code>xm_caccia_regali</code> dentro <code>resources/</code>. Non rinominare le sottocartelle.</li>
+  <li><b>Avviala dopo framework e inventario</b>Nel <code>server.cfg</code> l'ordine è importante: lo script riconosce il framework all'avvio.
+<pre data-lang="server.cfg"><code>ensure es_extended        # oppure qb-core / qbx_core
+ensure ox_inventory       # solo se lo usi
+ensure xm_caccia_regali</code></pre></li>
+  <li><b>Registra gli oggetti</b>Scegli il file giusto per il tuo inventario:
+    <div class="tabs" data-tabs>
+      <div class="tl"><button class="on" type="button">ox_inventory</button><button type="button">QBCore (qb-inventory)</button><button type="button">ESX (inventario base)</button></div>
+      <div class="tp on"><p>Vale per <strong>ESX + ox_inventory</strong>, <strong>QBCore + ox_inventory</strong> e <strong>Qbox</strong>. Copia il contenuto di <code>install/ox_inventory_items.lua</code> dentro <code>ox_inventory/data/items.lua</code>, all'interno della tabella <code>return { ... }</code>:</p>
+<pre data-lang="lua"><code>['xm_fiocco'] = {
+    label = 'Fiocco di Neve',
+    weight = 2,
+    stack = true,
+    close = false,
+    description = 'La moneta di Natale. Spendila al Mercatino di Natale!',
+},
+-- ...e gli altri 13 oggetti del file</code></pre></div>
+      <div class="tp"><p>Copia le righe di <code>install/qb-core_items.lua</code> dentro <code>qb-core/shared/items.lua</code>, nella tabella <code>QBShared.Items</code>:</p>
+<pre data-lang="lua"><code>xm_fiocco = { name = 'xm_fiocco', label = 'Fiocco di Neve', weight = 2, type = 'item', image = 'xm_fiocco.png', unique = false, useable = false, shouldClose = false, description = 'La moneta di Natale.' },
+-- ...e gli altri 13 oggetti del file</code></pre></div>
+      <div class="tp"><p>Esegui <code>install/esx_items.sql</code> nel database del server (HeidiSQL, phpMyAdmin...). Fiocchi e stelle hanno peso 0, così non riempiono l'inventario.</p>
+<pre data-lang="sql"><code>INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
+    ('xm_fiocco', 'Fiocco di Neve', 0, 0, 1),
+    -- ...
+ON DUPLICATE KEY UPDATE `label` = VALUES(`label`), `weight` = VALUES(`weight`);</code></pre></div>
+    </div></li>
+  <li><b>Copia le immagini</b>Le 14 icone sono in <code>install/immagini_inventario/</code>:
+    <ul><li>ox_inventory → <code>ox_inventory/web/images/</code></li><li>qb-inventory → <code>qb-inventory/html/images/</code></li><li>altri inventari → la cartella immagini del tuo inventario</li></ul></li>
+  <li><b>Dai i permessi admin</b>Aggiungi l'ace nel <code>server.cfg</code> (dettagli in <a href="#permessi">Permessi</a>):
+<pre data-lang="server.cfg"><code>add_ace group.admin xm_regali.admin allow</code></pre></li>
+  <li><b>Riavvia e controlla la console</b>All'avvio deve comparire una riga come questa:
+<pre data-lang="console"><code>[xm_regali] Caccia ai Regali by MintDev.eu | framework: esx | inventario: ox_inventory</code></pre>
+    Se leggi <code>Nessun framework trovato</code>, la risorsa parte prima del framework: sistema l'ordine degli <code>ensure</code>.</li>
+</ol>
+
+<h2 id="primo-avvio"><span class="n">05</span>Primo avvio</h2>
+<p>Lo script è subito utilizzabile, ma i nascondigli dei regali e la posizione del mercatino li decidi tu. In 5 minuti:</p>
+<ol class="steps">
+  <li><b>Posiziona il Mercatino</b>Vai dove vuoi il punto di scambio, guarda nella direzione in cui deve guardare il venditore e scrivi <code>/xmmercatino</code>. Di base è a Legion Square.</li>
+  <li><b>Crea i nascondigli</b>Vai in un punto all'aperto (dietro una panchina, in un vicolo, su un tetto raggiungibile...) e scrivi <code>/xmregalo aggiungi Nome del posto</code>. Ripeti in giro per la città.</li>
+  <li><b>Controlla</b>Con <code>/xmregalo debug</code> vedi tutti i punti: verdi quelli con un regalo nascosto in questo momento. <code>/xmregalo rigenera</code> rimescola i regali.</li>
+  <li><b>Avvia l'evento</b><code>/xmevento on</code> avvisa tutti i giocatori. A fine evento usa <code>/xmevento off</code>.</li>
+</ol>
+<div class="note tip"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></span><div><b>Consiglio</b><p>Metti almeno 3 volte i punti rispetto ai regali attivi (<code>MaxActive</code>): con 8 regali, 25–40 nascondigli rendono la caccia varia e i giocatori non imparano i posti a memoria.</p></div></div>
+
+<hr>
+
+<h2 id="config-generale"><span class="n">06</span>Configurazione · Generale</h2>
+<p>Tutte le impostazioni sono in <code>config.lua</code>, commentate. Dopo una modifica riavvia la risorsa con <code>ensure xm_caccia_regali</code>.</p>
+<pre data-lang="lua"><code>Config.Framework = 'auto'   -- 'auto' | 'esx' | 'qb' | 'qbx'
+Config.Inventory = 'auto'   -- 'auto' | 'ox' | 'framework'
+
+Config.AdminAce = 'xm_regali.admin'
+Config.AdminGroups = { 'admin', 'superadmin', 'god' }
+
+Config.InteractKey = 38         -- E
+Config.CancelKey = 73           -- X
+Config.SoundVolume = 0.35
+Config.Notifications = 'auto'   -- 'auto' | 'esx' | 'qb' | 'qbx' | 'ox' | 'nui'
+Config.PreferCustomProps = true
+
+Config.FlakeItem = 'xm_fiocco'
+Config.StarItem = 'xm_stella'
+Config.CoalItem = 'xm_carbone'
+Config.StarScore = 10</code></pre>
+<table>
+  <thead><tr><th>Opzione</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>Framework</code> / <code>Inventory</code></td><td>Lascia <code>'auto'</code>: riconosce da solo framework e ox_inventory.</td></tr>
+    <tr><td><code>AdminAce</code> / <code>AdminGroups</code></td><td>Chi può usare i comandi admin (vedi <a href="#permessi">Permessi</a>).</td></tr>
+    <tr><td><code>InteractKey</code> / <code>CancelKey</code></td><td>Tasti per interagire e per annullare un'azione in corso.</td></tr>
+    <tr><td><code>SoundVolume</code></td><td>Volume degli effetti sonori (campanellini, regali...), da 0.0 a 1.0.</td></tr>
+    <tr><td><code>Notifications</code></td><td>Messaggi brevi: <code>'auto'</code> usa quelli del framework (<code>ESX.ShowNotification</code>, <code>QBCore.Functions.Notify</code>, qbx_core). Oppure <code>'ox'</code> o <code>'nui'</code> (a tema). Popup, rilevatore e mercatino restano sempre a tema.</td></tr>
+    <tr><td><code>PreferCustomProps</code></td><td>Se i prop personalizzati sono in <code>stream/</code> usa quelli, altrimenti i prop originali di GTA.</td></tr>
+    <tr><td><code>FlakeItem</code> / <code>StarItem</code> / <code>CoalItem</code></td><td>Nomi degli oggetti usati come monete dell'evento.</td></tr>
+    <tr><td><code>StarScore</code></td><td>Quanti punti vale una Stella d'Oro nella classifica.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="config-caccia"><span class="n">07</span>Configurazione · Caccia ai regali</h2>
+<pre data-lang="lua"><code>Config.Hunt = {
+    MaxActive = 8,              -- regali nascosti contemporaneamente
+    RespawnTime = 90,           -- secondi prima che ne compaia uno nuovo
+    OpenTime = 3500,
+    InteractDistance = 1.8,
+    PlayerCooldown = 15,        -- secondi tra due regali aperti dallo stesso giocatore
+
+    AreaBlips = true,           -- cerchio sulla mappa (non il punto esatto)
+    AreaRadius = 80.0,
+    HotCold = true,             -- rilevatore freddo / caldo con i campanellini
+    HotColdRange = 120.0,
+
+    Chances = { gift = 62, rare = 8, surprise = 30 },   -- la somma deve fare 100
+    Gift = { min = 3, max = 8 },
+    Rare = { star = 1, flakes = { min = 5, max = 10 } },
+
+    Surprises = {
+        { id = 'carbone',   weight = 30 },
+        { id = 'scivolone', weight = 25 },
+        { id = 'renna',     weight = 25 },
+        { id = 'bufera',    weight = 20 },
+    },
+    -- ...
+}</code></pre>
+<table>
+  <thead><tr><th>Opzione</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>MaxActive</code></td><td>Quanti regali ci sono in giro per la mappa allo stesso tempo. Quando uno viene aperto, dopo <code>RespawnTime</code> ne compare un altro in un punto diverso.</td></tr>
+    <tr><td><code>PlayerCooldown</code></td><td>Pausa minima tra due regali aperti dalla stessa persona, così uno solo non si prende tutto.</td></tr>
+    <tr><td><code>AreaBlips</code> / <code>AreaRadius</code></td><td>Cerchio sulla mappa nella zona del regalo. Il centro è spostato a caso: il regalo è dentro il cerchio, ma va cercato.</td></tr>
+    <tr><td><code>HotCold</code> / <code>HotColdRange</code></td><td>Rilevatore a schermo da "Gelido" a "Bollente!" con i campanellini che suonano sempre più veloci. Si attiva entro <code>HotColdRange</code> metri.</td></tr>
+    <tr><td><code>GiftLight</code></td><td>Luce colorata sul regalo, utile di notte.</td></tr>
+    <tr><td><code>Chances</code></td><td>Probabilità in percentuale: fiocchi di neve, Stella d'Oro o sorpresa.</td></tr>
+    <tr><td><code>Surprises</code></td><td>Le sorprese possibili e quanto spesso escono; per disattivarne una toglila dalla lista.</td></tr>
+    <tr><td><code>BlizzardTime</code> / <code>ReindeerPed</code></td><td>Durata della bufera e modello della renna.</td></tr>
+    <tr><td><code>Prop</code></td><td>Modello del regalo (personalizzato e originale di GTA).</td></tr>
+  </tbody>
+</table>
+<div class="note"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><div><b>Chi apre per primo vince</b><p>I regali sono condivisi da tutto il server: quando qualcuno inizia ad aprirne uno, gli altri vedono "Qualcuno sta già aprendo questo regalo". Tutto è deciso dal server.</p></div></div>
+
+<h2 id="config-punti"><span class="n">08</span>Configurazione · Punti dei regali</h2>
+<p>Il modo consigliato è crearli in gioco con <code>/xmregalo aggiungi</code>: vengono salvati in <code>data/luoghi.json</code> e funzionano subito. Puoi anche scriverli nel config:</p>
+<pre data-lang="lua"><code>Config.Spots = {
+    { x = 185.5, y = -955.0, z = 30.1, label = 'Legion Square' },
+    { x = 501.0, y = 5604.0, z = 797.9, label = 'Vetta del Chiliad' },
+}</code></pre>
+<ul>
+  <li>Il punto è dove appare il regalo, a terra. L'altezza viene corretta da sola sul terreno.</li>
+  <li>I punti del config hanno ID <code>c1</code>, <code>c2</code>...; quelli creati in gioco <code>s1</code>, <code>s2</code>.... I primi si rimuovono dal config, i secondi con <code>/xmregalo rimuovi</code>.</li>
+  <li>I punti nel config sono solo d'esempio: crea i tuoi, anche in posti difficili da trovare.</li>
+</ul>
+
+<h2 id="config-mercatino"><span class="n">09</span>Configurazione · Mercatino di Natale</h2>
+<pre data-lang="lua"><code>Config.Shop = {
+    Name = 'Mercatino di Natale',
+    Coords = vec4(176.5, -967.5, 29.6, 230.0),   -- oppure /xmmercatino in gioco
+    Ped = 's_m_m_strvend_01',
+    Distance = 2.2,
+    MaxQuantity = 50,
+    MoneyAccount = 'cash',                       -- 'cash' oppure 'bank'
+    Blip = { Enabled = true, Sprite = 52, Color = 1, Scale = 0.9 },
+    Decorations = true,                          -- albero illuminato e regali attorno al banco
+    -- ...
+}</code></pre>
+<h3>Catalogo</h3>
+<p>Ogni voce è un oggetto acquistabile con i fiocchi di neve. <code>category</code> decide la scheda: <code>'dolci'</code>, <code>'bevande'</code> o <code>'oggetti'</code>.</p>
+<pre data-lang="lua"><code>Catalog = {
+    { item = 'xm_panettone',  price = 10, category = 'dolci' },
+    { item = 'xm_cioccolata', price = 6,  category = 'bevande' },
+    { item = 'xm_albero',     price = 25, category = 'oggetti' },
+},</code></pre>
+<h3>Scambi</h3>
+<pre data-lang="lua"><code>Exchanges = {
+    { id = 'fiocchi_soldi',   give = 'xm_fiocco',  giveAmount = 1, money = 20 },
+    { id = 'stella_soldi',    give = 'xm_stella',  giveAmount = 1, money = 300 },
+    { id = 'stella_fiocchi',  give = 'xm_stella',  giveAmount = 1, item = 'xm_fiocco', itemAmount = 12 },
+    { id = 'carbone_fiocchi', give = 'xm_carbone', giveAmount = 5, item = 'xm_fiocco', itemAmount = 1 },
+},</code></pre>
+<p><code>give</code> è l'oggetto che il giocatore consegna. Con <code>money</code> riceve soldi sul conto <code>MoneyAccount</code>, con <code>item</code> + <code>itemAmount</code> riceve un oggetto. Il pulsante "Tutti" scambia tutto in una volta (fino a <code>MaxQuantity</code>).</p>
+
+<h2 id="config-calendario"><span class="n">10</span>Configurazione · Calendario dell'Avvento</h2>
+<p>Il calendario è una scheda del mercatino con 24 porte. Ogni giocatore apre una porta al giorno.</p>
+<pre data-lang="lua"><code>Config.Advent = {
+    Enabled = true,
+    Mode = 'december',      -- 'december' oppure 'daily'
+    Rewards = {
+        [1]  = { flakes = 5 },
+        [2]  = { item = 'xm_cioccolata', amount = 2 },
+        [3]  = { money = 250 },
+        [8]  = { stars = 1 },
+        [24] = { stars = 3, item = 'xm_albero', amount = 1 },
+        -- ...una riga per ogni porta da 1 a 24
+    },
+}</code></pre>
+<table>
+  <thead><tr><th>Opzione</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>Mode = 'december'</code></td><td>Dal 1° al 24 dicembre (data del server) si apre la porta del giorno. Prima del 1° dicembre il calendario è chiuso, dopo il 24 è finito.</td></tr>
+    <tr><td><code>Mode = 'daily'</code></td><td>In qualsiasi periodo: una porta al giorno in ordine (1, 2, 3...). Utile per eventi fuori dicembre o per i test.</td></tr>
+    <tr><td><code>Rewards</code></td><td>Premio di ogni porta. Puoi combinare <code>flakes</code> (fiocchi), <code>stars</code> (stelle d'oro), <code>money</code> (soldi) e <code>item</code> + <code>amount</code> (qualsiasi oggetto, anche di altri script).</td></tr>
+  </tbody>
+</table>
+
+<h2 id="config-oggetti"><span class="n">11</span>Configurazione · Oggetti e cibo</h2>
+<pre data-lang="lua"><code>xm_cioccolata = {
+    label = 'Cioccolata Calda',
+    description = 'Con panna e marshmallow.',
+    type = 'drink',         -- 'food' | 'drink' | 'currency' | 'placeable' | 'gift' | 'box'
+    anim = 'mug',           -- 'food' | 'drink' | 'mug' (tazza)
+    time = 5000,
+    thirst = 35, heal = 10, effect = 'calore',
+    prop = { custom = 'xm_prop_cioccolata', base = 'p_amb_coffeecup_01' },
+},</code></pre>
+<table>
+  <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>hunger</code> / <code>thirst</code></td><td>Quanto riempie, in percentuale (0–100).</td></tr>
+    <tr><td><code>stress</code></td><td>Valore negativo per togliere stress (QBCore e Qbox).</td></tr>
+    <tr><td><code>heal</code></td><td>Punti vita recuperati.</td></tr>
+    <tr><td><code>effect</code></td><td><code>'zucchero'</code> corsa più veloce · <code>'calore'</code> schermo caldo e tepore · <code>'brillo'</code> camminata un po' brilla.</td></tr>
+    <tr><td><code>anim</code></td><td>Animazione: <code>'food'</code> (mangiare), <code>'drink'</code> (bottiglia) o <code>'mug'</code> (tazza calda).</td></tr>
+    <tr><td><code>prop.custom</code> / <code>prop.base</code></td><td>Prop personalizzato e prop originale di GTA usato se il personalizzato non c'è.</td></tr>
+    <tr><td><code>prop.placement</code> / <code>prop.customPlacement</code></td><td><code>{ x, y, z, rotX, rotY, rotZ }</code> per sistemare il prop in mano (prova con <code>/xmprova</code>).</td></tr>
+  </tbody>
+</table>
+
+<h2 id="config-effetti"><span class="n">12</span>Configurazione · Animazioni ed effetti</h2>
+<pre data-lang="lua"><code>Config.Effects = {
+    SugarMultiplier = 1.15,  -- Bastoncino di Zucchero (massimo 1.49)
+    SugarTime = 30,
+    TipsyTime = 30,          -- Vin Brulè
+}</code></pre>
+<p>In <code>Config.Anims</code> trovi le tre animazioni (<code>food</code>, <code>drink</code>, <code>mug</code>) con osso della mano e posizione del prop.</p>
+<div class="note warn"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3 2 21h20zM12 10v5M12 18h.01"/></svg></span><div><b>Anticheat</b><p>Alcuni anticheat segnalano i moltiplicatori di velocità. Se il tuo lo fa, abbassa <code>SugarMultiplier</code> o aggiungi un'eccezione.</p></div></div>
+
+<h2 id="config-extra"><span class="n">13</span>Alberi, regali da donare e calza della Befana</h2>
+<pre data-lang="lua"><code>Config.Trees = {
+    Item = 'xm_albero',
+    MaxPerPlayer = 2,
+    Persist = true,          -- restano dopo un riavvio (data/alberi.json)
+    Lights = true,           -- luci colorate che lampeggiano
+}
+
+Config.GiftGiving = {
+    Item = 'xm_regalo',
+    Distance = 3.0,
+    Rewards = {
+        { type = 'flakes', weight = 45, min = 5, max = 12 },
+        { type = 'food',   weight = 35 },
+        { type = 'star',   weight = 8,  amount = 1 },
+        { type = 'money',  weight = 12, min = 200, max = 600 },
+    },
+}
+
+Config.Stocking = {
+    Item = 'xm_calza',
+    OpenTime = 3000,
+    Rewards = { ... },       -- flakes, star, food, money, coal
+}</code></pre>
+<p>Il <strong>Regalo da Donare</strong> si usa vicino a un altro giocatore: chi lo riceve vede "Un regalo per te!" con il nome di chi l'ha mandato. La <strong>Calza della Befana</strong> funziona come una scatola a sorpresa, carbone compreso.</p>
+
+<hr>
+
+<h2 id="uso"><span class="n">14</span>Come si gioca</h2>
+<h3>Caccia ai regali</h3>
+<p>Sulla mappa compaiono cerchi rossi: in ognuno c'è un regalo nascosto. Avvicinandosi parte il rilevatore in alto ("Gelido", "Freddo", "Tiepido", "Caldo", "Bollente!") con i campanellini sempre più veloci. Il regalo gira su sé stesso ed è illuminato. A meno di 2 metri appare <strong>[E] Apri il regalo</strong>: si scarta in ginocchio per qualche secondo (<strong>X</strong> annulla).</p>
+<h3>Sorprese</h3>
+<table>
+  <thead><tr><th>Sorpresa</th><th>Cosa succede</th></tr></thead>
+  <tbody>
+    <tr><td>Carbone</td><td>Il giocatore riceve un pezzo di carbone (5 carboni = 1 fiocco al mercatino).</td></tr>
+    <tr><td>Scivolone</td><td>Il giocatore scivola sul ghiaccio e cade a terra.</td></tr>
+    <tr><td>Renna impazzita</td><td>Una renna arriva al galoppo: se raggiunge il giocatore lo travolge, altrimenti scappa.</td></tr>
+    <tr><td>Bufera</td><td>Tempesta di neve sullo schermo con la telecamera che trema per 25 secondi.</td></tr>
+  </tbody>
+</table>
+<h3>Mercatino, cibo e oggetti</h3>
+<ul>
+  <li>Al mercatino premi <strong>E</strong>: compra con i fiocchi, scambia nella scheda <em>Scambio</em>, apri la porta del giorno nella scheda <em>Calendario</em>. <strong>ESC</strong> per chiudere.</li>
+  <li>Dolci e bevande si usano dall'inventario: animazione con il prop in mano, poi fame/sete ed eventuali effetti.</li>
+  <li><strong>Albero di Natale</strong>: usalo per posizionarlo davanti a te. Per raccoglierlo avvicinati e premi <strong>E</strong> (solo il proprietario o un admin).</li>
+  <li><strong>Regalo da Donare</strong>: usalo vicino a un amico. <strong>Calza della Befana</strong>: usala per aprirla.</li>
+</ul>
+
+<h2 id="comandi"><span class="n">15</span>Comandi admin</h2>
+<table>
+  <thead><tr><th>Comando</th><th>Descrizione</th></tr></thead>
+  <tbody>
+    <tr><td><code>/xmregalo aggiungi [nome]</code></td><td>Aggiunge un nascondiglio nella tua posizione (salvato subito).</td></tr>
+    <tr><td><code>/xmregalo rimuovi</code></td><td>Rimuove il nascondiglio più vicino entro 5 metri.</td></tr>
+    <tr><td><code>/xmregalo debug</code></td><td>Mostra o nasconde tutti i nascondigli (verdi quelli con un regalo attivo).</td></tr>
+    <tr><td><code>/xmregalo rigenera</code></td><td>Rimescola tutti i regali nascosti.</td></tr>
+    <tr><td><code>/xmmercatino</code></td><td>Sposta il mercatino nella tua posizione. <code>/xmmercatino reset</code> torna alle coordinate del config.</td></tr>
+    <tr><td><code>/xmevento on|off</code></td><td>Avvia o ferma la caccia con un avviso a tutti. Spenta, i regali spariscono.</td></tr>
+    <tr><td><code>/xmdai [id] [quantità] [stella]</code></td><td>Dà fiocchi di neve a un giocatore (aggiungi <code>stella</code> per le stelle d'oro).</td></tr>
+    <tr><td><code>/xmreset [id]</code></td><td>Azzera calendario dell'Avvento e attese di tutti o di un solo giocatore.</td></tr>
+    <tr><td><code>/xmprova [oggetto]</code></td><td>Mostra il prop in mano per 10 secondi, per sistemarne la posizione.</td></tr>
+  </tbody>
+</table>
+<p><code>/xmevento</code>, <code>/xmdai</code> e <code>/xmreset</code> funzionano anche dalla console del server (senza la <code>/</code>).</p>
+
+<h2 id="permessi"><span class="n">16</span>Permessi</h2>
+<p>Un giocatore è admin per lo script se vale almeno una di queste condizioni:</p>
+<ul>
+  <li>ha l'ace <code>xm_regali.admin</code> (o il permesso generale <code>command</code>);</li>
+  <li>su ESX il suo gruppo è in <code>Config.AdminGroups</code>;</li>
+  <li>su QBCore ha uno dei permessi in <code>Config.AdminGroups</code>;</li>
+  <li>su Qbox ha l'ace <code>group.&lt;gruppo&gt;</code> di uno dei gruppi in <code>Config.AdminGroups</code>.</li>
+</ul>
+<pre data-lang="server.cfg"><code>add_ace group.admin xm_regali.admin allow
+# oppure per un singolo giocatore:
+add_principal identifier.license:xxxxxxxx group.admin</code></pre>
+
+<hr>
+
+<h2 id="prop"><span class="n">17</span>Prop personalizzati</h2>
+<p>Lo script include 10 prop 3D originali (regalo, albero di Natale, panettone, pandoro, struffoli, torrone, pan di zenzero, bastoncino, cioccolata calda e vin brulè). Sono <strong>facoltativi</strong>: finché la cartella <code>stream/</code> è vuota lo script usa prop originali di GTA.</p>
+<ol class="steps">
+  <li><b>Converti i modelli</b>In <code>prop_sorgenti/modelli/</code> ci sono gli OBJ e la texture. Con Blender + Sollumz importa ogni OBJ, usa <strong>Convert to Drawable</strong>, imposta la texture <code>xm_palette.dds</code> come <strong>Embedded</strong> ed esporta il <code>.ydr</code> con lo stesso nome.</li>
+  <li><b>Crea il .ytyp</b>Importa <code>prop_sorgenti/xm_natale_props.ytyp.xml</code> con CodeWalker (Import XML), oppure crealo dal pannello YTYP di Sollumz.</li>
+  <li><b>Mettili in stream</b>Copia i <code>.ydr</code> e <code>xm_natale_props.ytyp</code> in <code>xm_caccia_regali/stream/</code>.</li>
+  <li><b>Attiva il ytyp</b>In <code>fxmanifest.lua</code> togli il commento a:
+<pre data-lang="lua"><code>data_file 'DLC_ITYP_REQUEST' 'stream/xm_natale_props.ytyp'</code></pre></li>
+  <li><b>Controlla in gioco</b>Con <code>/xmprova xm_panettone</code> verifichi il prop in mano e correggi <code>customPlacement</code> se serve.</li>
+</ol>
+
+<h2 id="traduzioni"><span class="n">18</span>Testi e traduzioni</h2>
+<p>Tutti i testi del gioco (notifiche, suggerimenti, popup, rilevatore) sono in <code>shared/lang.lua</code>. Per tradurre basta cambiare i valori, lasciando uguali le chiavi e i segnaposto <code>%s</code> / <code>%d</code>:</p>
+<pre data-lang="lua"><code>Lang = {
+    prompt_open    = 'Open the gift',
+    hot_4          = 'Burning hot!',
+    res_gift_text  = 'There were %d snowflakes inside',
+    -- ...
+}</code></pre>
+<p>I nomi e le descrizioni degli oggetti sono in <code>Config.Items</code>, i testi fissi del mercatino in <code>html/index.html</code> e <code>html/script.js</code>.</p>
+
+<h2 id="dati"><span class="n">19</span>Dati salvati</h2>
+<table>
+  <thead><tr><th>File</th><th>Contenuto</th></tr></thead>
+  <tbody>
+    <tr><td><code>data/luoghi.json</code></td><td>Nascondigli creati con <code>/xmregalo</code> e posizione del mercatino impostata con <code>/xmmercatino</code>.</td></tr>
+    <tr><td><code>data/alberi.json</code></td><td>Alberi di Natale posizionati dai giocatori.</td></tr>
+    <tr><td><code>data/calendario.json</code></td><td>Porte del calendario già aperte da ogni personaggio.</td></tr>
+    <tr><td><code>data/classifica.json</code></td><td>Classifica: fiocchi, stelle d'oro e regali aperti per personaggio.</td></tr>
+  </tbody>
+</table>
+<p>Per azzerare classifica o calendario a fine evento: ferma la risorsa, cancella il file e riavviala (oppure usa <code>/xmreset</code> per il calendario).</p>
+
+<h2 id="compatibilita"><span class="n">20</span>Compatibilità e integrazioni</h2>
+<ul>
+  <li><strong>Fame e sete</strong>: su ESX con <code>esx_status</code>; su QBCore/Qbox con i metadata del giocatore e l'evento <code>hud:client:UpdateNeeds</code>, compatibile con gli HUD più diffusi.</li>
+  <li><strong>Oggetti usabili</strong>: registrati tramite il framework, funzionano sia con ox_inventory sia con l'inventario del framework.</li>
+  <li><strong>Altri framework o inventari</strong>: tutta la parte che parla con framework e inventario è in <code>bridge/server.lua</code>.</li>
+  <li><strong>Insieme a Dolcetto o Scherzetto</strong>: i due eventi MintDev usano nomi, comandi e oggetti diversi e possono stare sullo stesso server.</li>
+  <li><strong>Prestazioni</strong>: regali, alberi e mercatino vengono creati solo vicino al giocatore; i cicli si fermano quando non c'è niente intorno.</li>
+</ul>
+
+<hr>
+
+<h2 id="problemi"><span class="n">21</span>Risoluzione problemi</h2>
+<details><summary>In console compare "Nessun framework trovato"</summary><div><p>La risorsa parte prima del framework. Nel <code>server.cfg</code> metti <code>ensure xm_caccia_regali</code> <strong>dopo</strong> <code>es_extended</code> / <code>qb-core</code> / <code>qbx_core</code> e dopo <code>ox_inventory</code>.</p></div></details>
+<details><summary>Non vedo nessun regalo sulla mappa</summary><div><p>Controlla che l'evento sia attivo (<code>/xmevento on</code>) e che ci siano punti (<code>/xmregalo debug</code>). Se tutti i punti sono già occupati non ne compaiono altri: aggiungi nascondigli o abbassa <code>MaxActive</code>.</p></div></details>
+<details><summary>Il regalo è sotto terra o dentro un muro</summary><div><p>Il punto è stato salvato in un posto chiuso o sotto un tetto. Rimuovilo con <code>/xmregalo rimuovi</code> e ricrealo all'aperto.</p></div></details>
+<details><summary>Gli oggetti non si possono usare o non compaiono</summary><div><p>Controlla di aver registrato tutti i 14 oggetti nel file giusto per il tuo inventario e di aver riavviato l'inventario. Su qb-inventory gli oggetti usabili devono avere <code>useable = true</code>.</p></div></details>
+<details><summary>Il calendario dice "si apre il 1° dicembre"</summary><div><p>Con <code>Mode = 'december'</code> conta la data del server. Per usarlo in un altro periodo imposta <code>Mode = 'daily'</code>.</p></div></details>
+<details><summary>Le icone degli oggetti non si vedono</summary><div><p>Copia le immagini di <code>install/immagini_inventario/</code> nella cartella immagini del tuo inventario. Il nome del file deve essere identico al nome dell'oggetto (es. <code>xm_fiocco.png</code>).</p></div></details>
+<details><summary>Il prop in mano è storto o fluttua</summary><div><p>Usa <code>/xmprova nome_oggetto</code> e correggi <code>placement</code> (prop di GTA) o <code>customPlacement</code> (prop personalizzati) in <code>Config.Items</code> o <code>Config.Anims</code>.</p></div></details>
+<details><summary>I prop personalizzati sono invisibili</summary><div><p>Controlla che i <code>.ydr</code> e il <code>.ytyp</code> siano in <code>stream/</code>, che la riga <code>data_file</code> in <code>fxmanifest.lua</code> sia attiva e che i nomi dei file corrispondano a quelli nel config.</p></div></details>
+
+<h2 id="supporto"><span class="n">22</span>Supporto</h2>
+<p>Hai un problema o vuoi una modifica su misura? Apri un ticket sul <a data-link="discord" href="#" target="_blank" rel="noopener">Discord di MintDev</a>. Indica la versione dello script, il framework e l'inventario che usi e, se c'è, l'errore della console F8 o del server.</p>
+
+<h2 id="changelog"><span class="n">23</span>Changelog</h2>
+<h3>v1.0.0 · Prima versione</h3>
+<ul>
+  <li>Caccia ai regali condivisa con zone sulla mappa, rilevatore freddo / caldo e campanellini</li>
+  <li>Stella d'Oro e 4 sorprese: carbone, scivolone, renna impazzita e bufera</li>
+  <li>Mercatino di Natale con dolci, bevande calde, oggetti, scambio in soldi e classifica</li>
+  <li>Calendario dell'Avvento con 24 porte (dicembre o una al giorno)</li>
+  <li>Alberi di Natale con luci, regali da donare e calza della Befana</li>
+  <li>Supporto ESX, QBCore, Qbox, ox_inventory e inventari dei framework</li>
+  <li>14 icone per l'inventario e 10 prop 3D originali</li>
+</ul>
+
+<h2 id="licenza"><span class="n">24</span>Licenza</h2>
+<p>© 2026 MintDev.eu — Tutti i diritti riservati. Lo script è concesso in licenza per l'uso sul server dell'acquirente. Non è consentito rivenderlo, ridistribuirlo o ripubblicarlo, in tutto o in parte, né rimuovere le indicazioni di copyright. I termini completi sono nel file <code>LICENZA.txt</code> incluso nello script.</p>
+
+<div class="foot">
+  <span>© <span id="yr">2026</span> MintDev · Caccia ai Regali v1.0.0</span>
+  <span><a href="../">Pagina dello script</a> · <a href="../../">mintdev.eu</a></span>
+</div>
+</article>
+</main>
+
+<a class="totop" id="totop" href="#introduzione" aria-label="Torna su"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></a>
+
+<script>
+const LINKS = {
+  discord: "https://discord.gg/UNeFWPYmEq",
+  tebex:   "https://mintdev.tebex.store/"
+};
+document.querySelectorAll('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]);
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* evidenziazione codice */
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const RX=/(--[^\n]*|#[^\n]*)|('(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`[^`\n]*`)|\b(true|false|nil|local|function|end|return|if|then|else|ensure|add_ace|add_principal|allow|INSERT|INTO|VALUES|ON|DUPLICATE|KEY|UPDATE)\b|\b(\d+(?:\.\d+)?)\b|\b(vec4|Config|Lang|data_file)\b/g;
+document.querySelectorAll('pre').forEach(pre=>{
+  const code=pre.querySelector('code'),lang=pre.dataset.lang||'',raw=code.textContent;
+  if(lang!=='struttura'&&lang!=='console'){
+    let out='',last=0;
+    raw.replace(RX,(m,c,s,k,n,f,i)=>{
+      if(c&&lang==='lua'&&c[0]==='#'){return m}
+      out+=esc(raw.slice(last,i));last=i+m.length;
+      const cls=c?'tk-c':s?'tk-s':k?'tk-k':n?'tk-n':'tk-f';
+      out+=`<span class="${cls}">${esc(m)}</span>`;return m;
+    });
+    out+=esc(raw.slice(last));code.innerHTML=out;
+  }
+  const bar=document.createElement('div');bar.className='bar';
+  bar.innerHTML=`<span>${lang}</span><button class="copy" type="button">Copia</button>`;pre.prepend(bar);
+  bar.querySelector('.copy').addEventListener('click',e=>{
+    const b=e.currentTarget;
+    const done=()=>{b.textContent='Copiato';b.classList.add('ok');setTimeout(()=>{b.textContent='Copia';b.classList.remove('ok')},1600)};
+    if(navigator.clipboard)navigator.clipboard.writeText(raw).then(done,()=>{});else done();
+  });
+});
+
+/* schede */
+document.querySelectorAll('[data-tabs]').forEach(t=>{
+  const bs=[...t.querySelectorAll('.tl button')],ps=[...t.querySelectorAll('.tp')];
+  bs.forEach((b,i)=>b.addEventListener('click',()=>{bs.forEach((x,j)=>x.classList.toggle('on',i===j));ps.forEach((x,j)=>x.classList.toggle('on',i===j))}));
+});
+
+/* menu laterale: sezione attiva */
+const links=[...document.querySelectorAll('.side a[href^="#"]')];
+const targets=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function onScroll(){
+  let cur=targets[0];
+  for(const t of targets){if(t.getBoundingClientRect().top<120)cur=t}
+  links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur.id));
+  document.getElementById('totop').classList.toggle('show',scrollY>900);
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ricerca */
+document.getElementById('q').addEventListener('input',e=>{
+  const v=e.target.value.trim().toLowerCase();
+  links.forEach(a=>{
+    const sec=document.querySelector(a.getAttribute('href'));
+    let text=a.textContent;
+    if(sec){let el=sec.nextElementSibling;let n=0;while(el&&el.tagName!=='H2'&&n<30){text+=' '+el.textContent;el=el.nextElementSibling;n++}}
+    a.classList.toggle('hide',v&&!text.toLowerCase().includes(v));
+  });
+  document.querySelectorAll('.side h4').forEach(h=>{
+    let el=h.nextElementSibling,any=false;while(el&&el.tagName==='A'){if(!el.classList.contains('hide'))any=true;el=el.nextElementSibling}
+    h.classList.toggle('hide',!any);
+  });
+});
+
+/* menu mobile */
+document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+links.forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+</script>
+</body>
+</html>

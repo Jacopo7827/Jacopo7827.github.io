@@ -307,6 +307,7 @@ Config.InteractKey = 38         -- E
 Config.InteractKeyLabel = 'E'
 Config.CancelKey = 73           -- X
 Config.SoundVolume = 0.35
+Config.Notifications = 'auto'   -- 'auto' | 'esx' | 'qb' | 'qbx' | 'ox' | 'nui'
 Config.PreferCustomProps = true
 
 Config.CandyItem = 'hw_caramella'
@@ -320,6 +321,7 @@ Config.GoldScore = 10</code></pre>
     <tr><td><code>AdminAce</code> / <code>AdminGroups</code></td><td>Chi può usare i comandi admin (vedi <a href="#permessi">Permessi</a>).</td></tr>
     <tr><td><code>InteractKey</code> / <code>CancelKey</code></td><td>Tasti per interagire e per annullare un'azione in corso (<a href="https://docs.fivem.net/docs/game-references/controls/" target="_blank" rel="noopener">lista dei controlli</a>).</td></tr>
     <tr><td><code>SoundVolume</code></td><td>Volume degli effetti sonori dell'interfaccia, da 0.0 a 1.0.</td></tr>
+    <tr><td><code>Notifications</code></td><td>Sistema usato per i messaggi brevi ("Hai comprato...", "Sei troppo lontano", avvisi dell'evento). <code>'auto'</code> usa quello del framework: <code>ESX.ShowNotification</code> su ESX, <code>QBCore.Functions.Notify</code> su QBCore, le notifiche di <code>qbx_core</code> su Qbox. In alternativa <code>'ox'</code> (ox_lib) o <code>'nui'</code> (notifiche a tema dello script). I popup DOLCETTO! / SCHERZETTO!, la barra di avanzamento e la bottega restano sempre a tema.</td></tr>
     <tr><td><code>PreferCustomProps</code></td><td>Se i prop personalizzati sono in <code>stream/</code> usa quelli, altrimenti i prop originali di GTA.</td></tr>
     <tr><td><code>CandyItem</code> / <code>GoldCandyItem</code></td><td>Nomi degli oggetti usati come moneta dell'evento.</td></tr>
     <tr><td><code>GoldScore</code></td><td>Quanti punti vale una Caramella d'Oro nella classifica.</td></tr>
