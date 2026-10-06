@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Documentazione · Dolcetto o Scherzetto — MintDev</title>
-<meta name="description" content="Documentazione ufficiale di Dolcetto o Scherzetto by MintDev: installazione, configurazione, comandi, prop personalizzati e risoluzione problemi.">
+<meta name="description" content="Documentazione ufficiale di Dolcetto o Scherzetto by MintDev: installazione, configurazione, comandi, prop 3D e risoluzione problemi.">
 <meta name="author" content="MintDev.eu">
 <meta name="theme-color" content="#07040b">
 <link rel="canonical" href="https://mintdev.eu/halloween/docs/">
@@ -185,7 +185,7 @@ details>div{padding:0 16px 12px}
   <a href="#comandi">Comandi admin</a>
   <a href="#permessi">Permessi</a>
   <h4>Avanzate</h4>
-  <a href="#prop">Prop personalizzati</a>
+  <a href="#prop">Prop 3D</a>
   <a href="#traduzioni">Testi e traduzioni</a>
   <a href="#dati">Dati salvati</a>
   <a href="#compatibilita">Compatibilità e integrazioni</a>
@@ -224,8 +224,9 @@ details>div{padding:0 16px 12px}
     <tr><td>Framework</td><td><strong>ESX Legacy</strong>, <strong>QBCore</strong> o <strong>Qbox</strong> (rilevato in automatico)</td></tr>
     <tr><td>Inventario</td><td><code>ox_inventory</code> oppure l'inventario del framework (inventario ESX, <code>qb-inventory</code>, <code>ps-inventory</code>, <code>lj-inventory</code>)</td></tr>
     <tr><td>Fame e sete</td><td><code>esx_status</code> su ESX, metadata <code>hunger</code> / <code>thirst</code> / <code>stress</code> su QBCore e Qbox</td></tr>
-    <tr><td>OneSync</td><td>Consigliato: permette al server di verificare la posizione dei giocatori (anti-exploit)</td></tr>
-    <tr><td>Dipendenze extra</td><td>Nessuna: non servono ox_lib, ox_target o altre risorse</td></tr>
+    <tr><td>OneSync</td><td>Obbligatorio (attivo di default con txAdmin): il server verifica la posizione dei giocatori (anti-exploit)</td></tr>
+    <tr><td>Licenza Cfx</td><td>Lo script è protetto con <strong>Cfx Asset Escrow</strong>: funziona sui server con la <code>sv_licenseKey</code> dell'account Cfx che l'ha acquistato</td></tr>
+    <tr><td>Dipendenze extra</td><td>Nessuna: non servono ox_lib, ox_target o altre risorse. I prop 3D sono già inclusi</td></tr>
   </tbody>
 </table>
 
@@ -234,21 +235,34 @@ details>div{padding:0 16px 12px}
 ├── config.lua              impostazioni (commentate)
 ├── fxmanifest.lua
 ├── shared/lang.lua         tutti i testi del gioco
-├── client/  server/  bridge/
+├── bridge/server.lua       collegamento a framework, soldi e inventario
+├── client/  server/        logica dello script
 ├── html/                   interfaccia della bottega e popup
+├── stream/                 11 prop 3D (.ydr) + hw_halloween_props.ytyp
 ├── install/
 │   ├── ox_inventory_items.lua
 │   ├── qb-core_items.lua
 │   ├── esx_items.sql
 │   └── immagini_inventario/   16 icone PNG
-├── stream/                 prop personalizzati (facoltativi)
 ├── data/                   dati salvati dallo script
-└── LICENZA.txt
-prop_sorgenti/              modelli 3D, texture, .ytyp e GUIDA_PROP.md</code></pre>
+├── DOCUMENTAZIONE.html     questa documentazione, offline
+└── LICENZA.txt</code></pre>
+<p>Tutto è in un'unica risorsa: script, interfaccia, prop e file di installazione. Con Cfx Asset Escrow una parte dei file è protetta, mentre quelli che servono per personalizzare lo script restano aperti:</p>
+<table>
+  <thead><tr><th>File aperti</th><th>Cosa contengono</th></tr></thead>
+  <tbody>
+    <tr><td><code>config.lua</code></td><td>Tutte le impostazioni: case, scherzetti, bottega, oggetti, effetti, zucche, notifiche</td></tr>
+    <tr><td><code>shared/lang.lua</code></td><td>Tutti i testi del gioco</td></tr>
+    <tr><td><code>bridge/server.lua</code></td><td>Collegamento a framework, soldi e inventario (per adattarlo a sistemi diversi)</td></tr>
+    <tr><td><code>install/</code></td><td>Oggetti da registrare nell'inventario e relative immagini</td></tr>
+    <tr><td><code>html/</code></td><td>Interfaccia (HTML, CSS e JavaScript)</td></tr>
+  </tbody>
+</table>
 
 <h2 id="installazione"><span class="n">04</span>Installazione</h2>
 <ol class="steps">
-  <li><b>Copia la risorsa</b>Metti la cartella <code>hw_dolcetto_scherzetto</code> dentro <code>resources/</code>. Non rinominare le sottocartelle.</li>
+  <li><b>Scarica la risorsa</b>Dopo l'acquisto la trovi su <a href="https://portal.cfx.re/" target="_blank" rel="noopener">portal.cfx.re</a> → <strong>Assets</strong> → <strong>Granted Assets</strong>. Usa lo stesso account Cfx della <code>sv_licenseKey</code> del tuo server.</li>
+  <li><b>Copia la risorsa</b>Estrai lo zip e metti la cartella <code>hw_dolcetto_scherzetto</code> dentro <code>resources/</code>. Non rinominare le sottocartelle.</li>
   <li><b>Avviala dopo framework e inventario</b>Nel <code>server.cfg</code> l'ordine è importante: lo script riconosce il framework all'avvio.
 <pre data-lang="server.cfg"><code>ensure es_extended        # oppure qb-core / qbx_core
 ensure ox_inventory       # solo se lo usi
@@ -307,7 +321,10 @@ Config.InteractKey = 38         -- E
 Config.InteractKeyLabel = 'E'
 Config.CancelKey = 73           -- X
 Config.SoundVolume = 0.35
-Config.Notifications = 'auto'   -- 'auto' | 'esx' | 'qb' | 'qbx' | 'ox' | 'nui'
+Config.Notifications = 'auto'   -- 'auto' | 'esx' | 'qb' | 'qbx' | 'ox' | 'nui' | 'custom'
+Config.CustomNotify = function(msg, kind)
+    TriggerEvent('chat:addMessage', { args = { 'Dolcetto o Scherzetto', msg } })
+end
 Config.PreferCustomProps = true
 
 Config.CandyItem = 'hw_caramella'
@@ -321,8 +338,9 @@ Config.GoldScore = 10</code></pre>
     <tr><td><code>AdminAce</code> / <code>AdminGroups</code></td><td>Chi può usare i comandi admin (vedi <a href="#permessi">Permessi</a>).</td></tr>
     <tr><td><code>InteractKey</code> / <code>CancelKey</code></td><td>Tasti per interagire e per annullare un'azione in corso (<a href="https://docs.fivem.net/docs/game-references/controls/" target="_blank" rel="noopener">lista dei controlli</a>).</td></tr>
     <tr><td><code>SoundVolume</code></td><td>Volume degli effetti sonori dell'interfaccia, da 0.0 a 1.0.</td></tr>
-    <tr><td><code>Notifications</code></td><td>Sistema usato per i messaggi brevi ("Hai comprato...", "Sei troppo lontano", avvisi dell'evento). <code>'auto'</code> usa quello del framework: <code>ESX.ShowNotification</code> su ESX, <code>QBCore.Functions.Notify</code> su QBCore, le notifiche di <code>qbx_core</code> su Qbox. In alternativa <code>'ox'</code> (ox_lib) o <code>'nui'</code> (notifiche a tema dello script). I popup DOLCETTO! / SCHERZETTO!, la barra di avanzamento e la bottega restano sempre a tema.</td></tr>
-    <tr><td><code>PreferCustomProps</code></td><td>Se i prop personalizzati sono in <code>stream/</code> usa quelli, altrimenti i prop originali di GTA.</td></tr>
+    <tr><td><code>Notifications</code></td><td>Sistema usato per i messaggi brevi ("Hai comprato...", "Sei troppo lontano", avvisi dell'evento). <code>'auto'</code> usa quello del framework: <code>ESX.ShowNotification</code> su ESX, <code>QBCore.Functions.Notify</code> su QBCore, le notifiche di <code>qbx_core</code> su Qbox. In alternativa <code>'ox'</code> (ox_lib), <code>'nui'</code> (notifiche a tema dello script) o <code>'custom'</code>. I popup DOLCETTO! / SCHERZETTO!, la barra di avanzamento e la bottega restano sempre a tema.</td></tr>
+    <tr><td><code>CustomNotify</code></td><td>La tua funzione di notifica, usata con <code>Notifications = 'custom'</code> (okokNotify, mythic_notify, ecc.). Gira sul client; <code>kind</code> è <code>'success'</code>, <code>'error'</code> o <code>'info'</code>.</td></tr>
+    <tr><td><code>PreferCustomProps</code></td><td><code>true</code> usa i prop di Halloween inclusi nello script, <code>false</code> i prop originali di GTA.</td></tr>
     <tr><td><code>CandyItem</code> / <code>GoldCandyItem</code></td><td>Nomi degli oggetti usati come moneta dell'evento.</td></tr>
     <tr><td><code>GoldScore</code></td><td>Quanti punti vale una Caramella d'Oro nella classifica.</td></tr>
   </tbody>
@@ -541,15 +559,22 @@ add_principal identifier.license:xxxxxxxx group.admin</code></pre>
 
 <hr>
 
-<h2 id="prop"><span class="n">17</span>Prop personalizzati</h2>
-<p>Lo script include 11 prop 3D originali (zucca intagliata, secchiello, torta, mela caramellata, cupcake, pozione e altri). Sono <strong>facoltativi</strong>: finché la cartella <code>stream/</code> è vuota lo script usa prop originali di GTA.</p>
-<ol class="steps">
-  <li><b>Converti i modelli</b>Segui <code>prop_sorgenti/GUIDA_PROP.md</code>: con Blender + Sollumz importi gli OBJ ed esporti i <code>.ydr</code>. Il file <code>.ytyp</code> è già pronto in formato XML.</li>
-  <li><b>Mettili in stream</b>Copia i <code>.ydr</code> e <code>hw_halloween_props.ytyp</code> in <code>hw_dolcetto_scherzetto/stream/</code>.</li>
-  <li><b>Attiva il ytyp</b>In <code>fxmanifest.lua</code> togli il commento a:
-<pre data-lang="lua"><code>data_file 'DLC_ITYP_REQUEST' 'stream/hw_halloween_props.ytyp'</code></pre></li>
-  <li><b>Controlla in gioco</b>Con <code>/hwprova hw_torta_zucca</code> verifichi il prop in mano e correggi <code>customPlacement</code> se serve.</li>
-</ol>
+<h2 id="prop"><span class="n">17</span>Prop 3D</h2>
+<p>Lo script include 11 prop 3D originali, già pronti nella cartella <code>stream/</code> e caricati in automatico: non devi convertire o installare nulla.</p>
+<table>
+  <thead><tr><th>Prop</th><th>Usato per</th></tr></thead>
+  <tbody>
+    <tr><td><code>hw_prop_zucca_lanterna</code></td><td>Zucca intagliata da posizionare (con luce)</td></tr>
+    <tr><td><code>hw_prop_secchiello</code></td><td>Secchiello zucca per le caramelle</td></tr>
+    <tr><td><code>hw_prop_caramella</code>, <code>hw_prop_torta_zucca</code>, <code>hw_prop_mela_caramellata</code>, <code>hw_prop_cupcake_fantasma</code>, <code>hw_prop_biscotto_teschio</code>, <code>hw_prop_lecca_lecca</code>, <code>hw_prop_candy_corn</code></td><td>Dolci in mano mentre si mangia</td></tr>
+    <tr><td><code>hw_prop_sangue_vampiro</code>, <code>hw_prop_pozione_strega</code></td><td>Bevande in mano mentre si beve</td></tr>
+  </tbody>
+</table>
+<p>Il file <code>hw_halloween_props.ytyp</code> viene caricato da <code>fxmanifest.lua</code> con la riga <code>data_file 'DLC_ITYP_REQUEST'</code>. Puoi usare i prop anche in altri script con il loro nome (es. <code>`hw_prop_zucca_lanterna`</code>), finché <code>hw_dolcetto_scherzetto</code> è avviato.</p>
+<ul>
+  <li>Per usare i prop originali di GTA al posto di questi metti <code>Config.PreferCustomProps = false</code>.</li>
+  <li>Con <code>/hwprova hw_torta_zucca</code> controlli come il prop sta in mano; se serve, correggi <code>customPlacement</code> in <code>Config.Items</code> o <code>Config.Anims</code>.</li>
+</ul>
 
 <h2 id="traduzioni"><span class="n">18</span>Testi e traduzioni</h2>
 <p>Tutti i testi (notifiche, suggerimenti, popup) sono in <code>shared/lang.lua</code>. Per tradurre lo script basta cambiare i valori, lasciando uguali le chiavi e i segnaposto <code>%s</code> / <code>%d</code>:</p>
@@ -589,7 +614,8 @@ add_principal identifier.license:xxxxxxxx group.admin</code></pre>
 <details><summary>Vicino alle porte non succede niente</summary><div><p>Verifica che l'evento sia attivo (<code>/hwevento on</code>), che <code>OnlyAtNight</code> non sia attivo di giorno e di essere entro 1,6 metri dal punto della casa (<code>/hwcasa debug</code> lo mostra). Se hai già bussato, il suggerimento indica quanto manca al cooldown.</p></div></details>
 <details><summary>Non trovo la bottega</summary><div><p>Ha un blip arancione sulla mappa. Se l'hai spostata con <code>/hwnegozio</code> la posizione è salvata in <code>data/luoghi.json</code>: per tornare a quella del config usa <code>/hwnegozio reset</code>.</p></div></details>
 <details><summary>Il prop in mano è storto o fluttua</summary><div><p>Usa <code>/hwprova nome_oggetto</code> e correggi <code>placement</code> (prop di GTA) o <code>customPlacement</code> (prop personalizzati) in <code>Config.Items</code> o <code>Config.Anims</code>.</p></div></details>
-<details><summary>I prop personalizzati sono invisibili</summary><div><p>Controlla che i <code>.ydr</code> e il <code>.ytyp</code> siano in <code>stream/</code>, che la riga <code>data_file</code> in <code>fxmanifest.lua</code> sia attiva e che i nomi dei file corrispondano a quelli in <code>Config.Items</code>. Svuota la cache del server e riavvia.</p></div></details>
+<details><summary>In console compare "You lack the required entitlement"</summary><div><p>La <code>sv_licenseKey</code> del server appartiene a un account Cfx diverso da quello che ha acquistato lo script. Usa una chiave creata con lo stesso account (portal.cfx.re → Server Management) oppure riscarica la risorsa con l'account giusto.</p></div></details>
+<details><summary>I prop di Halloween non si vedono</summary><div><p>Controlla che la cartella <code>stream/</code> contenga gli 11 file <code>.ydr</code> e <code>hw_halloween_props.ytyp</code>, che in <code>fxmanifest.lua</code> ci sia la riga <code>data_file</code> e che <code>Config.PreferCustomProps</code> sia <code>true</code>. Dopo aver aggiornato la risorsa svuota la cache del server (<code>cache/</code>) e riavvia.</p></div></details>
 <details><summary>Il server dice "Sei troppo lontano" anche quando sono vicino</summary><div><p>Succede se il punto della casa è stato salvato male (ad esempio da un piano diverso). Rimuovi la casa con <code>/hwcasa rimuovi</code> e ricreala stando davanti alla porta.</p></div></details>
 
 <h2 id="supporto"><span class="n">22</span>Supporto</h2>
