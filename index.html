@@ -76,6 +76,36 @@ nav .links a.nav-xm::before{content:"";width:7px;height:7px;border-radius:50%;ba
 nav .links a.nav-xm:hover{color:#ffcc4d}
 @media(max-width:760px){nav .links{display:none}nav{gap:14px}}
 
+/* ---------- menu mobile ---------- */
+.burger,#mnav{--mn-acc:var(--mint)}
+.burger{display:none;position:relative;flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .3s}
+.burger i{position:absolute;left:11px;width:16px;height:2px;border-radius:2px;background:var(--text);transition:transform .35s var(--ease),opacity .2s}
+.burger i:nth-child(1){top:13px}.burger i:nth-child(2){top:18px}.burger i:nth-child(3){top:23px}
+.menu-open .burger{border-color:var(--mn-acc)}
+.menu-open .burger i:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.menu-open .burger i:nth-child(2){opacity:0}
+.menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+#mnav{position:fixed;inset:0;z-index:140;display:flex;flex-direction:column;padding:108px 22px calc(26px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;
+  background:rgba(4,9,7,.94);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility 0s linear .35s}
+.menu-open #mnav{opacity:1;visibility:visible;transition:opacity .35s var(--ease)}
+#mnav h5{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--mn-acc);margin:22px 0 2px}
+#mnav h5:first-child{margin-top:0}
+#mnav a.mn{display:flex;align-items:center;gap:12px;padding:13px 2px;border-bottom:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:1.28rem;color:var(--text);
+  opacity:0;transform:translateY(12px);transition:opacity .4s var(--ease),transform .4s var(--ease),color .2s}
+.menu-open #mnav a.mn{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 35ms + 60ms)}
+#mnav a.mn::after{content:"";margin-left:auto;width:8px;height:8px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);opacity:.35}
+#mnav a.mn:active{color:var(--mn-acc)}
+#mnav .dot{width:8px;height:8px;border-radius:50%;flex:none}
+#mnav .dot.hw{background:#ff7a1a;box-shadow:0 0 10px #ff7a1a}
+#mnav .dot.xm{background:#e3253c;box-shadow:0 0 10px #e3253c}
+#mnav .mn-cta{display:flex;gap:10px;margin-top:28px}
+#mnav .mn-cta .btn{flex:1;justify-content:center}
+html.menu-open,html.menu-open body{overflow:hidden}
+@media(max-width:760px){.burger{display:block}nav.hide{transform:translateX(-50%)}}
+@media(max-width:480px){nav .brand small{display:none}}
+@media(max-width:360px){nav{gap:10px;padding-left:14px}nav .btn{padding:10px 16px}}
+
 .btn{position:relative;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;padding:12px 22px;border-radius:999px;cursor:pointer;border:1px solid var(--line);overflow:hidden;isolation:isolate;transition:box-shadow .35s,color .35s,border-color .35s;will-change:transform}
 .btn svg{width:18px;height:18px;flex:none}
 .btn.primary{background:var(--mint);color:#04120c;border-color:var(--mint)}
@@ -542,7 +572,25 @@ footer img{width:26px}
   <a href="#hero" class="brand"><img src="assets/logo.webp" alt="">MintDev</a>
   <div class="links"><a href="#showcase">Script</a><a href="halloween/" class="nav-hw">Halloween</a><a href="natale/" class="nav-xm">Natale</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a></div>
   <a class="btn primary mag" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <button class="burger" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
 </nav>
+
+<div id="mnav" aria-hidden="true">
+  <h5>Esplora</h5>
+  <a class="mn" href="#showcase" style="--i:0">Script</a>
+  <a class="mn" href="#features" style="--i:1">Perché noi</a>
+  <a class="mn" href="#bot" style="--i:2">Bot Discord</a>
+  <h5>Eventi</h5>
+  <a class="mn" href="halloween/" style="--i:3"><span class="dot hw"></span>Halloween</a>
+  <a class="mn" href="natale/" style="--i:4"><span class="dot xm"></span>Natale</a>
+  <h5>Documentazione</h5>
+  <a class="mn" href="halloween/docs/" style="--i:5">Dolcetto o Scherzetto</a>
+  <a class="mn" href="natale/docs/" style="--i:6">Caccia ai Regali</a>
+  <div class="mn-cta">
+    <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
+    <a class="btn ghost" data-link="discord" href="#" target="_blank" rel="noopener">Discord</a>
+  </div>
+</div>
 
 <!-- ============ HERO ============ -->
 <section id="hero">
@@ -871,6 +919,23 @@ const LINKS = {
 };
 document.querySelectorAll('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]);
 document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* ---------- menu mobile ---------- */
+(function(){
+  const root=document.documentElement,btn=document.getElementById('burger'),panel=document.getElementById('mnav');
+  const set=open=>{
+    if(open===root.classList.contains('menu-open'))return;
+    root.classList.toggle('menu-open',open);
+    btn.setAttribute('aria-expanded',open);btn.setAttribute('aria-label',open?'Chiudi il menu':'Apri il menu');
+    panel.setAttribute('aria-hidden',!open);
+    if(open)document.getElementById('nav').classList.remove('hide');
+    if(window.__lenis)open?window.__lenis.stop():window.__lenis.start();
+  };
+  btn.addEventListener('click',()=>set(!root.classList.contains('menu-open')));
+  panel.addEventListener('click',e=>{if(e.target.closest('a'))set(false)},true);
+  addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});
+  matchMedia('(min-width:761px)').addEventListener('change',e=>{if(e.matches)set(false)});
+})();
 (function(){const box=document.getElementById('xmLights');if(!box)return;const c=['#ff5a6b','#ffcc4d','#4ade80','#6fc3ff','#ff7ad9'];let h='';
   for(let i=0;i<24;i++)h+=`<i style="left:${(2+i*4.15).toFixed(2)}%;top:${(8+Math.sin(i/2.2)*6).toFixed(1)}px;background:${c[i%5]};box-shadow:0 0 12px ${c[i%5]};animation-delay:${(-(i%5)*.3).toFixed(1)}s"></i>`;
   box.innerHTML=h})();
@@ -900,7 +965,7 @@ function scramble(el){
 /* ---------- smooth scroll ---------- */
 let lenis;
 if(!reduce && window.Lenis){
-  lenis=new Lenis({lerp:.08,smoothWheel:true});
+  lenis=window.__lenis=new Lenis({lerp:.08,smoothWheel:true});
   lenis.on('scroll',ScrollTrigger.update);
   gsap.ticker.add(t=>lenis.raf(t*1000));
   gsap.ticker.lagSmoothing(0);
@@ -908,7 +973,8 @@ if(!reduce && window.Lenis){
 }
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
   const id=a.getAttribute('href');if(id.length<2)return;const t=document.querySelector(id);if(!t)return;e.preventDefault();
-  lenis?lenis.scrollTo(t,{duration:1.6}):t.scrollIntoView({behavior:'smooth'});
+  // le immagini lazy caricate durante lo scroll spostano la sezione: a fine corsa si corregge
+  lenis?lenis.scrollTo(t,{duration:1.6,onComplete:()=>{if(Math.abs(t.getBoundingClientRect().top)>2)lenis.scrollTo(t,{duration:.6})}}):t.scrollIntoView({behavior:'smooth'});
 }));
 
 /* ---------- progress + nav ---------- */

@@ -60,6 +60,20 @@ img{display:block;max-width:100%}
 .side a.hide,.side h4.hide{display:none}
 .side .ver{margin:24px 10px 0;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
 @media(max-width:980px){.side{transform:translateX(-100%);transition:transform .3s;box-shadow:20px 0 60px rgba(0,0,0,.6)}body.nav-open .side{transform:none}}
+.menu-btn path{transition:transform .3s,opacity .2s;transform-box:fill-box;transform-origin:center}
+body.nav-open .menu-btn{border-color:var(--pk)}
+body.nav-open .menu-btn .l1{transform:translateY(5px) rotate(45deg)}
+body.nav-open .menu-btn .l2{opacity:0}
+body.nav-open .menu-btn .l3{transform:translateY(-5px) rotate(-45deg)}
+.side-site{display:none}
+.side-site h4{margin-top:4px}
+.side-site a{color:var(--text)}
+.side-site .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:9px;vertical-align:1px}
+.side-site .dot.hw{background:#ff7a1a;box-shadow:0 0 8px #ff7a1a}
+.side-site .dot.xm{background:#e3253c;box-shadow:0 0 8px #e3253c}
+.side-site .dot.home{background:var(--mint);box-shadow:0 0 8px var(--mint)}
+.scrim{position:fixed;inset:var(--top) 0 0 0;z-index:39;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s linear .3s}
+@media(max-width:980px){.side-site{display:block;padding-bottom:14px;margin-bottom:4px;border-bottom:1px solid var(--line)}body.nav-open .scrim{opacity:1;visibility:visible;transition:opacity .3s}body.nav-open{overflow:hidden}}
 
 /* contenuto */
 main{margin-left:var(--side);padding:calc(var(--top) + 40px) clamp(20px,5vw,72px) 80px}
@@ -151,7 +165,7 @@ details>div{padding:0 16px 12px}
 <body>
 
 <header class="top">
-  <button class="menu-btn" id="menuBtn" aria-label="Apri il menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="side"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg></button>
   <a class="brand" href="../../"><img src="../../assets/logo.webp" alt="">MintDev <small>Docs</small></a>
   <nav>
     <a href="../">Pagina dello script</a>
@@ -164,6 +178,14 @@ details>div{padding:0 16px 12px}
   <div class="search">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     <input id="q" type="search" placeholder="Cerca nella documentazione" aria-label="Cerca nella documentazione">
+  </div>
+  <div class="side-site">
+    <h4>MintDev</h4>
+    <a href="../">Pagina dello script</a>
+    <a href="../../natale/"><span class="dot xm"></span>Natale</a>
+    <a href="../../natale/docs/"><span class="dot xm"></span>Documentazione Natale</a>
+    <a href="../../"><span class="dot home"></span>Torna al sito</a>
+    <a data-link="discord" href="#" target="_blank" rel="noopener">Supporto su Discord</a>
   </div>
   <h4>Inizia</h4>
   <a href="#introduzione">Introduzione</a>
@@ -196,6 +218,7 @@ details>div{padding:0 16px 12px}
   <a href="#licenza">Licenza</a>
   <div class="ver">Dolcetto o Scherzetto · v1.0.0</div>
 </aside>
+<div class="scrim" id="scrim"></div>
 
 <main>
 <article class="doc">
@@ -708,8 +731,15 @@ document.getElementById('q').addEventListener('input',e=>{
 });
 
 /* menu mobile */
-document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
-links.forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+const menuBtn=document.getElementById('menuBtn');
+function setMenu(open){
+  document.body.classList.toggle('nav-open',open);
+  menuBtn.setAttribute('aria-expanded',open);menuBtn.setAttribute('aria-label',open?'Chiudi il menu':'Apri il menu');
+}
+menuBtn.addEventListener('click',()=>setMenu(!document.body.classList.contains('nav-open')));
+document.getElementById('scrim').addEventListener('click',()=>setMenu(false));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+document.querySelectorAll('.side a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
 </script>
 </body>
 </html>
