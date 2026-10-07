@@ -74,7 +74,7 @@ nav .links a.nav-hw:hover{color:#ffc27a}
 nav .links a.nav-xm{display:inline-flex;align-items:center;gap:7px;color:#ff8a96}
 nav .links a.nav-xm::before{content:"";width:7px;height:7px;border-radius:50%;background:#e3253c;box-shadow:0 0 10px #e3253c,8px 0 0 -1px #ffcc4d;animation:pulse 1.8s infinite}
 nav .links a.nav-xm:hover{color:#ffcc4d}
-@media(max-width:760px){nav .links{display:none}nav{gap:14px}}
+@media(max-width:900px){nav .links{display:none}nav{gap:14px}}
 
 /* ---------- menu mobile ---------- */
 .burger,#mnav{--mn-acc:var(--mint)}
@@ -102,7 +102,7 @@ nav .links a.nav-xm:hover{color:#ffcc4d}
 #mnav .mn-cta{display:flex;gap:10px;margin-top:28px}
 #mnav .mn-cta .btn{flex:1;justify-content:center}
 html.menu-open,html.menu-open body{overflow:hidden}
-@media(max-width:760px){.burger{display:block}nav.hide{transform:translateX(-50%)}}
+@media(max-width:900px){.burger{display:block}nav.hide{transform:translateX(-50%)}}
 @media(max-width:480px){nav .brand small{display:none}}
 @media(max-width:360px){nav{gap:10px;padding-left:14px}nav .btn{padding:10px 16px}}
 
@@ -474,6 +474,36 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
 .stat p{color:var(--muted);font-size:.95rem;margin-top:16px}
 @media(max-width:700px){.stats{grid-template-columns:1fr;gap:28px}.stat+.stat{padding-top:40px}.stat+.stat::before{top:0;bottom:auto;left:25%;right:25%;width:auto;height:1px;background:linear-gradient(90deg,transparent,rgba(160,255,220,.28),transparent)}}
 
+/* ---------- PARTNER ---------- */
+#partner{padding:16vh 0 6vh}
+.pt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pcard{position:relative;display:flex;flex-direction:column;gap:18px;min-height:250px;padding:28px;border-radius:26px;border:1px solid var(--line);color:var(--text);overflow:hidden;isolation:isolate;
+  background:radial-gradient(ellipse 80% 60% at 0% 0%,rgba(95,227,180,.07),transparent 60%),var(--card);
+  transition:border-color .35s,box-shadow .35s,translate .45s var(--ease)}
+a.pcard:hover{border-color:rgba(95,227,180,.55);box-shadow:0 40px 80px -40px rgba(0,0,0,.9),0 0 80px -30px rgba(95,227,180,.45);translate:0 -6px}
+.pt-logo{width:64px;height:64px;flex:none;display:grid;place-items:center;overflow:hidden;border-radius:18px;border:1px solid rgba(160,255,220,.22);
+  background:linear-gradient(140deg,rgba(95,227,180,.22),rgba(95,227,180,.04));box-shadow:0 10px 30px -10px rgba(95,227,180,.35)}
+.pt-logo img{width:100%;height:100%;object-fit:cover}
+.pt-logo span{font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;color:var(--mint)}
+.pt-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.pcard h3{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.pt-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mint);padding:4px 9px;border-radius:99px;border:1px solid var(--line)}
+.pcard p{color:var(--muted);line-height:1.65;font-size:.94rem;margin-top:8px}
+.pt-go{position:absolute;top:24px;right:24px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);color:var(--mint);transition:background .3s,color .3s,border-color .3s}
+.pt-go svg{width:16px;height:16px}
+a.pcard:hover .pt-go{background:var(--mint);border-color:var(--mint);color:#04120c}
+.pt-empty{border-style:dashed;background:rgba(255,255,255,.015)}
+.pt-empty .pt-logo{border-style:dashed;background:none;box-shadow:none}
+.pt-empty .pt-logo span,.pt-empty h3{color:var(--muted)}
+.pt-join{border-color:rgba(95,227,180,.45);background:radial-gradient(ellipse 90% 70% at 100% 0%,rgba(95,227,180,.22),transparent 60%),linear-gradient(160deg,#0d2019,#08120e)}
+.pt-join .pt-logo{background:var(--mint);border-color:var(--mint)}
+.pt-join .pt-logo svg{width:28px;height:28px}
+.pt-cta{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;color:var(--mint)}
+.pt-cta svg{width:16px;height:16px;transition:translate .35s var(--ease)}
+.pt-join:hover .pt-cta svg{translate:4px 0}
+@media(max-width:960px){.pt-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.pt-grid{grid-template-columns:1fr}.pcard{min-height:0}}
+
 /* ---------- CTA ---------- */
 #cta{min-height:100vh;display:grid;place-items:center;text-align:center;overflow:hidden;padding:16vh 0 12vh}
 .cta-logo{position:absolute;left:50%;top:50%;width:min(900px,120vw);transform:translate(-50%,-50%);opacity:.13;pointer-events:none;
@@ -570,7 +600,7 @@ footer img{width:26px}
 
 <nav id="nav">
   <a href="#hero" class="brand"><img src="assets/logo.webp" alt="">MintDev</a>
-  <div class="links"><a href="#showcase">Script</a><a href="halloween/" class="nav-hw">Halloween</a><a href="natale/" class="nav-xm">Natale</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a></div>
+  <div class="links"><a href="#showcase">Script</a><a href="halloween/" class="nav-hw">Halloween</a><a href="natale/" class="nav-xm">Natale</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a><a href="#partner">Partner</a></div>
   <a class="btn primary mag" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   <button class="burger" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
 </nav>
@@ -580,12 +610,13 @@ footer img{width:26px}
   <a class="mn" href="#showcase" style="--i:0">Script</a>
   <a class="mn" href="#features" style="--i:1">Perché noi</a>
   <a class="mn" href="#bot" style="--i:2">Bot Discord</a>
+  <a class="mn" href="#partner" style="--i:3">Partner</a>
   <h5>Eventi</h5>
-  <a class="mn" href="halloween/" style="--i:3"><span class="dot hw"></span>Halloween</a>
-  <a class="mn" href="natale/" style="--i:4"><span class="dot xm"></span>Natale</a>
+  <a class="mn" href="halloween/" style="--i:4"><span class="dot hw"></span>Halloween</a>
+  <a class="mn" href="natale/" style="--i:5"><span class="dot xm"></span>Natale</a>
   <h5>Documentazione</h5>
-  <a class="mn" href="halloween/docs/" style="--i:5">Dolcetto o Scherzetto</a>
-  <a class="mn" href="natale/docs/" style="--i:6">Caccia ai Regali</a>
+  <a class="mn" href="halloween/docs/" style="--i:6">Dolcetto o Scherzetto</a>
+  <a class="mn" href="natale/docs/" style="--i:7">Caccia ai Regali</a>
   <div class="mn-cta">
     <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
     <a class="btn ghost" data-link="discord" href="#" target="_blank" rel="noopener">Discord</a>
@@ -886,6 +917,14 @@ footer img{width:26px}
   <div class="stat"><span class="stat-k">Qualità</span><b class="pearl"><span class="cnt" data-to="100">100</span><sup class="lux">%</sup></b><p>codice pulito e aggiornato</p></div>
 </div></section>
 
+<!-- ============ PARTNER ============ -->
+<section id="partner"><div class="wrap">
+  <div class="sec-title"><div class="mono" data-scramble>Partner</div>
+    <h2>Chi cresce <span class="lux pearl">con MintDev.</span></h2>
+    <p class="sec-lead">Server, community e creator con cui collaboro. Vuoi esserci anche tu? Scrivimi su Discord.</p></div>
+  <div class="pt-grid" id="ptGrid"></div>
+</div></section>
+
 <!-- ============ CTA ============ -->
 <section id="cta">
   <div class="gridbg"></div>
@@ -920,6 +959,33 @@ const LINKS = {
 document.querySelectorAll('[data-link]').forEach(a=>a.href=LINKS[a.dataset.link]);
 document.getElementById('yr').textContent=new Date().getFullYear();
 
+/* ======================================================
+   PARTNER — aggiungi qui i partner, uno per riga
+   name: nome · tag: tipo (es. 'Server RP', 'Community', 'Creator') · desc: breve descrizione
+   logo: immagine quadrata in assets/partner/ (se manca usa le iniziali) · link: Discord o sito
+   ====================================================== */
+const PARTNERS = [
+  // { name: 'Nome Server', tag: 'Server RP', desc: 'Breve descrizione del partner.', logo: 'assets/partner/nome.webp', link: 'https://discord.gg/...' },
+];
+
+(function(){
+  const grid=document.getElementById('ptGrid');
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const initials=n=>String(n).split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  const arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+  let html=PARTNERS.map(p=>{
+    const inner=`<div class="pt-logo">${p.logo?`<img src="${esc(p.logo)}" alt="" loading="lazy">`:`<span>${esc(initials(p.name))}</span>`}</div>
+      <div><div class="pt-top"><h3>${esc(p.name)}</h3>${p.tag?`<span class="pt-tag">${esc(p.tag)}</span>`:''}</div>${p.desc?`<p>${esc(p.desc)}</p>`:''}</div>`;
+    return p.link?`<a class="pcard" href="${esc(p.link)}" target="_blank" rel="noopener">${inner}<span class="pt-go" aria-hidden="true">${arrow}</span></a>`:`<div class="pcard">${inner}</div>`;
+  }).join('');
+  for(let i=PARTNERS.length;i<2;i++)html+=`<div class="pcard pt-empty" aria-hidden="true"><div class="pt-logo"><span>?</span></div><div><h3>Il tuo server qui</h3><p>Spazio riservato ai partner MintDev.</p></div></div>`;
+  html+=`<a class="pcard pt-join" href="${esc(LINKS.discord)}" target="_blank" rel="noopener">
+    <div class="pt-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#04120c" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div><h3>Diventa partner</h3><p>Hai un server o una community? Collaboriamo: apri un ticket su Discord e ne parliamo.</p></div>
+    <span class="pt-cta">Apri un ticket <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>`;
+  grid.innerHTML=html;
+})();
+
 /* ---------- menu mobile ---------- */
 (function(){
   const root=document.documentElement,btn=document.getElementById('burger'),panel=document.getElementById('mnav');
@@ -934,7 +1000,7 @@ document.getElementById('yr').textContent=new Date().getFullYear();
   btn.addEventListener('click',()=>set(!root.classList.contains('menu-open')));
   panel.addEventListener('click',e=>{if(e.target.closest('a'))set(false)},true);
   addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});
-  matchMedia('(min-width:761px)').addEventListener('change',e=>{if(e.matches)set(false)});
+  matchMedia('(min-width:901px)').addEventListener('change',e=>{if(e.matches)set(false)});
 })();
 (function(){const box=document.getElementById('xmLights');if(!box)return;const c=['#ff5a6b','#ffcc4d','#4ade80','#6fc3ff','#ff7ad9'];let h='';
   for(let i=0;i<24;i++)h+=`<i style="left:${(2+i*4.15).toFixed(2)}%;top:${(8+Math.sin(i/2.2)*6).toFixed(1)}px;background:${c[i%5]};box-shadow:0 0 12px ${c[i%5]};animation-delay:${(-(i%5)*.3).toFixed(1)}s"></i>`;
@@ -1228,7 +1294,7 @@ function setupScroll(){
   gsap.from('.xm-art',{scale:.6,rotation:8,opacity:0,duration:1.4,ease:'back.out(1.6)',scrollTrigger:{trigger:'#natale',start:'top 65%'}});
 
   /* ---- FEATURES: stacked cards ---- */
-  gsap.from('.sec-title h2',{y:80,opacity:0,duration:1.3,ease:'expo.out',scrollTrigger:{trigger:'.sec-title',start:'top 80%'}});
+  gsap.from('#features .sec-title h2',{y:80,opacity:0,duration:1.3,ease:'expo.out',scrollTrigger:{trigger:'#features .sec-title',start:'top 80%'}});
   const cards=gsap.utils.toArray('.fcard');
   mm.add('(min-width:861px)',()=>{
     cards.forEach((c,i)=>{if(i<cards.length-1)gsap.to(c,{scale:.9,opacity:.35,filter:'blur(3px)',ease:'none',scrollTrigger:{trigger:cards[i+1],start:'top 85%',end:'top 15%',scrub:true}})});
@@ -1265,6 +1331,10 @@ function setupScroll(){
     gsap.to(o,{v:+el.dataset.to,duration:2.4,ease:'power3.out',onUpdate:()=>el.textContent=Math.round(o.v),scrollTrigger:{trigger:el,start:'top 90%'}});
   });
   gsap.from('.stat',{y:70,opacity:0,stagger:.15,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:'#stats',start:'top 78%'}});
+
+  /* ---- PARTNER ---- */
+  gsap.from('#partner .sec-title h2',{y:80,opacity:0,duration:1.3,ease:'expo.out',scrollTrigger:{trigger:'#partner .sec-title',start:'top 80%'}});
+  gsap.from('.pcard',{y:60,opacity:0,stagger:.1,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:'#ptGrid',start:'top 82%'}});
 
   /* ---- CTA ---- */
   gsap.fromTo('.cta-logo',{scale:.6,rotation:-10,opacity:0},{scale:1.1,rotation:6,opacity:.16,ease:'none',scrollTrigger:{trigger:'#cta',start:'top bottom',end:'bottom bottom',scrub:true}});
