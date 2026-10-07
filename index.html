@@ -971,11 +971,12 @@ document.getElementById('yr').textContent=new Date().getFullYear();
    name: nome · tag: tipo (es. 'Server RP', 'Community', 'Creator') · desc: breve descrizione
    logo: immagine quadrata in assets/partner/ (se manca usa le iniziali)
    banner: immagine 16:9 in assets/partner/ (al posto del logo, in alto nella card)
-   color: colore del partner (bordo, etichetta, freccia) · link: Discord o sito
+   color: colore del partner (bordo, etichetta, freccia)
+   link: Discord o sito (si apre in una nuova scheda) oppure una pagina del sito, es. 'partner/encode/'
    null = spazio libero "Il tuo server qui"
    ====================================================== */
 const PARTNERS = [
-  null,
+  { name: 'Encode Roleplay', tag: 'Server RP', desc: 'Server roleplay italiano: centrale di polizia con accademia, servizio medico, autodromo e locali sul lago. Apertura il 17 ottobre.', banner: 'assets/partner/encode/banner.webp', color: '#2f74ff', link: 'partner/encode/' },
   { name: 'Varco', tag: 'Rockstar Editor', desc: "Grafiche e cinematiche con il Rockstar Editor: video su GTA curati in ogni inquadratura. Entra nel Discord di Varco's Graphics.", banner: 'assets/partner/varco.webp', color: '#e3253c', link: 'https://discord.gg/92wqmBJ3e6' },
   // { name: 'Nome Server', tag: 'Server RP', desc: 'Breve descrizione del partner.', logo: 'assets/partner/nome.webp', link: 'https://discord.gg/...' },
 ];
@@ -985,6 +986,7 @@ const PARTNERS = [
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const initials=n=>String(n).split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
   const arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+  const next='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const empty=`<div class="pcard pt-empty" aria-hidden="true"><div class="pt-logo"><span>?</span></div><div><h3>Il tuo server qui</h3><p>Spazio riservato ai partner MintDev.</p></div></div>`;
   let html=PARTNERS.map(p=>{
     if(!p)return empty;
@@ -992,7 +994,9 @@ const PARTNERS = [
       :`<div class="pt-logo">${p.logo?`<img src="${esc(p.logo)}" alt="" loading="lazy">`:`<span>${esc(initials(p.name))}</span>`}</div>`;
     const inner=`${pic}<div><div class="pt-top"><h3>${esc(p.name)}</h3>${p.tag?`<span class="pt-tag">${esc(p.tag)}</span>`:''}</div>${p.desc?`<p>${esc(p.desc)}</p>`:''}</div>`;
     const style=/^#[0-9a-f]{3,8}$/i.test(p.color||'')?` style="--pc:${p.color}"`:'';
-    return p.link?`<a class="pcard" href="${esc(p.link)}" target="_blank" rel="noopener"${style}>${inner}<span class="pt-go" aria-hidden="true">${arrow}</span></a>`:`<div class="pcard"${style}>${inner}</div>`;
+    if(!p.link)return `<div class="pcard"${style}>${inner}</div>`;
+    const ext=/^https?:/i.test(p.link);
+    return `<a class="pcard" href="${esc(p.link)}"${ext?' target="_blank" rel="noopener"':''}${style}>${inner}<span class="pt-go" aria-hidden="true">${ext?arrow:next}</span></a>`;
   }).join('');
   for(let i=PARTNERS.length;i<2;i++)html+=empty;
   html+=`<a class="pcard pt-join" href="${esc(LINKS.discord)}" target="_blank" rel="noopener">

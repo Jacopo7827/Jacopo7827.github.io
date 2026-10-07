@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Encode Roleplay · Partner MintDev</title>
+<meta name="description" content="Encode Roleplay, server FiveM roleplay italiano partner di MintDev: centrale di polizia, accademia, servizio medico, autodromo, locali sul lago ed eventi dal 17 ottobre.">
+<link rel="canonical" href="https://mintdev.eu/partner/encode/">
+<link rel="icon" href="../../assets/logo.webp">
+<meta property="og:title" content="Encode Roleplay · Partner MintDev">
+<meta property="og:description" content="Server FiveM roleplay italiano: polizia, accademia, ospedale, autodromo, locali ed eventi. Apertura il 17 ottobre.">
+<meta property="og:image" content="https://mintdev.eu/assets/partner/encode/banner.webp">
+<meta name="theme-color" content="#050a18">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050a18;--bg-2:#081127;--card:#0b1630;--line:rgba(110,150,255,.16);--line-2:rgba(255,255,255,.07);
+  --blue:#2f74ff;--blue-2:#6b9dff;--blue-dim:rgba(47,116,255,.14);--orange:#ff8a1f;--mint:#5fe3b4;
+  --text:#eaf0ff;--muted:#93a3c4;
+  --display:'Michroma','Inter',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);scroll-behavior:smooth;scroll-padding-top:84px}
+html.lock,html.lock body{overflow:hidden}
+body{font-family:var(--body);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blue);color:#fff}
+:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1220px;margin:0 auto;padding:0 24px}
+.lbl{font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--blue-2)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.06em;text-transform:uppercase;line-height:1.15}
+
+/* barra in alto */
+.top{position:fixed;inset:0 0 auto 0;z-index:50;height:66px;display:flex;align-items:center;gap:14px;padding:0 22px;
+  background:rgba(5,10,24,.72);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--line)}
+.top .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.02rem}
+.top .brand img{width:28px;height:28px;object-fit:contain}
+.top .brand small{font-family:var(--mono);font-weight:400;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue-2);padding:3px 8px;border:1px solid var(--line);border-radius:99px}
+.top nav{margin-left:auto;display:flex;align-items:center;gap:8px}
+.top nav a{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;font-weight:500;color:var(--muted);padding:9px 14px;border-radius:99px;transition:color .2s,background .2s}
+.top nav a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.top nav a svg{width:16px;height:16px}
+.top nav a.cta{background:var(--blue);color:#fff;font-weight:600}
+.top nav a.cta:hover{background:#4383ff;box-shadow:0 0 30px rgba(47,116,255,.55)}
+@media(max-width:560px){.top .brand small,.top nav a.back span{display:none}.top nav a.back{padding:9px}}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.95rem;padding:14px 24px;border-radius:99px;border:1px solid var(--line);transition:background .3s,box-shadow .3s,border-color .3s,color .3s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{box-shadow:0 0 50px rgba(47,116,255,.6)}
+.btn.ghost{background:rgba(255,255,255,.04)}
+.btn.ghost:hover{border-color:var(--blue-2);color:#fff;background:var(--blue-dim)}
+
+/* hero */
+#hero{position:relative;min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden;padding:120px 0 90px;isolation:isolate}
+.hero-bg{position:absolute;inset:-4%;z-index:-2;background:url(../../assets/partner/encode/centrale-alto.webp) center/cover;filter:saturate(.75);animation:kb 26s ease-in-out infinite alternate}
+@keyframes kb{to{transform:scale(1.08) translate(-1.5%,-1%)}}
+#hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(ellipse 60% 55% at 50% 48%,rgba(5,10,24,.55),rgba(5,10,24,.92) 70%),linear-gradient(180deg,rgba(5,10,24,.7),rgba(5,10,24,.35) 40%,var(--bg) 96%)}
+#hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 10%,transparent 70%)}
+.hero-in{display:flex;flex-direction:column;align-items:center}
+.partner-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(8,17,39,.6);font-size:.82rem;color:var(--muted);margin-bottom:34px}
+.partner-pill img{width:20px;height:20px}
+.partner-pill b{color:var(--text);font-weight:600}
+.hero-logo{width:min(660px,86vw);filter:drop-shadow(0 20px 60px rgba(47,116,255,.35))}
+.hero-sub{max-width:620px;margin:28px auto 0;color:#c4d0ea;font-size:1.08rem}
+.opening{display:inline-flex;align-items:center;gap:12px;margin-top:30px;padding:10px 18px;border-radius:14px;border:1px solid rgba(47,116,255,.45);background:linear-gradient(135deg,rgba(47,116,255,.22),rgba(47,116,255,.06));font-family:var(--display);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+.opening i{width:9px;height:9px;border-radius:50%;background:var(--blue-2);box-shadow:0 0 0 0 rgba(107,157,255,.7);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 12px rgba(107,157,255,0)}100%{box-shadow:0 0 0 0 rgba(107,157,255,0)}}
+.hero-cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px}
+@media(max-width:480px){.opening{font-size:.6rem;letter-spacing:.08em;padding:10px 14px}}
+
+section{position:relative}
+.sec{padding:13vh 0 4vh}
+.sec-head{max-width:760px;margin-bottom:46px}
+.sec-head h2{font-size:clamp(1.5rem,3.4vw,2.6rem);margin:14px 0 16px}
+.sec-head p{color:var(--muted);font-size:1.05rem}
+
+/* intro */
+.facts{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.fact{padding:20px 18px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(47,116,255,.08),transparent),var(--card);transition:border-color .3s,translate .4s var(--ease)}
+.fact:hover{border-color:rgba(107,157,255,.5);translate:0 -4px}
+.fact svg{width:26px;height:26px;stroke:var(--blue-2);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
+.fact b{display:block;font-weight:700;margin-bottom:4px}
+.fact span{color:var(--muted);font-size:.88rem;line-height:1.5}
+@media(max-width:980px){.facts{grid-template-columns:repeat(2,1fr)}.fact:last-child{grid-column:1/-1}}
+
+/* blocchi */
+.feat{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,60px);align-items:center;padding:7vh 0}
+.feat.rev{grid-template-columns:.85fr 1.15fr}
+.feat.rev .media{order:2}
+.media{display:grid;gap:10px}
+.media .main{border-radius:22px}
+.shot{position:relative;display:block;overflow:hidden;border-radius:14px;border:1px solid var(--line-2);background:var(--bg-2);cursor:zoom-in}
+.shot img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/9;transition:scale .7s var(--ease),filter .4s}
+.shot:hover img{scale:1.05}
+.shot::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.media.duo .shot:nth-child(2){width:78%;justify-self:end;margin-top:-14%;box-shadow:0 30px 70px -20px rgba(0,0,0,.85);border-color:var(--line)}
+.copy .num{font-family:var(--display);font-size:.72rem;letter-spacing:.2em;color:var(--blue-2)}
+.copy h3{font-size:clamp(1.25rem,2.6vw,1.9rem);margin:14px 0 16px}
+.copy p{color:var(--muted);font-size:1.02rem}
+.copy ul{list-style:none;display:grid;gap:10px;margin-top:22px}
+.copy li{display:flex;gap:12px;align-items:flex-start;font-size:.96rem}
+.copy li::before{content:"";flex:none;width:8px;height:8px;margin-top:8px;border-radius:2px;background:var(--blue);box-shadow:0 0 12px var(--blue);transform:rotate(45deg)}
+.date{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:7px 13px;border-radius:99px;border:1px solid var(--line);font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;color:var(--blue-2)}
+.date svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+@media(max-width:900px){.feat,.feat.rev{grid-template-columns:1fr}.feat.rev .media{order:0}}
+
+/* video */
+#video{background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(47,116,255,.12),transparent 70%),var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-bottom:12vh}
+.vids{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.vid{border-radius:22px;border:1px solid var(--line);background:var(--card);overflow:hidden}
+.vid video{width:100%;aspect-ratio:16/9;background:#000}
+.vid-body{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px}
+.vid-body b{display:block;font-family:var(--display);font-weight:400;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase}
+.vid-body span{color:var(--muted);font-size:.88rem}
+.vid-body em{font-style:normal;font-family:var(--mono);font-size:.74rem;color:var(--blue-2);padding:5px 10px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.credit{margin-top:20px;color:var(--muted);font-size:.9rem}
+.credit a{color:#ff5a6b;font-weight:600}
+.credit a:hover{text-decoration:underline}
+@media(max-width:860px){.vids{grid-template-columns:1fr}}
+
+/* eventi */
+.ev-grid{display:grid;grid-template-columns:1fr .78fr;gap:clamp(24px,4vw,56px);align-items:start}
+.timeline{list-style:none;position:relative;display:grid;gap:12px}
+.timeline li{position:relative;display:grid;grid-template-columns:96px 1fr;gap:18px;padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:var(--card)}
+.timeline .d{font-family:var(--display);font-size:1.3rem;line-height:1.05;color:var(--blue-2)}
+.timeline .d small{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;color:var(--muted);margin-top:6px}
+.timeline b{display:block;font-weight:700;margin-bottom:3px}
+.timeline span{color:var(--muted);font-size:.92rem}
+.timeline li.hl{border-color:rgba(47,116,255,.55);background:linear-gradient(135deg,rgba(47,116,255,.25),rgba(47,116,255,.05) 70%),var(--card)}
+.timeline li.hw{border-color:rgba(255,138,31,.45);background:linear-gradient(135deg,rgba(255,138,31,.2),rgba(255,138,31,.03) 70%),var(--card)}
+.timeline li.hw .d{color:var(--orange)}
+.timeline li.mass .d{font-size:1rem}
+.warn{display:flex;gap:12px;margin-top:14px;padding:14px 16px;border-radius:14px;border:1px dashed rgba(255,138,31,.45);color:#f3c9a0;font-size:.88rem}
+.warn svg{flex:none;width:20px;height:20px;stroke:var(--orange);fill:none;stroke-width:2}
+.note{margin-top:14px;color:var(--muted);font-size:.86rem}
+.poster{position:sticky;top:96px}
+.poster .shot img{aspect-ratio:3/4}
+.poster figcaption{margin-top:10px;color:var(--muted);font-size:.84rem;text-align:center}
+@media(max-width:900px){.ev-grid{grid-template-columns:1fr}.poster{position:static;max-width:520px;margin:0 auto}}
+@media(max-width:480px){.timeline li{grid-template-columns:1fr;gap:8px}}
+
+/* galleria */
+.gallery{columns:3 280px;column-gap:12px}
+.gallery .shot{margin-bottom:12px;break-inside:avoid}
+.gallery .shot img{aspect-ratio:auto}
+
+/* cta */
+#cta{text-align:center;padding:16vh 0 14vh;overflow:hidden;isolation:isolate}
+#cta::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 55% 60% at 50% 60%,rgba(47,116,255,.22),transparent 70%)}
+#cta img{width:min(520px,80vw);margin:0 auto 26px}
+#cta p{color:var(--muted);max-width:520px;margin:0 auto 32px}
+#cta .row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.84rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center}
+footer a{color:var(--text)}
+footer a:hover{color:var(--blue-2)}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:60px 70px;background:rgba(3,6,14,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s linear .3s}
+#lb.on{opacity:1;visibility:visible;transition:opacity .3s}
+#lb figure{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:100%;max-height:100%}
+#lb img{max-width:min(1600px,100%);max-height:calc(100svh - 150px);border-radius:14px;box-shadow:0 40px 120px rgba(0,0,0,.7)}
+#lb figcaption{color:var(--muted);font-size:.9rem;text-align:center}
+#lb button{position:absolute;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(11,22,48,.8);color:var(--text);cursor:pointer;transition:background .2s,border-color .2s}
+#lb button:hover{background:var(--blue);border-color:var(--blue)}
+#lb button svg{width:20px;height:20px}
+#lb .lb-x{top:16px;right:16px}
+#lb .lb-p{left:14px;top:50%;translate:0 -50%}
+#lb .lb-n{right:14px;top:50%;translate:0 -50%}
+@media(max-width:700px){#lb{padding:70px 10px}#lb .lb-p,#lb .lb-n{top:auto;bottom:16px;translate:none}#lb .lb-p{left:calc(50% - 56px)}#lb .lb-n{right:calc(50% - 56px)}}
+
+/* comparsa */
+.js .rv{opacity:0;translate:0 34px;transition:opacity .9s var(--ease),translate .9s var(--ease)}
+.js .rv.in{opacity:1;translate:0 0}
+@media(prefers-reduced-motion:reduce){.hero-bg{animation:none}.js .rv{opacity:1;translate:none;transition:none}html{scroll-behavior:auto}}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="../../"><img src="../../assets/logo.webp" alt="">MintDev <small>Partner</small></a>
+  <nav>
+    <a class="back" href="../../#partner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span>Tutti i partner</span></a>
+    <a class="cta" data-link="encode" href="#" target="_blank" rel="noopener">Entra in Encode</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="partner-pill"><img src="../../assets/logo.webp" alt="">Partner ufficiale <b>MintDev</b></div>
+    <h1><img class="hero-logo" src="../../assets/partner/encode/logo.webp" alt="Encode Roleplay"></h1>
+    <p class="hero-sub">Server FiveM roleplay italiano costruito nei dettagli: polizia con la sua accademia, servizio medico, autodromo, locali sul lago e un mese di eventi per l'apertura.</p>
+    <div class="opening"><i></i>Apertura · 17 ottobre · ore 15:00</div>
+    <div class="hero-cta">
+      <a class="btn primary" href="#video"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>Guarda i video</a>
+      <a class="btn ghost" data-link="encode" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52.07.07 0 0 0-.08.04c-.21.38-.44.87-.6 1.25a18.27 18.27 0 0 0-5.49 0 12.64 12.64 0 0 0-.62-1.25.08.08 0 0 0-.08-.04 19.74 19.74 0 0 0-4.89 1.52.07.07 0 0 0-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 0 0 .03.06 19.9 19.9 0 0 0 5.99 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.3 1.23-1.99a.08.08 0 0 0-.04-.11 13.1 13.1 0 0 1-1.87-.89.08.08 0 0 1-.01-.13l.37-.29a.07.07 0 0 1 .08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 0 1 .08.01l.37.29a.08.08 0 0 1-.01.13c-.6.35-1.22.65-1.87.89a.08.08 0 0 0-.04.11c.36.7.77 1.36 1.23 1.99a.08.08 0 0 0 .08.03 19.84 19.84 0 0 0 6-3.03.08.08 0 0 0 .03-.06c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 0 0-.03-.03zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42 0-1.33.95-2.42 2.15-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.95 2.42-2.16 2.42z"/></svg>Entra nel Discord</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IL SERVER ============ -->
+<section class="sec" id="server"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="lbl">Il server</div>
+    <h2>Una città da vivere</h2>
+    <p>Encode Roleplay punta su strutture curate e fazioni organizzate: ogni zona ha i suoi interni, i suoi mezzi e la sua storia. Questi sono i luoghi che inaugurano nella prima settimana.</p>
+  </div>
+  <div class="facts">
+    <a class="fact rv" href="#centrale"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><b>Centrale di polizia</b><span>Sede LSPD con eliporto e atrio</span></a>
+    <a class="fact rv" href="#accademia"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg><b>Accademia</b><span>Reclute, istruttori e pattuglie</span></a>
+    <a class="fact rv" href="#sanita"><svg viewBox="0 0 24 24"><path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7z"/></svg><b>Servizio medico</b><span>Ambulanze e ospedale</span></a>
+    <a class="fact rv" href="#autodromo"><svg viewBox="0 0 24 24"><path d="M5 17h14l-1.5-5a2 2 0 0 0-2-1.5h-7a2 2 0 0 0-2 1.5z"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg><b>Autodromo</b><span>Pista, box e supercar</span></a>
+    <a class="fact rv" href="#locali"><svg viewBox="0 0 24 24"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0z"/><path d="M12 13v8M8 21h8"/></svg><b>Locali</b><span>Lounge sul lago con pontile</span></a>
+  </div>
+
+  <!-- centrale -->
+  <div class="feat" id="centrale">
+    <div class="media rv">
+      <a class="shot main" href="../../assets/partner/encode/centrale-esterno.webp" data-lb="../../assets/partner/encode/centrale-esterno.webp" data-cap="Centrale di polizia · esterno"><img src="../../assets/partner/encode/centrale-esterno.webp" alt="Esterno della centrale di polizia di Encode Roleplay" loading="lazy"></a>
+      <div class="thumbs">
+        <a class="shot" href="../../assets/partner/encode/centrale-alto.webp" data-lb="../../assets/partner/encode/centrale-alto.webp" data-cap="Centrale di polizia · vista dall'alto con eliporto"><img src="../../assets/partner/encode/centrale-alto-s.webp" alt="Centrale di polizia vista dall'alto" loading="lazy"></a>
+        <a class="shot" href="../../assets/partner/encode/centrale-atrio.webp" data-lb="../../assets/partner/encode/centrale-atrio.webp" data-cap="Centrale di polizia · atrio con il sigillo LSPD"><img src="../../assets/partner/encode/centrale-atrio-s.webp" alt="Atrio della centrale con il sigillo del Los Santos Police Department" loading="lazy"></a>
+        <a class="shot" href="../../assets/partner/encode/centrale-vetrina.webp" data-lb="../../assets/partner/encode/centrale-vetrina.webp" data-cap="Centrale di polizia · sala con la vetrina dei cimeli"><img src="../../assets/partner/encode/centrale-vetrina-s.webp" alt="Sala della centrale con la vetrina dei cimeli" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="copy rv">
+      <div class="num">01 · Polizia</div>
+      <h3>Centrale di polizia</h3>
+      <p>Una centrale moderna con eliporto e giardino sul tetto, un atrio a doppia altezza con il sigillo del Los Santos Police Department, uffici e la sala con la vetrina dei cimeli.</p>
+      <ul><li>Eliporto e terrazza verde sul tetto</li><li>Atrio con sigillo LSPD e reception</li><li>Uffici, sale d'attesa e vetrina dei cimeli</li></ul>
+      <div class="date"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Inaugurazione 18 ottobre · discorso del sindaco</div>
+    </div>
+  </div>
+
+  <!-- accademia -->
+  <div class="feat rev" id="accademia">
+    <div class="media rv">
+      <a class="shot main" href="../../assets/partner/encode/accademia-reclute.webp" data-lb="../../assets/partner/encode/accademia-reclute.webp" data-cap="Accademia · reclute in formazione"><img src="../../assets/partner/encode/accademia-reclute.webp" alt="Reclute dell'accademia di polizia in formazione" loading="lazy"></a>
+      <div class="thumbs">
+        <a class="shot" href="../../assets/partner/encode/accademia-saluto.webp" data-lb="../../assets/partner/encode/accademia-saluto.webp" data-cap="Accademia · il saluto all'istruttore"><img src="../../assets/partner/encode/accademia-saluto-s.webp" alt="Reclute che salutano l'istruttore" loading="lazy"></a>
+        <a class="shot" href="../../assets/partner/encode/accademia-flotta.webp" data-lb="../../assets/partner/encode/accademia-flotta.webp" data-cap="Accademia · la flotta di pattuglie numerate"><img src="../../assets/partner/encode/accademia-flotta-s.webp" alt="Pattuglie numerate dell'accademia" loading="lazy"></a>
+        <a class="shot" href="../../assets/partner/encode/accademia-piazzale.webp" data-lb="../../assets/partner/encode/accademia-piazzale.webp" data-cap="Accademia · esercitazione sul piazzale"><img src="../../assets/partner/encode/accademia-piazzale-s.webp" alt="Esercitazione dell'accademia sul piazzale" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="copy rv">
+      <div class="num">02 · Formazione</div>
+      <h3>Accademia di polizia</h3>
+      <p>In polizia si entra dall'accademia: reclute in divisa da Police Trainee, istruttori del Training Team e una flotta di pattuglie numerate per le esercitazioni sul piazzale.</p>
+      <ul><li>Reclute con divisa dedicata</li><li>Istruttori del Training Team</li><li>Pattuglie numerate per l'addestramento</li></ul>
+    </div>
+  </div>
+
+  <!-- sanità -->
+  <div class="feat" id="sanita">
+    <div class="media rv">
+      <a class="shot main" href="../../assets/partner/encode/ems-ambulanza.webp" data-lb="../../assets/partner/encode/ems-ambulanza.webp" data-cap="San Andreas Medical Services · ambulanza al Vespucci Medical Center"><img src="../../assets/partner/encode/ems-ambulanza.webp" alt="Ambulanza del San Andreas Medical Services davanti all'ospedale" loading="lazy"></a>
+      <div class="thumbs">
+        <a class="shot" href="../../assets/partner/encode/ems-livrea.webp" data-lb="../../assets/partner/encode/ems-livrea.webp" data-cap="San Andreas Medical Services · livrea Paramedic"><img src="../../assets/partner/encode/ems-livrea-s.webp" alt="Livrea dell'ambulanza San Andreas Medical Services Paramedic" loading="lazy"></a>
+        <a class="shot" href="../../assets/partner/encode/paramedici.webp" data-lb="../../assets/partner/encode/paramedici.webp" data-cap="San Andreas Medical Services · paramedici al lavoro"><img src="../../assets/partner/encode/paramedici-s.webp" alt="Paramedici al retro dell'ambulanza" loading="lazy"></a>
+        <a class="shot" href="../../assets/partner/encode/ospedale.webp" data-lb="../../assets/partner/encode/ospedale.webp" data-cap="Vespucci Medical Center"><img src="../../assets/partner/encode/ospedale-s.webp" alt="Vespucci Medical Center al tramonto" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="copy rv">
+      <div class="num">03 · Sanità</div>
+      <h3>San Andreas Medical Services</h3>
+      <p>Il servizio medico ha ambulanze con livrea dedicata, paramedici equipaggiati e il Vespucci Medical Center come ospedale di riferimento.</p>
+      <ul><li>Ambulanze e mezzi con livrea SAMS</li><li>Vespucci Medical Center</li><li>Paramedici con equipaggiamento completo</li></ul>
+      <div class="date"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Inaugurazione dell'ospedale 19 ottobre</div>
+    </div>
+  </div>
+
+  <!-- autodromo -->
+  <div class="feat rev" id="autodromo">
+    <div class="media duo rv">
+      <a class="shot main" href="../../assets/partner/encode/autodromo.webp" data-lb="../../assets/partner/encode/autodromo.webp" data-cap="Grand Senora Raceway · pit lane"><img src="../../assets/partner/encode/autodromo.webp" alt="Supercar nella pit lane del Grand Senora Raceway" loading="lazy"></a>
+      <a class="shot main" href="../../assets/partner/encode/autodromo-box.webp" data-lb="../../assets/partner/encode/autodromo-box.webp" data-cap="Grand Senora Raceway · ai box"><img src="../../assets/partner/encode/autodromo-box.webp" alt="Supercar ai box dell'autodromo" loading="lazy"></a>
+    </div>
+    <div class="copy rv">
+      <div class="num">04 · Motori</div>
+      <h3>Autodromo</h3>
+      <p>Al Grand Senora Raceway si corre sul serio: pit lane illuminata, box attrezzati e supercar pronte per la pista.</p>
+      <ul><li>Pit lane e box</li><li>Supercar da pista</li><li>Giri liberi all'inaugurazione</li></ul>
+      <div class="date"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Inaugurazione 20 ottobre · giri liberi</div>
+    </div>
+  </div>
+
+  <!-- locali -->
+  <div class="feat" id="locali">
+    <div class="media duo rv">
+      <a class="shot main" href="../../assets/partner/encode/lounge-notte.webp" data-lb="../../assets/partner/encode/lounge-notte.webp" data-cap="Lounge sul lago · di notte"><img src="../../assets/partner/encode/lounge-notte.webp" alt="Lounge sul lago di notte con le barche" loading="lazy"></a>
+      <a class="shot main" href="../../assets/partner/encode/lounge-lago.webp" data-lb="../../assets/partner/encode/lounge-lago.webp" data-cap="Lounge sul lago · vista dall'alto"><img src="../../assets/partner/encode/lounge-lago.webp" alt="Lounge sul lago vista dall'alto" loading="lazy"></a>
+    </div>
+    <div class="copy rv">
+      <div class="num">05 · Locali</div>
+      <h3>Lounge sul lago</h3>
+      <p>Terrazza sull'acqua, luci calde e pontile per le barche: il posto giusto per la sera, da raggiungere anche via lago con lo skyline sullo sfondo.</p>
+      <ul><li>Terrazza e salottini all'aperto</li><li>Pontile per barche e moto d'acqua</li><li>Vista sullo skyline della città</li></ul>
+      <div class="date"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Inaugurazione dei locali 21 ottobre</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ VIDEO ============ -->
+<section class="sec" id="video"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="lbl">Video</div>
+    <h2>Guardalo in azione</h2>
+    <p>Un assaggio di quello che trovi in città: le pattuglie del Los Santos Police Department e un giro tra le strade del server.</p>
+  </div>
+  <div class="vids">
+    <div class="vid rv">
+      <video controls preload="none" playsinline poster="../../assets/partner/encode/teaser-poster.webp"><source src="../../assets/partner/encode/teaser.mp4" type="video/mp4"></video>
+      <div class="vid-body"><div><b>Teaser · Polizia</b><span>Pattuglie, Search &amp; Rescue e supervisori</span></div><em>0:14</em></div>
+    </div>
+    <div class="vid rv">
+      <video controls preload="none" playsinline poster="../../assets/partner/encode/gameplay-poster.webp"><source src="../../assets/partner/encode/gameplay.mp4" type="video/mp4"></video>
+      <div class="vid-body"><div><b>Gameplay</b><span>Un giro in città tra auto, pattuglie e soccorsi</span></div><em>1:17</em></div>
+    </div>
+  </div>
+  <p class="credit rv">Video realizzati da <a data-link="varco" href="#" target="_blank" rel="noopener">Varco</a>, anche lui partner MintDev.</p>
+</div></section>
+
+<!-- ============ EVENTI ============ -->
+<section class="sec" id="eventi"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="lbl">Ottobre 2026</div>
+    <h2>Un mese di eventi</h2>
+    <p>L'apertura è accompagnata da un evento al giorno nella prima settimana e dalla Halloweek di fine mese.</p>
+  </div>
+  <div class="ev-grid">
+    <div>
+      <ul class="timeline">
+        <li class="hl rv"><div class="d">17<small>Sabato</small></div><div><b>Apertura libera</b><span>Esplora il server · ore 15:00</span></div></li>
+        <li class="rv"><div class="d">18<small>Domenica</small></div><div><b>Centrale di polizia</b><span>Inaugurazione e discorso del sindaco</span></div></li>
+        <li class="rv"><div class="d">19<small>Lunedì</small></div><div><b>Ospedale</b><span>Inaugurazione</span></div></li>
+        <li class="rv"><div class="d">20<small>Martedì</small></div><div><b>Autodromo</b><span>Inaugurazione e giri liberi</span></div></li>
+        <li class="rv"><div class="d">21<small>Mercoledì</small></div><div><b>Locali</b><span>Inaugurazione</span></div></li>
+        <li class="hw rv"><div class="d">26–31<small>Halloweek</small></div><div><b>Halloween in città</b><span>Decorazioni a tema dal 26, festa in maschera il 29, Dolcetto o Scherzetto il 30 e il 31 dalle 19 con aree a tema sparse per tutta la mappa.</span></div></li>
+        <li class="mass rv"><div class="d">21:30<small>Dom · Lun · Gio · Sab</small></div><div><b>Messa</b><span>Dalle 21:30 alle 22:00, dal 17 ottobre. Il 31 c'è la messa di Halloween.</span></div></li>
+      </ul>
+      <div class="warn rv"><svg viewBox="0 0 24 24"><path d="M12 3 2 21h20zM12 10v5M12 18h.01"/></svg><span>Il 29, 30 e 31 ottobre possono esserci jumpscare ed effetti improvvisi. Chi preferisce non partecipare può aprire un ticket e chiedere l'esclusione.</span></div>
+      <p class="note rv">Gli orari precisi vengono comunicati pochi giorni prima di ogni evento.</p>
+    </div>
+    <figure class="poster rv">
+      <a class="shot" href="../../assets/partner/encode/eventi-ottobre.webp" data-lb="../../assets/partner/encode/eventi-ottobre.webp" data-cap="Calendario eventi · ottobre 2026"><img src="../../assets/partner/encode/eventi-ottobre-s.webp" alt="Calendario degli eventi di ottobre 2026 di Encode Roleplay" loading="lazy"></a>
+      <figcaption>Tocca per ingrandire il calendario</figcaption>
+    </figure>
+  </div>
+</div></section>
+
+<!-- ============ GALLERIA ============ -->
+<section class="sec" id="galleria"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="lbl">Galleria</div>
+    <h2>Tutte le foto</h2>
+  </div>
+  <div class="gallery" id="gallery"></div>
+</div></section>
+
+<!-- ============ CTA ============ -->
+<section id="cta"><div class="wrap rv">
+  <img src="../../assets/partner/encode/logo.webp" alt="Encode Roleplay" loading="lazy">
+  <p>Le porte si aprono il 17 ottobre alle 15:00. Entra nel Discord per la whitelist, gli annunci e gli orari degli eventi.</p>
+  <div class="row">
+    <a class="btn primary" data-link="encode" href="#" target="_blank" rel="noopener">Entra nel Discord di Encode</a>
+    <a class="btn ghost" href="../../#partner">Tutti i partner MintDev</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span>Encode Roleplay è partner di <a href="../../">MintDev</a>. Immagini e video © Encode Roleplay.</span>
+  <span>© <span id="yr">2026</span> MintDev</span>
+</div></footer>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Foto ingrandita" tabindex="-1">
+  <button class="lb-x" type="button" aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <button class="lb-p" type="button" aria-label="Foto precedente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button class="lb-n" type="button" aria-label="Foto successiva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+</div>
+
+<script>
+/* ======================================================
+   LINK — modifica qui
+   ====================================================== */
+const LINKS = {
+  encode: "",                                   // <-- invito Discord di Encode Roleplay (se vuoto i pulsanti non compaiono)
+  varco:  "https://discord.gg/92wqmBJ3e6"
+};
+document.querySelectorAll('[data-link]').forEach(a=>{
+  const url=LINKS[a.dataset.link];
+  if(url)a.href=url;else a.remove();
+});
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* galleria: tutte le foto */
+const A='../../assets/partner/encode/';
+const PHOTOS=[
+  ['centrale-alto','Centrale di polizia · vista dall\'alto'],['centrale-esterno','Centrale di polizia · esterno'],
+  ['centrale-atrio','Centrale di polizia · atrio'],['centrale-vetrina','Centrale di polizia · vetrina dei cimeli'],
+  ['accademia-reclute','Accademia · reclute'],['accademia-saluto','Accademia · saluto all\'istruttore'],
+  ['accademia-flotta','Accademia · pattuglie numerate'],['accademia-piazzale','Accademia · esercitazione'],
+  ['ems-ambulanza','San Andreas Medical Services · ambulanza'],['ems-livrea','San Andreas Medical Services · livrea'],
+  ['paramedici','Paramedici al lavoro'],['ospedale','Vespucci Medical Center'],
+  ['autodromo','Grand Senora Raceway · pit lane'],['autodromo-box','Grand Senora Raceway · box'],
+  ['lounge-notte','Lounge sul lago · di notte'],['lounge-lago','Lounge sul lago · dall\'alto']
+];
+document.getElementById('gallery').innerHTML=PHOTOS.map(([f,c])=>
+  `<a class="shot rv" href="${A}${f}.webp" data-lb="${A}${f}.webp" data-cap="${c.replace(/"/g,'&quot;')}"><img src="${A}${f}-s.webp" alt="${c.replace(/"/g,'&quot;')}" loading="lazy"></a>`).join('');
+
+/* lightbox */
+(function(){
+  const lb=document.getElementById('lb'),img=lb.querySelector('img'),cap=lb.querySelector('figcaption');
+  let items=[],cur=0,last=null;
+  const show=i=>{cur=(i+items.length)%items.length;const el=items[cur];img.src=el.dataset.lb;img.alt=el.dataset.cap||'';cap.textContent=el.dataset.cap||''};
+  const open=(list,i)=>{items=list;show(i);last=document.activeElement;lb.classList.add('on');document.documentElement.classList.add('lock');lb.focus()};
+  const close=()=>{if(!lb.classList.contains('on'))return;lb.classList.remove('on');document.documentElement.classList.remove('lock');last&&last.focus()};
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('[data-lb]');if(!a)return;e.preventDefault();
+    const scope=a.closest('#gallery')?[...document.querySelectorAll('#gallery [data-lb]')]:[...document.querySelectorAll('[data-lb]')].filter(x=>!x.closest('#gallery'));
+    open(scope,scope.indexOf(a));
+  });
+  lb.querySelector('.lb-x').addEventListener('click',close);
+  lb.querySelector('.lb-p').addEventListener('click',()=>show(cur-1));
+  lb.querySelector('.lb-n').addEventListener('click',()=>show(cur+1));
+  lb.addEventListener('click',e=>{if(e.target===lb||e.target.tagName==='FIGURE')close()});
+  addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)});
+  let x0=null;
+  lb.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  lb.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1));x0=null});
+})();
+
+/* un solo video alla volta */
+const vids=[...document.querySelectorAll('video')];
+vids.forEach(v=>v.addEventListener('play',()=>vids.forEach(o=>o!==v&&o.pause())));
+
+/* comparsa allo scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
