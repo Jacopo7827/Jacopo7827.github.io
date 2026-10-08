@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../assets/logo.webp">
+<title>Autolavaggio · Documentazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Russo+One&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mint: #62e0b4; --mint-2: #3fc995; --mint-soft: rgba(98, 224, 180, .14); --mint-ink: #05281c;
+    --bg: #0b1110; --panel: #121a18; --panel-2: #17211e; --line: rgba(255, 255, 255, .10);
+    --text: #eef3f1; --muted: #a9b8b2; --white: #e9eef0; --warn: #fbbf24;
+    --font: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif; --display: 'Russo One', sans-serif;
+    --mono: 'JetBrains Mono', Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--font); }
+  a { color: var(--mint); }
+  code, pre { font-family: var(--mono); }
+  code { background: rgba(255, 255, 255, .07); padding: 1px 6px; border-radius: 4px; font-size: .9em; color: #d9fbef; }
+  pre { background: #070b0a; border: 1px solid var(--line); border-left: 3px solid var(--mint); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.55; }
+  pre code { background: none; padding: 0; color: var(--text); }
+
+  header { background: radial-gradient(900px 260px at 0% 0%, rgba(98, 224, 180, .22), transparent 70%), #0e1614; border-bottom: 1px solid var(--line); }
+  .head { max-width: 1180px; margin: 0 auto; padding: 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .logo { height: 96px; width: auto; display: block; }
+  h1 { font-family: var(--display); font-weight: 400; margin: 0; font-size: 30px; letter-spacing: .04em; text-transform: uppercase; }
+  h1 span { color: var(--mint); }
+  .sub { color: var(--muted); margin: 2px 0 0; }
+  .discord { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: var(--mint); color: var(--mint-ink); border-radius: 8px; text-decoration: none; font-weight: 700; min-height: 44px; }
+  .discord:hover { background: #7ce9c3; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 240px 1fr; gap: 32px; }
+  nav { position: sticky; top: 16px; align-self: start; font-size: 14px; }
+  nav .t { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  nav a { display: block; padding: 6px 10px; border-left: 2px solid var(--line); color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--mint); border-left-color: var(--mint); }
+
+  main { min-width: 0; }
+  section { margin-bottom: 44px; scroll-margin-top: 16px; }
+  h2 { font-family: var(--display); font-weight: 400; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  h2::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--mint); margin-right: 10px; vertical-align: -2px; border-radius: 2px; }
+  h3 { font-size: 18px; margin: 26px 0 8px; color: var(--white); }
+  p, li { color: #d6dfdb; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 10px 0 18px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); background: var(--mint-soft); }
+  td:first-child { font-family: var(--mono); font-size: 13px; white-space: nowrap; color: #fff; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 12px 0; }
+  .note { border-left: 3px solid var(--warn); }
+  .tip { border-left: 3px solid var(--mint); }
+  .steps { counter-reset: s; list-style: none; padding: 0; }
+  .steps li { counter-increment: s; position: relative; padding: 10px 12px 10px 52px; margin: 8px 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .steps li::before { content: counter(s); position: absolute; left: 12px; top: 10px; width: 28px; height: 28px; display: grid; place-items: center; background: var(--mint); color: var(--mint-ink); border-radius: 6px; font-family: var(--mono); font-weight: 700; }
+  kbd { font-family: var(--mono); font-size: 12px; font-weight: 600; background: var(--white); color: var(--mint-ink); padding: 2px 7px; border-radius: 4px; box-shadow: 0 2px 0 #8a9690; }
+  footer { border-top: 1px solid var(--line); color: var(--muted); text-align: center; padding: 24px; font-size: 14px; }
+
+  .back { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid var(--line); color: var(--text); border-radius: 8px; text-decoration: none; font-weight: 600; min-height: 44px; }
+  .back:hover { border-color: var(--mint); color: var(--mint); }
+  .back + .discord { margin-left: 0; }
+
+  @media (max-width: 860px) {
+    .wrap { grid-template-columns: 1fr; }
+    nav { position: static; }
+    .discord, .back { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <a href="../../" aria-label="Torna a mintdev.eu"><img class="logo" src="../../assets/logo-big.webp?v=2" alt="MintDev"></a>
+    <div>
+      <h1>Autolavaggio <span>· MintDev</span></h1>
+      <p class="sub">Documentazione e configurazione · by MintDev · v1.0.0</p>
+    </div>
+    <a class="back" href="../">&larr; Tutte le guide</a>
+    <a class="discord" href="https://discord.gg/UNeFWPYmEq" target="_blank" rel="noopener">Supporto Discord →</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav aria-label="Indice">
+    <p class="t">Indice</p>
+    <a href="#intro">Panoramica</a>
+    <a href="#install">Installazione</a>
+    <a href="#escrow">File modificabili (escrow)</a>
+    <a href="#gioco">Come si usa in gioco</a>
+    <a href="#stazioni">Stazioni, idropulitrici e blip</a>
+    <a href="#generale">Impostazioni generali</a>
+    <a href="#programmi">Programmi e prezzi</a>
+    <a href="#fasi">Fasi e ugelli</a>
+    <a href="#prop">Lancia e idropulitrice</a>
+    <a href="#notifiche">Notifiche</a>
+    <a href="#server">Server, log e pagamenti</a>
+    <a href="#testi">Testi e lingue</a>
+    <a href="#comandi">Comandi</a>
+    <a href="#prestazioni">Prestazioni</a>
+    <a href="#problemi">Risoluzione problemi</a>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <h2>Panoramica</h2>
+      <p>Autolavaggio self-service: il giocatore parcheggia sul punto di lavaggio, usa l'idropulitrice fissa per iniziare, paga e lava il veicolo a mano con una lancia a pressione. Ogni zona dell'auto (anteriore, posteriore, lati, tetto) va lavata; lo sporco del veicolo scende davvero mentre spruzzi.</p>
+      <ul>
+        <li>Fasi: <b>schiuma</b>, <b>risciacquo</b>, <b>cera protettiva</b> (il veicolo resta pulito per un tempo configurabile)</li>
+        <li>Idropulitrice <b>fissa</b> per ogni postazione, posizione e rotazione da config (<code>vec4</code>)</li>
+        <li>Tubo fisico tra idropulitrice e lancia, getto e schizzi visibili anche agli altri giocatori</li>
+        <li>Menu con programmi, saldo e metodo di pagamento; HUD con avanzamento per zona</li>
+        <li>Compatibile con <b>ESX</b>, <b>QBCore</b>, <b>Qbox</b> e standalone; <b>ox_target</b> opzionale</li>
+        <li>Anti-exploit lato server (distanze, postazioni occupate, tempi minimi) e log Discord</li>
+      </ul>
+    </section>
+
+    <section id="install">
+      <h2>Installazione</h2>
+      <ol class="steps">
+        <li>Scarica la risorsa dal portale Cfx: <a href="https://portal.cfx.re" target="_blank" rel="noopener">portal.cfx.re</a> → <b>Assets</b> → <b>Granted Assets</b>, con lo stesso account Cfx con cui l'hai acquistata.</li>
+        <li>Estrai la cartella <code>autolavaggio</code> dentro <code>resources/</code> del server.</li>
+        <li>Nel <code>server.cfg</code> aggiungi <code>ensure autolavaggio</code> <b>dopo</b> il framework (es. <code>es_extended</code>) e dopo <code>ox_target</code> se lo usi.</li>
+        <li>Imposta le coordinate delle tue postazioni in <code>config.lua</code> (vedi <a href="#stazioni">Stazioni</a>).</li>
+        <li>Riavvia il server. In console vedrai <code>[Autolavaggio] v1.0.0 by MintDev</code> e il link del Discord di supporto.</li>
+      </ol>
+      <div class="card note"><b>Requisiti:</b> OneSync attivo e artifact FXServer aggiornato. La <b>license key</b> del server (<code>sv_licenseKey</code>) deve appartenere allo <b>stesso account Cfx</b> che ha acquistato la risorsa. Il framework e ox_target vengono rilevati da soli (<code>Config.Framework = 'auto'</code>, <code>Config.Target = 'auto'</code>).</div>
+    </section>
+
+    <section id="escrow">
+      <h2>File modificabili (escrow)</h2>
+      <p>La risorsa è protetta con il sistema <b>Asset Escrow</b> di Cfx: il codice principale è criptato, mentre tutto quello che serve per configurarla resta aperto.</p>
+      <table>
+        <thead><tr><th>File</th><th>Stato</th><th>A cosa serve</th></tr></thead>
+        <tbody>
+          <tr><td>config.lua</td><td>Modificabile</td><td>Stazioni, idropulitrici, blip, prezzi, fasi, tasti, prop</td></tr>
+          <tr><td>notify.lua</td><td>Modificabile</td><td>Sistema di notifiche (ESX, NUI o personalizzato)</td></tr>
+          <tr><td>locales/*.lua</td><td>Modificabile</td><td>Tutti i testi, lingue</td></tr>
+          <tr><td>server/sv_config.lua</td><td>Modificabile</td><td>Webhook dei log e pagamento standalone</td></tr>
+          <tr><td>server/bridge.lua</td><td>Modificabile</td><td>Collegamento ai soldi del framework (per framework personalizzati)</td></tr>
+          <tr><td>client/*, server/main.lua, shared/*</td><td>Protetto</td><td>Logica dello script</td></tr>
+          <tr><td>stream/*</td><td>Protetto</td><td>Prop della lancia</td></tr>
+        </tbody>
+      </table>
+      <div class="card tip">Tutte le opzioni descritte in questa guida si trovano nei file modificabili: non serve toccare nient'altro. Non modificare né rinominare i file protetti, altrimenti la risorsa non si avvia.</div>
+    </section>
+
+    <section id="gioco">
+      <h2>Come si usa in gioco</h2>
+      <ol class="steps">
+        <li>Parcheggia il veicolo sul <b>marker</b> della postazione (rosso = postazione occupata) e scendi.</li>
+        <li>Vai all'<b>idropulitrice</b> e premi <kbd>ALT</kbd> (ox_target) → <b>Inizia lavaggio</b>. Senza ox_target: <kbd>E</kbd> vicino all'idropulitrice.</li>
+        <li>Scegli il programma e il metodo di pagamento (contanti o banca) e premi <b>Paga e inizia</b>.</li>
+        <li>Dalla stessa idropulitrice: <kbd>ALT</kbd> → <b>Prendi la lancia</b> (oppure <kbd>E</kbd>).</li>
+        <li>Spruzza con il <b>tasto sinistro</b> del mouse su tutte le zone indicate dall'HUD. Completata una fase si passa alla successiva.</li>
+        <li>A fine lavaggio parte un'inquadratura attorno all'auto pulita (<kbd>E</kbd> per saltarla).</li>
+      </ol>
+      <table>
+        <thead><tr><th>Tasto</th><th>Azione</th></tr></thead>
+        <tbody>
+          <tr><td>E</td><td>Inizia lavaggio / prendi la lancia (modificabile dal giocatore in Impostazioni → Tasti → FiveM)</td></tr>
+          <tr><td>Tasto sinistro</td><td>Spruzza (si mira con la camera)</td></tr>
+          <tr><td>R</td><td>Cambia ugello: getto concentrato ↔ ventaglio</td></tr>
+          <tr><td>X</td><td>Riponi la lancia</td></tr>
+          <tr><td>X (tenuto)</td><td>Annulla il lavaggio (senza lancia in mano)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="stazioni">
+      <h2>Stazioni, idropulitrici e blip</h2>
+      <p>Le postazioni si configurano in <code>Config.Stations</code>. Ogni stazione può avere più postazioni (<code>bays</code>).</p>
+<pre><code>Config.Stations = {
+    {
+        label = 'Strawberry',
+        blip  = true,                     -- false = nessun blip in mappa per QUESTA stazione
+        -- blipLabel = 'Lavaggio Centro', -- (opzionale) nome del blip
+        bays = {
+            {
+                vehicle = vec4(26.59, -1392.03, 29.36, 0.0),   -- dove si ferma il veicolo
+                machine = vec4(30.09, -1392.03, 29.36, 90.0),  -- idropulitrice fissa
+                -- radius = 3.0,                               -- (opzionale)
+            },
+        },
+    },
+}</code></pre>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>label</td><td>Nome della stazione (usato nei log).</td></tr>
+          <tr><td>blip</td><td><code>true</code> mostra il blip di questa stazione, <code>false</code> lo nasconde. Aspetto comune in <code>Config.Blip</code>.</td></tr>
+          <tr><td>blipLabel</td><td>Testo del blip; se assente usa quello della lingua (“Autolavaggio”).</td></tr>
+          <tr><td>vehicle</td><td><code>vec4(x, y, z, heading)</code>: punto in cui si deve fermare il veicolo. Il marker viene disegnato qui, orientato come l'heading.</td></tr>
+          <tr><td>machine</td><td><code>vec4(x, y, z, heading)</code>: idropulitrice fissa. Il 4° valore è la <b>rotazione</b> in gradi. Se la togli, l'idropulitrice compare accanto al veicolo solo durante il lavaggio.</td></tr>
+          <tr><td>radius</td><td>Tolleranza in metri del punto di sosta (default <code>Config.BayRadius</code>).</td></tr>
+        </tbody>
+      </table>
+      <h3>Prendere le coordinate</h3>
+      <ol class="steps">
+        <li>In <code>config.lua</code> metti <code>Config.Debug = true</code> e riavvia la risorsa.</li>
+        <li>Parcheggia dove deve fermarsi il veicolo e, <b>dentro l'auto</b>, scrivi <code>/carwashpos</code> → ottieni <code>vehicle = vec4(...)</code>.</li>
+        <li>Scendi, mettiti dove vuoi l'idropulitrice, <b>guarda nella direzione</b> in cui vuoi girarla e scrivi <code>/carwashpos</code> → ottieni <code>machine = vec4(...)</code>.</li>
+        <li>Copia le righe (compaiono in notifica e in console F8) nel config, poi rimetti <code>Config.Debug = false</code>.</li>
+      </ol>
+      <div class="card note">Le coordinate <code>machine</code> di esempio incluse sono indicative: sistemale con <code>/carwashpos</code> sulla tua mappa.</div>
+      <h3>Blip</h3>
+<pre><code>Config.Blip = { enabled = true, sprite = 100, color = 3, scale = 0.8 }</code></pre>
+      <p><code>enabled = false</code> spegne tutti i blip; per spegnerne solo alcuni usa <code>blip = false</code> nella singola stazione.</p>
+    </section>
+
+    <section id="generale">
+      <h2>Impostazioni generali</h2>
+      <table>
+        <thead><tr><th>Opzione</th><th>Default</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>Config.Locale</td><td>'it'</td><td>Lingua: <code>'it'</code> o <code>'en'</code>.</td></tr>
+          <tr><td>Config.Framework</td><td>'auto'</td><td><code>'auto'</code>, <code>'esx'</code>, <code>'qb'</code>, <code>'qbx'</code>, <code>'standalone'</code>.</td></tr>
+          <tr><td>Config.Currency</td><td>'€'</td><td>Simbolo mostrato nel menu.</td></tr>
+          <tr><td>Config.Debug</td><td>false</td><td>Attiva i comandi di regolazione (<a href="#comandi">Comandi</a>).</td></tr>
+          <tr><td>Config.Brand</td><td>—</td><td>Nome e sottotitolo mostrati nel menu e nell'HUD.</td></tr>
+          <tr><td>Config.Target</td><td>'auto'</td><td><code>'auto'</code> usa ox_target se avviato, <code>'ox_target'</code> lo forza, <code>false</code> solo tasto E.</td></tr>
+          <tr><td>Config.InteractKey</td><td>'E'</td><td>Tasto di interazione predefinito.</td></tr>
+          <tr><td>Config.Keys</td><td>24 / 45 / 73</td><td>Control GTA per spruzzo, ugello e annulla (<a href="https://docs.fivem.net/docs/game-references/controls/" target="_blank" rel="noopener">elenco</a>).</td></tr>
+          <tr><td>Config.KeyLabels</td><td>—</td><td>Solo grafica: cosa mostrare sui tasti nella UI.</td></tr>
+          <tr><td>Config.BayRadius</td><td>3.0</td><td>Tolleranza del punto di sosta in metri.</td></tr>
+          <tr><td>Config.DrawDistance</td><td>20.0</td><td>Entro questa distanza lo script controlla le postazioni.</td></tr>
+          <tr><td>Config.Markers</td><td>true</td><td>Marker a terra sul punto di sosta.</td></tr>
+          <tr><td>Config.MarkerDistance</td><td>15.0</td><td>Distanza a cui compaiono i marker.</td></tr>
+          <tr><td>Config.MachineSpawnDistance</td><td>60.0</td><td>Entro questa distanza compaiono le idropulitrici fisse.</td></tr>
+          <tr><td>Config.MachineSnapToGround</td><td>true</td><td>Appoggia l'idropulitrice al terreno (corregge piccoli errori di Z).</td></tr>
+          <tr><td>Config.StartFromVehicle</td><td>false</td><td><code>true</code> permette di aprire il menu anche restando in auto con E.</td></tr>
+          <tr><td>Config.FreezeVehicle</td><td>true</td><td>Blocca il veicolo durante il lavaggio.</td></tr>
+          <tr><td>Config.MaxSessionMinutes</td><td>10</td><td>Dopo questo tempo il lavaggio termina da solo.</td></tr>
+          <tr><td>Config.MaxDistanceFromVehicle</td><td>30.0</td><td>Se il giocatore si allontana oltre, il lavaggio viene annullato.</td></tr>
+          <tr><td>Config.CancelHoldTime</td><td>1500</td><td>Millisecondi da tenere premuto X per annullare.</td></tr>
+          <tr><td>Config.BlacklistedClasses</td><td>13,14,15,16,21</td><td>Classi di veicolo non lavabili (bici, barche, elicotteri, aerei, treni).</td></tr>
+          <tr><td>Config.NoRoofClasses</td><td>8, 13</td><td>Classi senza zona “tetto” (moto, bici).</td></tr>
+          <tr><td>Config.NoRoofHeight</td><td>2.3</td><td>Veicoli più alti di così non hanno la zona tetto (furgoni, camion).</td></tr>
+          <tr><td>Config.Cinematic</td><td>—</td><td>Inquadratura finale: <code>enabled</code>, <code>duration</code> (ms), <code>radius</code>, <code>height</code>, <code>degrees</code>, <code>fov</code>.</td></tr>
+          <tr><td>Config.Sound</td><td>—</td><td>Suono dell'idropulitrice: <code>enabled</code>, <code>volume</code> (0–1), <code>remoteRange</code> (m).</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="programmi">
+      <h2>Programmi e prezzi</h2>
+<pre><code>Config.Packages = {
+    { id = 'quick',   label = 'Rapido',   icon = 'drop',  description = 'Risciacquo ad alta pressione',
+      price = 150, stages = { 'rinse' } },
+    { id = 'full',    label = 'Completo', icon = 'foam',  badge = 'Più scelto',
+      description = 'Schiuma attiva + risciacquo', price = 300, stages = { 'foam', 'rinse' } },
+    { id = 'premium', label = 'Premium',  icon = 'shine', badge = 'Top',
+      description = 'Schiuma, risciacquo e cera protettiva',
+      price = 550, stages = { 'foam', 'rinse', 'wax' }, waxMinutes = 60 },
+}</code></pre>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>id</td><td>Identificativo unico del programma.</td></tr>
+          <tr><td>label / description</td><td>Nome e descrizione nel menu.</td></tr>
+          <tr><td>icon</td><td><code>'drop'</code>, <code>'foam'</code> o <code>'shine'</code>.</td></tr>
+          <tr><td>badge</td><td>(opzionale) etichetta in evidenza, es. “Più scelto”.</td></tr>
+          <tr><td>price</td><td>Prezzo, scalato dal conto scelto (contanti o banca).</td></tr>
+          <tr><td>stages</td><td>Fasi in ordine: <code>'foam'</code>, <code>'rinse'</code>, <code>'wax'</code>.</td></tr>
+          <tr><td>waxMinutes</td><td>(opzionale) minuti in cui il veicolo resta pulito dopo la cera.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="fasi">
+      <h2>Fasi e ugelli</h2>
+      <h3>Config.Stages</h3>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>color</td><td>Colore della fase nell'HUD.</td></tr>
+          <tr><td>secondsPerZone</td><td>Secondi di spruzzo (a distanza ottimale) per completare una zona.</td></tr>
+          <tr><td>dirtRemoval</td><td>Quota di sporco rimossa a fase completata (<code>1.0</code> = tutto).</td></tr>
+          <tr><td>jet / splash</td><td>Effetti particellari del getto e degli schizzi: <code>dict</code>, <code>name</code>, <code>scale</code>, <code>tint</code> (opzionale).</td></tr>
+        </tbody>
+      </table>
+      <h3>Config.Nozzles</h3>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>label</td><td>Chiave del testo nella lingua (es. <code>nozzle_jet</code>).</td></tr>
+          <tr><td>range</td><td>Portata massima del getto in metri.</td></tr>
+          <tr><td>sweetSpot</td><td>Entro questa distanza l'efficacia è al 100%.</td></tr>
+          <tr><td>rate</td><td>Moltiplicatore di velocità del lavaggio.</td></tr>
+          <tr><td>fxScale</td><td>Grandezza del getto.</td></tr>
+          <tr><td>bar</td><td>Pressione mostrata nell'HUD.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="prop">
+      <h2>Lancia e idropulitrice</h2>
+      <p>La lancia <code>mint_pressure_lance</code> è inclusa in <code>stream/</code> e viene caricata dal <code>fxmanifest.lua</code>. Se il modello non fosse disponibile, lo script usa automaticamente la lancia di riserva successiva in <code>Config.Gear.lances</code>.</p>
+      <table>
+        <thead><tr><th>Opzione</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>networked</td><td>Gli altri giocatori vedono la lancia (true consigliato).</td></tr>
+          <tr><td>machineModels</td><td>Modelli dell'idropulitrice, provati in ordine.</td></tr>
+          <tr><td>lances</td><td>Lance in ordine di preferenza: <code>model</code>, <code>bone</code>, <code>offset</code>, <code>rot</code>, <code>tip</code> (punta dell'ugello), <code>hose</code> (aggancio del tubo).</td></tr>
+          <tr><td>fxOffset / fxRotation</td><td>Punto e correzione della direzione del getto per le lance senza <code>tip</code>.</td></tr>
+          <tr><td>holdAnim / pickupAnim</td><td>Animazioni per tenere e prendere la lancia.</td></tr>
+          <tr><td>hose</td><td>Tubo: <code>enabled</code>, <code>length</code> (m), <code>snapExtra</code>, <code>ropeType</code>, <code>machineOffset</code>.</td></tr>
+        </tbody>
+      </table>
+      <div class="card tip">Per regolare la posizione della lancia in mano: <code>Config.Debug = true</code>, prendi la lancia e usa <code>/carwashprop x y z rotX rotY rotZ</code>; i valori finali vanno copiati nella lancia giusta di <code>Config.Gear.lances</code>.</div>
+    </section>
+
+    <section id="notifiche">
+      <h2>Notifiche</h2>
+      <p>File <code>notify.lua</code>:</p>
+<pre><code>NotifyConfig = {
+    System   = 'esx',          -- 'esx' | 'nui' | 'custom'
+    Title    = 'Autolavaggio',
+    Duration = 5000,
+    Position = nil,            -- es. 'top-right' (nil = quella di esx_notify)
+    Types = { success = 'success', error = 'error', warning = 'warning', info = 'info' },
+}
+
+function NotifyConfig.Custom(message, notifyType, duration)
+    -- esempio: exports['okokNotify']:Alert(NotifyConfig.Title, message, duration, notifyType)
+end</code></pre>
+      <p>Con <code>'esx'</code> usa le notifiche base di ESX (<code>esx_notify</code>); se non è avviato, lo script usa da solo le sue notifiche grafiche (<code>'nui'</code>).</p>
+    </section>
+
+    <section id="server">
+      <h2>Server, log e pagamenti</h2>
+      <p>File <code>server/sv_config.lua</code> (non viene inviato ai client):</p>
+<pre><code>ServerConfig.Webhook = ''   -- URL webhook Discord per i log (vuoto = spento)
+
+-- Solo modalità standalone: collega qui il tuo sistema di soldi
+ServerConfig.StandaloneCharge = function(source, account, amount)
+    return true
+end
+ServerConfig.StandaloneBalance = function(source)
+    return nil
+end</code></pre>
+      <p>Il server controlla distanza del giocatore e del veicolo, postazioni occupate, saldo e tempo minimo di lavaggio; i lavaggi troppo veloci vengono segnalati nei log.</p>
+    </section>
+
+    <section id="testi">
+      <h2>Testi e lingue</h2>
+      <p>Tutti i testi sono in <code>locales/it.lua</code> e <code>locales/en.lua</code>. Per cambiare una frase modifica il valore della chiave corrispondente; per aggiungere una lingua copia un file, cambia <code>Locales['it']</code> nel nuovo codice e impostalo in <code>Config.Locale</code>.</p>
+    </section>
+
+    <section id="comandi">
+      <h2>Comandi</h2>
+      <table>
+        <thead><tr><th>Comando</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>/carwashpos</td><td>(Debug) In auto: <code>vehicle = vec4(...)</code>. A piedi: <code>machine = vec4(...)</code>.</td></tr>
+          <tr><td>/carwashprop x y z rx ry rz</td><td>(Debug) Sposta la lancia in mano.</td></tr>
+          <tr><td>/carwashfx x y z rx ry rz</td><td>(Debug) Corregge la direzione del getto.</td></tr>
+          <tr><td>carwashcheck</td><td>(F8) Controlla se il prop della lancia è registrato e caricato.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="prestazioni">
+      <h2>Prestazioni</h2>
+      <ul>
+        <li>Lontano dalle postazioni: un controllo ogni 1,5 s.</li>
+        <li>Vicino: un controllo ogni 250 ms; marker disegnati solo entro <code>MarkerDistance</code>.</li>
+        <li>Durante il lavaggio il loop gira a ogni frame solo con la lancia in mano, altrimenti ogni 100 ms.</li>
+        <li>Per risparmiare ancora: <code>Config.Markers = false</code>, <code>Config.Gear.hose.enabled = false</code>, <code>Config.Cinematic.enabled = false</code>.</li>
+      </ul>
+    </section>
+
+    <section id="problemi">
+      <h2>Risoluzione problemi</h2>
+      <h3>In mano c'è l'ugello della benzina invece della lancia</h3>
+      <p>Apri F8 e scrivi <code>carwashcheck</code>: indica se il prop non è registrato (file <code>.ytyp</code>) o non si carica (file <code>.ydr</code>). Verifica che <code>stream/</code> contenga entrambi i file e riavvia la risorsa.</p>
+      <h3>L'idropulitrice non compare o è nel punto sbagliato</h3>
+      <p>Controlla <code>machine = vec4(...)</code> della postazione e rifai le coordinate con <code>/carwashpos</code>. Compare entro <code>Config.MachineSpawnDistance</code>.</p>
+      <h3>“Nessun veicolo fermo sul punto di lavaggio”</h3>
+      <p>Il veicolo deve essere entro il raggio del punto <code>vehicle</code> e con il posto guida libero. Aumenta <code>radius</code> se serve.</p>
+      <h3>Le notifiche non si vedono</h3>
+      <p>Con <code>System = 'esx'</code> serve <code>esx_notify</code> avviato; in alternativa usa <code>'nui'</code>.</p>
+      <h3>“You lack the required entitlement to use autolavaggio”</h3>
+      <p>La <code>sv_licenseKey</code> del server appartiene a un account Cfx diverso da quello che ha acquistato la risorsa. Usa una license key generata dallo stesso account (portal.cfx.re → Server Management) oppure trasferisci la risorsa all'account giusto.</p>
+      <h3>“Failed to verify protected resource” / la risorsa non si avvia</h3>
+      <p>Un file protetto è stato modificato, rinominato o si è corrotto durante l'upload (es. FTP in modalità testo). Scarica di nuovo la risorsa dal portale Cfx e caricala in modalità <b>binaria</b>, modificando solo i file indicati in <a href="#escrow">File modificabili</a>.</p>
+      <div class="card">Serve aiuto? <a href="https://discord.gg/UNeFWPYmEq" target="_blank" rel="noopener">Entra nel Discord di supporto</a>.</div>
+    </section>
+  </main>
+</div>
+
+<footer>Autolavaggio · © MintDev · <a href="https://discord.gg/UNeFWPYmEq" target="_blank" rel="noopener">discord.gg/UNeFWPYmEq</a></footer>
+</body>
+</html>

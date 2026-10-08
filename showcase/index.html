@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showcase · Tutti gli script — MintDev</title>
+<meta name="description" content="Tutti gli script FiveM di MintDev: Advanced Hide, Autolavaggio, Dolcetto o Scherzetto e Caccia ai Regali. Compatibili con ESX, QBCore e Qbox.">
+<meta name="author" content="MintDev.eu">
+<meta name="theme-color" content="#040907">
+<link rel="canonical" href="https://mintdev.eu/showcase/">
+<link rel="icon" href="../assets/logo.webp">
+<meta property="og:title" content="Showcase · Tutti gli script — MintDev">
+<meta property="og:description" content="Tutti gli script FiveM di MintDev in un unico posto.">
+<meta property="og:image" content="https://mintdev.eu/assets/advanced-hide.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mintdev-pages.css">
+</head>
+<body>
+
+<nav id="nav">
+  <a href="../" class="brand"><img src="../assets/logo.webp" alt="">MintDev</a>
+  <div class="links"><a href="../">Home</a><a href="../showcase/" aria-current="page">Showcase</a><a href="../docs/">Documentazione</a><a href="../halloween/" class="hw">Halloween</a><a href="../natale/" class="xm">Natale</a><a data-link="discord" href="#" target="_blank" rel="noopener">Discord</a></div>
+  <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <button class="burger" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+</nav>
+
+<div id="mnav" aria-hidden="true">
+  <h5>Esplora</h5>
+  <a class="mn" href="../">Home</a>
+  <a class="mn" href="../showcase/" aria-current="page">Showcase</a>
+  <a class="mn" href="../docs/">Documentazione</a>
+  <h5>Eventi</h5>
+  <a class="mn" href="../halloween/"><span class="dot hw"></span>Halloween</a>
+  <a class="mn" href="../natale/"><span class="dot xm"></span>Natale</a>
+  <div class="mn-cta">
+    <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
+    <a class="btn ghost" data-link="discord" href="#" target="_blank" rel="noopener">Discord</a>
+  </div>
+</div>
+
+<main>
+  <header class="pg-hero">
+    <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+    <div class="gridbg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="eyebrow mono in-1"><b></b>Showcase · Script FiveM</div>
+      <h1 class="in-2">Tutti gli script. <span class="lux pearl">Firmati MintDev.</span></h1>
+      <p class="lead in-3">Ogni script MintDev in un unico posto: scopri cosa fa, provalo e apri la sua documentazione.</p>
+      <div class="pg-tools in-4">
+        <div class="chips" role="group" aria-label="Filtra gli script">
+          <button type="button" data-filter="all" aria-pressed="true">Tutti</button>
+          <button type="button" data-filter="script" aria-pressed="false">Script</button>
+          <button type="button" data-filter="evento" aria-pressed="false">Eventi</button>
+        </div>
+        <div class="pg-count" aria-live="polite"><b id="count">0</b> script</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="pg-body">
+    <div class="wrap"><div class="ss-grid" id="ssGrid"></div></div>
+  </section>
+
+  <section class="pg-cta">
+    <div class="mono">Su misura</div>
+    <h2>Hai un'idea? <span class="grad">La realizzo io.</span></h2>
+    <p>Script FiveM e bot Discord personalizzati per il tuo server. Apri un ticket e ne parliamo.</p>
+    <div class="row">
+      <a class="btn primary" data-link="discord" href="#" target="_blank" rel="noopener">Apri un ticket <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn ghost" href="../docs/">Documentazione</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div class="brand"><img src="../assets/logo.webp" alt="">MintDev</div>
+  <nav aria-label="Link del sito"><a href="../">Home</a><a href="../showcase/">Showcase</a><a href="../docs/">Documentazione</a></nav>
+  <div>La tua idea, il mio codice. © <span id="yr"></span> MintDev</div>
+</div></footer>
+
+<script src="../assets/mintdev-scripts.js"></script>
+<script>
+MintDev.page();
+const grid = document.getElementById('ssGrid');
+MintDev.showcase(grid, '../');
+MintDev.reveal(grid);
+
+// filtro Tutti / Script / Eventi
+const count = document.getElementById('count');
+const buttons = document.querySelectorAll('[data-filter]');
+function applyFilter(type) {
+  let n = 0;
+  grid.querySelectorAll('.ss-card').forEach(c => {
+    const show = type === 'all' || c.dataset.type === type;
+    c.hidden = !show;
+    if (show) { n++; c.classList.add('in'); }
+  });
+  buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.filter === type));
+  count.textContent = n;
+}
+buttons.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+count.textContent = grid.children.length;
+</script>
+</body>
+</html>

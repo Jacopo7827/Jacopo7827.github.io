@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../assets/logo.webp">
+<title>Advanced Hide · Documentazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Russo+One&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mint: #62e0b4; --mint-2: #3fc995; --mint-soft: rgba(98, 224, 180, .14); --mint-ink: #05281c;
+    --bg: #0b1110; --panel: #121a18; --panel-2: #17211e; --line: rgba(255, 255, 255, .10);
+    --text: #eef3f1; --muted: #a9b8b2; --white: #e9eef0; --warn: #fbbf24;
+    --font: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif; --display: 'Russo One', sans-serif;
+    --mono: 'JetBrains Mono', Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--font); }
+  a { color: var(--mint); }
+  code, pre { font-family: var(--mono); }
+  code { background: rgba(255, 255, 255, .07); padding: 1px 6px; border-radius: 4px; font-size: .9em; color: #d9fbef; }
+  pre { background: #070b0a; border: 1px solid var(--line); border-left: 3px solid var(--mint); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.55; }
+  pre code { background: none; padding: 0; color: var(--text); }
+
+  header { background: radial-gradient(900px 260px at 0% 0%, rgba(98, 224, 180, .22), transparent 70%), #0e1614; border-bottom: 1px solid var(--line); }
+  .head { max-width: 1180px; margin: 0 auto; padding: 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .logo { height: 96px; width: auto; display: block; }
+  h1 { font-family: var(--display); font-weight: 400; margin: 0; font-size: 30px; letter-spacing: .04em; text-transform: uppercase; }
+  h1 span { color: var(--mint); }
+  .sub { color: var(--muted); margin: 2px 0 0; }
+  .discord { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: var(--mint); color: var(--mint-ink); border-radius: 8px; text-decoration: none; font-weight: 700; min-height: 44px; }
+  .discord:hover { background: #7ce9c3; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 240px 1fr; gap: 32px; }
+  nav { position: sticky; top: 16px; align-self: start; font-size: 14px; }
+  nav .t { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  nav a { display: block; padding: 6px 10px; border-left: 2px solid var(--line); color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--mint); border-left-color: var(--mint); }
+
+  main { min-width: 0; }
+  section { margin-bottom: 44px; scroll-margin-top: 16px; }
+  h2 { font-family: var(--display); font-weight: 400; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  h2::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--mint); margin-right: 10px; vertical-align: -2px; border-radius: 2px; }
+  h3 { font-size: 18px; margin: 26px 0 8px; color: var(--white); }
+  p, li { color: #d6dfdb; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 10px 0 18px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); background: var(--mint-soft); }
+  td:first-child { font-family: var(--mono); font-size: 13px; white-space: nowrap; color: #fff; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 12px 0; }
+  .note { border-left: 3px solid var(--warn); }
+  .tip { border-left: 3px solid var(--mint); }
+  .steps { counter-reset: s; list-style: none; padding: 0; }
+  .steps li { counter-increment: s; position: relative; padding: 10px 12px 10px 52px; margin: 8px 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .steps li::before { content: counter(s); position: absolute; left: 12px; top: 10px; width: 28px; height: 28px; display: grid; place-items: center; background: var(--mint); color: var(--mint-ink); border-radius: 6px; font-family: var(--mono); font-weight: 700; }
+  kbd { font-family: var(--mono); font-size: 12px; font-weight: 600; background: var(--white); color: var(--mint-ink); padding: 2px 7px; border-radius: 4px; box-shadow: 0 2px 0 #8a9690; }
+  footer { border-top: 1px solid var(--line); color: var(--muted); text-align: center; padding: 24px; font-size: 14px; }
+
+  .back { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid var(--line); color: var(--text); border-radius: 8px; text-decoration: none; font-weight: 600; min-height: 44px; }
+  .back:hover { border-color: var(--mint); color: var(--mint); }
+  .back + .discord { margin-left: 0; }
+
+  @media (max-width: 860px) {
+    .wrap { grid-template-columns: 1fr; }
+    nav { position: static; }
+    .discord, .back { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <a href="../../" aria-label="Torna a mintdev.eu"><img class="logo" src="../../assets/logo-big.webp?v=2" alt="MintDev"></a>
+    <div>
+      <h1>Advanced Hide <span>· MintDev</span></h1>
+      <p class="sub">Documentazione e configurazione · by MintDev · v1.1.0</p>
+    </div>
+    <a class="back" href="../">&larr; Tutte le guide</a>
+    <a class="discord" href="https://discord.gg/UNeFWPYmEq" target="_blank" rel="noopener">Supporto Discord →</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav aria-label="Indice">
+    <p class="t">Indice</p>
+    <a href="#intro">Panoramica</a>
+    <a href="#install">Installazione</a>
+    <a href="#escrow">File modificabili (escrow)</a>
+    <a href="#gioco">Come si usa in gioco</a>
+    <a href="#veicoli">Nascondigli sui veicoli</a>
+    <a href="#oggetti">Nascondigli sugli oggetti</a>
+    <a href="#generale">Impostazioni generali</a>
+    <a href="#perquisizione">Perquisizione e permessi</a>
+    <a href="#api">Export e statebag</a>
+    <a href="#prestazioni">Prestazioni</a>
+    <a href="#problemi">Risoluzione problemi</a>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <h2>Panoramica</h2>
+      <p>Sistema per nascondersi collegato a <b>ox_target</b>. Il giocatore punta un veicolo o un oggetto, sceglie l'opzione e si nasconde <b>subito</b>: niente tempi di attesa, barre di caricamento o interfacce a schermo. Da dentro il nascondiglio può guardarsi intorno con una camera libera ed uscire quando vuole.</p>
+      <ul>
+        <li>Nascondigli: <b>sotto qualsiasi veicolo</b>, <b>nel bagagliaio</b>, <b>cassonetti</b>, <b>cassoni da cantiere</b>, <b>bagni chimici</b>, <b>cespugli</b></li>
+        <li>Funziona anche con gli oggetti già presenti sulla mappa; se ne possono aggiungere altri da config</li>
+        <li>Sotto il veicolo si resta visibili e, se il veicolo parte, si viene <b>travolti</b>; nel bagagliaio il veicolo può guidare con il giocatore dentro</li>
+        <li>Camera libera con il mouse e zoom con il tasto destro</li>
+        <li><b>Perquisizione</b>: gli altri giocatori possono controllare un nascondiglio e tirare fuori chi c'è dentro, con permessi per lavoro</li>
+        <li>Un solo giocatore per nascondiglio, gestito dal server: se è occupato l'opzione non compare</li>
+        <li>Compatibile con <b>ESX</b>, <b>QBCore</b>, <b>Qbox</b> e standalone; export e statebag per gli altri script</li>
+      </ul>
+    </section>
+
+    <section id="install">
+      <h2>Installazione</h2>
+      <ol class="steps">
+        <li>Scarica la risorsa dal portale Cfx: <a href="https://portal.cfx.re" target="_blank" rel="noopener">portal.cfx.re</a> → <b>Assets</b> → <b>Granted Assets</b>, con lo stesso account Cfx con cui l'hai acquistata.</li>
+        <li>Estrai la cartella <code>adv_hide</code> dentro <code>resources/</code> del server. Non rinominarla: gli export si chiamano <code>exports.adv_hide</code>.</li>
+        <li>Nel <code>server.cfg</code> aggiungi <code>ensure adv_hide</code> <b>dopo</b> <code>ox_lib</code> e <code>ox_target</code>.</li>
+        <li>Se vuoi, limita la perquisizione ad alcuni lavori in <code>config.lua</code> (vedi <a href="#perquisizione">Perquisizione</a>).</li>
+        <li>Riavvia il server. In console vedrai <code>[adv_hide] v1.1.0 by MintDev</code> e il link del Discord di supporto.</li>
+      </ol>
+<pre><code>ensure ox_lib
+ensure ox_target
+ensure adv_hide</code></pre>
+      <div class="card note"><b>Requisiti:</b> <code>ox_lib</code>, <code>ox_target</code>, OneSync attivo e artifact FXServer aggiornato. La <b>license key</b> del server (<code>sv_licenseKey</code>) deve appartenere allo <b>stesso account Cfx</b> che ha acquistato la risorsa. Non serve nessun framework: va scritto solo nella funzione dei permessi, se vuoi usarli.</div>
+    </section>
+
+    <section id="escrow">
+      <h2>File modificabili (escrow)</h2>
+      <p>La risorsa è protetta con il sistema <b>Asset Escrow</b> di Cfx: il codice principale è criptato, mentre tutto quello che serve per configurarla resta aperto.</p>
+      <table>
+        <thead><tr><th>File</th><th>Stato</th><th>A cosa serve</th></tr></thead>
+        <tbody>
+          <tr><td>config.lua</td><td>Modificabile</td><td>Tasti, camera, minimappa, nascondigli sui veicoli e sugli oggetti, perquisizione, testi</td></tr>
+          <tr><td>client/main.lua</td><td>Protetto</td><td>Logica client: ox_target, camera, entrata e uscita</td></tr>
+          <tr><td>server/main.lua</td><td>Protetto</td><td>Nascondigli occupati, perquisizione, statebag</td></tr>
+        </tbody>
+      </table>
+      <div class="card tip">Tutte le opzioni descritte in questa guida si trovano in <code>config.lua</code>: non serve toccare nient'altro. Non modificare né rinominare i file protetti, altrimenti la risorsa non si avvia.</div>
+    </section>
+
+    <section id="gioco">
+      <h2>Come si usa in gioco</h2>
+      <ol class="steps">
+        <li>Avvicinati a un veicolo fermo, a un cassonetto, a un cassone, a un bagno chimico o a un cespuglio.</li>
+        <li>Premi <kbd>ALT</kbd> (ox_target) e scegli <b>Nasconditi sotto il veicolo</b>, <b>Nasconditi nel bagagliaio</b> (puntando il bagagliaio) oppure <b>Nasconditi: Cassonetto</b>, ecc.</li>
+        <li>Sei subito nascosto: la visuale passa alla camera del nascondiglio.</li>
+        <li>Guardati intorno con il <b>mouse</b>, tieni premuto il <b>tasto destro</b> per lo zoom.</li>
+        <li>Premi <kbd>E</kbd> per uscire: comparirai accanto al nascondiglio.</li>
+      </ol>
+      <table>
+        <thead><tr><th>Tasto</th><th>Azione</th></tr></thead>
+        <tbody>
+          <tr><td>ALT</td><td>Apre ox_target per nascondersi o perquisire</td></tr>
+          <tr><td>Mouse</td><td>Guardarsi intorno dal nascondiglio</td></tr>
+          <tr><td>Tasto destro</td><td>Zoom (tenuto premuto)</td></tr>
+          <tr><td>E</td><td>Esci dal nascondiglio</td></tr>
+          <tr><td>T / N / ESC</td><td>Chat, push-to-talk e pausa restano attivi; tutto il resto è bloccato mentre sei nascosto</td></tr>
+        </tbody>
+      </table>
+      <h3>Quando si esce da soli</h3>
+      <table>
+        <thead><tr><th>Situazione</th><th>Risultato</th></tr></thead>
+        <tbody>
+          <tr><td>Veicolo che parte</td><td>Chi è sotto viene travolto: cade a terra e perde vita (<code>ejectDamage</code>).</td></tr>
+          <tr><td>Perquisizione</td><td>Chi è nascosto esce e cade a terra.</td></tr>
+          <tr><td>Morte</td><td>Il giocatore esce dal nascondiglio.</td></tr>
+          <tr><td>Veicolo eliminato</td><td>Il giocatore esce nel punto in cui si trova.</td></tr>
+          <tr><td>Stop della risorsa</td><td>Tutti escono subito.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="veicoli">
+      <h2>Nascondigli sui veicoli</h2>
+      <p>Funzionano su <b>tutti i veicoli</b>, tranne le classi escluse. Si configurano in <code>Config.Vehicle.Under</code> (sotto) e <code>Config.Vehicle.Trunk</code> (bagagliaio).</p>
+      <h3>Sotto il veicolo · Config.Vehicle.Under</h3>
+<pre><code>Under = {
+    enabled   = true,
+    label     = 'Nasconditi sotto il veicolo',
+    icon      = 'fa-solid fa-car-side',
+    distance  = 2.2,
+    invisible = false,   -- realistico: resti visibile se qualcuno guarda sotto
+    pedHeight = 0.95,    -- altezza del personaggio dal suolo
+    yOffset   = 0.0,
+    heading   = 180.0,
+    anim      = { dict = 'amb@world_human_sunbathe@male@back@base', clip = 'base' },
+    ejectSpeed  = 1.5,   -- m/s: se il veicolo si muove, vieni travolto
+    ejectDamage = 30,
+    blacklistedClasses = { [8] = true, [13] = true, [14] = true, [15] = true, [16] = true, [21] = true },
+},</code></pre>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>enabled</td><td><code>false</code> toglie l'opzione da tutti i veicoli.</td></tr>
+          <tr><td>label / icon</td><td>Testo e icona Font Awesome dell'opzione in ox_target.</td></tr>
+          <tr><td>distance</td><td>Distanza massima di interazione in metri.</td></tr>
+          <tr><td>invisible</td><td><code>true</code> rende invisibile il giocatore mentre è sotto.</td></tr>
+          <tr><td>pedHeight</td><td>Altezza del personaggio dal suolo. Se entra nell'asfalto o nella carrozzeria, cambiala a piccoli passi (±0.05).</td></tr>
+          <tr><td>yOffset</td><td>Spostamento avanti (+) / indietro (−) sotto il veicolo.</td></tr>
+          <tr><td>heading</td><td>Rotazione del personaggio rispetto al veicolo, in gradi.</td></tr>
+          <tr><td>anim</td><td>Animazione da sdraiato: <code>dict</code> e <code>clip</code>.</td></tr>
+          <tr><td>ejectSpeed</td><td>Velocità del veicolo (m/s) oltre la quale chi è sotto viene travolto.</td></tr>
+          <tr><td>ejectDamage</td><td>Vita persa quando si viene travolti.</td></tr>
+          <tr><td>blacklistedClasses</td><td>Classi di veicolo escluse (vedi tabella sotto).</td></tr>
+        </tbody>
+      </table>
+      <p>L'opzione compare solo se il veicolo è <b>fermo</b>, il giocatore è a piedi e sotto non c'è già nessuno. Si esce sul lato destro del veicolo.</p>
+
+      <h3>Bagagliaio · Config.Vehicle.Trunk</h3>
+<pre><code>Trunk = {
+    enabled   = true,
+    label     = 'Nasconditi nel bagagliaio',
+    icon      = 'fa-solid fa-box-open',
+    distance  = 2.0,
+    invisible = true,
+    yInset    = 0.85,    -- quanto entrare dal retro del veicolo
+    zOffset   = 0.40,
+    anim      = { dict = 'timetable@floyd@cryingonbed@base', clip = 'base' },
+    allowLocked = false,
+    blacklistedClasses = { [8] = true, [13] = true, [14] = true, [15] = true, [16] = true, [21] = true },
+},</code></pre>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>enabled</td><td><code>false</code> toglie l'opzione del bagagliaio.</td></tr>
+          <tr><td>label / icon</td><td>Testo e icona dell'opzione in ox_target.</td></tr>
+          <tr><td>distance</td><td>Distanza massima di interazione in metri.</td></tr>
+          <tr><td>invisible</td><td><code>true</code> (consigliato) evita che il personaggio si veda attraverso la carrozzeria.</td></tr>
+          <tr><td>yInset</td><td>Quanto il personaggio entra dal retro del veicolo.</td></tr>
+          <tr><td>zOffset</td><td>Altezza del personaggio nel bagagliaio.</td></tr>
+          <tr><td>anim</td><td>Animazione da rannicchiato: <code>dict</code> e <code>clip</code>.</td></tr>
+          <tr><td>allowLocked</td><td><code>false</code>: l'opzione non compare sui veicoli chiusi a chiave.</td></tr>
+          <tr><td>blacklistedClasses</td><td>Classi di veicolo escluse.</td></tr>
+        </tbody>
+      </table>
+      <p>L'opzione compare solo puntando la zona del bagagliaio e solo sui veicoli che ne hanno uno. Il portellone si apre e si richiude da solo all'entrata e all'uscita; si esce dietro al veicolo.</p>
+
+      <h3>Classi dei veicoli</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Classe</th><th>ID</th><th>Classe</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>Compatte</td><td>11</td><td>Utilità</td></tr>
+          <tr><td>1</td><td>Berline</td><td>12</td><td>Furgoni</td></tr>
+          <tr><td>2</td><td>SUV</td><td>13</td><td>Biciclette</td></tr>
+          <tr><td>3</td><td>Coupé</td><td>14</td><td>Barche</td></tr>
+          <tr><td>4</td><td>Muscle</td><td>15</td><td>Elicotteri</td></tr>
+          <tr><td>5</td><td>Sportive classiche</td><td>16</td><td>Aerei</td></tr>
+          <tr><td>6</td><td>Sportive</td><td>17</td><td>Servizio</td></tr>
+          <tr><td>7</td><td>Super</td><td>18</td><td>Emergenza</td></tr>
+          <tr><td>8</td><td>Moto</td><td>19</td><td>Militari</td></tr>
+          <tr><td>9</td><td>Off-road</td><td>20</td><td>Commerciali</td></tr>
+          <tr><td>10</td><td>Industriali</td><td>21</td><td>Treni</td></tr>
+        </tbody>
+      </table>
+      <div class="card tip">Per escludere anche i veicoli di emergenza aggiungi <code>[18] = true</code> a <code>blacklistedClasses</code>.</div>
+    </section>
+
+    <section id="oggetti">
+      <h2>Nascondigli sugli oggetti</h2>
+      <p>I nascondigli sugli oggetti (prop) si configurano in <code>Config.Spots</code>. Funzionano anche sugli oggetti già presenti nella mappa e nelle MLO. Inclusi di base: <b>Cassonetto</b>, <b>Cassone</b>, <b>Bagno chimico</b>, <b>Cespuglio</b>.</p>
+<pre><code>Config.Spots = {
+    {
+        label = 'Cassonetto', icon = 'fa-solid fa-dumpster', distance = 2.0,
+        models = { 'prop_dumpster_01a', 'prop_dumpster_02a', 'prop_dumpster_02b' },
+        invisible = true,
+        offset = vec3(0.0, 0.0, 0.3),
+        camOffset = vec3(0.0, -0.4, 1.35), camYaw = 180.0, look = 180.0,
+        exitOffset = vec3(0.0, -1.3, 0.0),
+    },
+}</code></pre>
+      <table>
+        <thead><tr><th>Campo</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>label</td><td>Nome del nascondiglio. In ox_target compare come “Nasconditi: <i>label</i>”.</td></tr>
+          <tr><td>icon</td><td>Icona Font Awesome dell'opzione.</td></tr>
+          <tr><td>models</td><td>Lista dei nomi dei modelli.</td></tr>
+          <tr><td>distance</td><td>(opzionale) Distanza di interazione, default <code>2.0</code>.</td></tr>
+          <tr><td>invisible</td><td><code>true</code> per gli oggetti chiusi (cassonetti, bagni), <code>false</code> per quelli aperti (cespugli).</td></tr>
+          <tr><td>anim</td><td>(opzionale) Animazione <code>{ dict, clip }</code> mentre si è nascosti, utile se il giocatore resta visibile.</td></tr>
+          <tr><td>offset</td><td><code>vec3</code>: posizione del personaggio rispetto all'oggetto.</td></tr>
+          <tr><td>camOffset</td><td>(opzionale) <code>vec3</code>: posizione della camera, default <code>vec3(0, 0, 1.2)</code>.</td></tr>
+          <tr><td>camYaw</td><td>(opzionale) Direzione iniziale della camera: <code>0</code> = davanti all'oggetto, <code>180</code> = dietro.</td></tr>
+          <tr><td>look</td><td>(opzionale) Gradi di rotazione a destra e a sinistra. <code>180</code> = rotazione libera.</td></tr>
+          <tr><td>exitOffset</td><td>(opzionale) <code>vec3</code>: punto di uscita, default <code>vec3(0, -1.3, 0)</code>.</td></tr>
+        </tbody>
+      </table>
+      <div class="card tip">Gli offset sono sempre relativi all'oggetto e alla sua rotazione: <code>x</code> = destra (+) / sinistra (−), <code>y</code> = avanti (+) / dietro (−), <code>z</code> = su (+) / giù (−).</div>
+      <h3>Aggiungere un nuovo nascondiglio</h3>
+      <ol class="steps">
+        <li>Trova il nome del modello dell'oggetto, per esempio su <a href="https://forge.plebmasters.de/objects" target="_blank" rel="noopener">Pleb Masters: Forge</a>.</li>
+        <li>Copia un blocco esistente in <code>Config.Spots</code>, cambia <code>label</code>, <code>icon</code> e <code>models</code>.</li>
+        <li>Riavvia la risorsa con <code>ensure adv_hide</code> e prova in gioco.</li>
+        <li>Sistema <code>offset</code>, <code>camOffset</code> ed <code>exitOffset</code> finché posizione, visuale e uscita sono corrette.</li>
+      </ol>
+<pre><code>{
+    label = 'Container', icon = 'fa-solid fa-box', distance = 2.5,
+    models = { 'prop_container_05a' },
+    invisible = true,
+    offset = vec3(0.0, 0.0, 0.3),
+    camOffset = vec3(0.0, -1.0, 1.5), camYaw = 180.0, look = 90.0,
+    exitOffset = vec3(0.0, -3.5, 0.0),
+},</code></pre>
+      <div class="card note">Se l'opzione non compare su un oggetto, il nome del modello non corrisponde a quello presente in quel punto della mappa. Molti oggetti simili hanno varianti con nomi diversi (<code>_01a</code>, <code>_02b</code>, ...).</div>
+    </section>
+
+    <section id="generale">
+      <h2>Impostazioni generali</h2>
+      <table>
+        <thead><tr><th>Opzione</th><th>Default</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>Config.Keys.exit</td><td>38 (E)</td><td>Tasto per uscire dal nascondiglio (<a href="https://docs.fivem.net/docs/game-references/controls/" target="_blank" rel="noopener">elenco control</a>).</td></tr>
+          <tr><td>Config.Keys.zoom</td><td>25 (tasto destro)</td><td>Tasto da tenere premuto per lo zoom.</td></tr>
+          <tr><td>Config.HideRadar</td><td>true</td><td>Nasconde la minimappa mentre si è nascosti. Metti <code>false</code> se un tuo HUD gestisce già il radar.</td></tr>
+          <tr><td>Config.Camera.fov</td><td>60.0</td><td>Campo visivo normale della camera.</td></tr>
+          <tr><td>Config.Camera.zoomFov</td><td>28.0</td><td>Campo visivo con lo zoom (più basso = più zoom).</td></tr>
+          <tr><td>Config.Camera.sensitivity</td><td>6.0</td><td>Sensibilità del mouse.</td></tr>
+          <tr><td>Config.Camera.minPitch</td><td>-50.0</td><td>Quanto si può guardare in basso.</td></tr>
+          <tr><td>Config.Camera.maxPitch</td><td>35.0</td><td>Quanto si può guardare in alto.</td></tr>
+          <tr><td>Config.Locale.hide_spot</td><td>'Nasconditi'</td><td>Prefisso delle opzioni sugli oggetti.</td></tr>
+          <tr><td>Config.Locale.search_vehicle</td><td>'Controlla il veicolo'</td><td>Opzione di perquisizione sui veicoli.</td></tr>
+          <tr><td>Config.Locale.search_spot</td><td>'Perquisisci'</td><td>Prefisso della perquisizione sugli oggetti.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="perquisizione">
+      <h2>Perquisizione e permessi</h2>
+      <p>Chi ha il permesso vede <b>Controlla il veicolo</b> sui veicoli e <b>Perquisisci: …</b> sugli oggetti. Se dentro c'è qualcuno, viene tirato fuori e cade a terra; se non c'è nessuno non succede niente. Sui veicoli si controllano insieme sia il <b>sotto</b> sia il <b>bagagliaio</b>.</p>
+      <table>
+        <thead><tr><th>Opzione</th><th>Default</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>enabled</td><td>true</td><td><code>false</code> toglie tutte le opzioni di perquisizione.</td></tr>
+          <tr><td>maxDistance</td><td>6.0</td><td>Distanza massima, controllata dal <b>server</b>, tra chi perquisisce e chi è nascosto.</td></tr>
+          <tr><td>canSearch</td><td>tutti</td><td>Funzione lato client: ritorna <code>true</code> se il giocatore può perquisire.</td></tr>
+        </tbody>
+      </table>
+      <h3>ESX · solo polizia</h3>
+<pre><code>canSearch = function()
+    if not ESX then ESX = exports['es_extended']:getSharedObject() end
+    local job = ESX.GetPlayerData().job
+    return job and job.name == 'police'
+end,</code></pre>
+      <h3>QBCore · solo polizia in servizio</h3>
+<pre><code>canSearch = function()
+    if not QBCore then QBCore = exports['qb-core']:GetCoreObject() end
+    local job = QBCore.Functions.GetPlayerData().job
+    return job and job.name == 'police' and job.onduty
+end,</code></pre>
+      <h3>Qbox · solo polizia in servizio</h3>
+<pre><code>canSearch = function()
+    local job = exports.qbx_core:GetPlayerData().job
+    return job and job.name == 'police' and job.onduty
+end,</code></pre>
+      <h3>Più lavori</h3>
+<pre><code>canSearch = function()
+    if not ESX then ESX = exports['es_extended']:getSharedObject() end
+    local allowed = { police = true, sheriff = true, fbi = true }
+    local job = ESX.GetPlayerData().job
+    return job and allowed[job.name] == true
+end,</code></pre>
+      <div class="card note"><code>canSearch</code> viene chiamata spesso da ox_target: salva l'oggetto del framework in una variabile (come negli esempi) invece di richiederlo ogni volta.</div>
+    </section>
+
+    <section id="api">
+      <h2>Export e statebag</h2>
+      <p>Per collegare adv_hide ad altri script (inventario, manette, telefono, ecc.).</p>
+      <table>
+        <thead><tr><th>Nome</th><th>Lato</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td>exports.adv_hide:isHidden()</td><td>Client</td><td><code>true</code> se il giocatore locale è nascosto.</td></tr>
+          <tr><td>exports.adv_hide:forceExit()</td><td>Client</td><td>Fa uscire il giocatore locale dal nascondiglio.</td></tr>
+          <tr><td>exports.adv_hide:isHidden(source)</td><td>Server</td><td><code>true</code> se quel giocatore è nascosto.</td></tr>
+          <tr><td>Player(source).state.isHidden</td><td>Server / client</td><td>Statebag replicata a tutti: <code>true</code> mentre il giocatore è nascosto.</td></tr>
+          <tr><td>LocalPlayer.state.isHidden</td><td>Client</td><td>Lo stesso valore, letto dal giocatore locale.</td></tr>
+        </tbody>
+      </table>
+      <h3>Esempi</h3>
+<pre><code>-- client: non aprire l'inventario mentre sei nascosto
+if LocalPlayer.state.isHidden then return end
+
+-- client: fai uscire il giocatore prima di ammanettarlo
+exports.adv_hide:forceExit()
+
+-- server: sapere quando un giocatore si nasconde
+AddStateBagChangeHandler('isHidden', nil, function(bagName, _, value)
+    local src = GetPlayerFromStateBagName(bagName)
+    if src and src ~= 0 then
+        print(('Giocatore %s nascosto: %s'):format(src, tostring(value)))
+    end
+end)</code></pre>
+    </section>
+
+    <section id="prestazioni">
+      <h2>Prestazioni</h2>
+      <ul>
+        <li>Quando nessuno è nascosto lo script non ha loop attivi: i controlli girano solo quando ox_target è aperto su un veicolo o un oggetto.</li>
+        <li>Mentre si è nascosti gira un solo loop a ogni frame, necessario per la camera e per bloccare i controlli. Si ferma appena si esce.</li>
+        <li>Il server aggiorna i nascondigli occupati solo quando qualcuno entra o esce.</li>
+        <li>Gli oggetti non vengono creati dallo script: si usano quelli già presenti nella mappa.</li>
+      </ul>
+    </section>
+
+    <section id="problemi">
+      <h2>Risoluzione problemi</h2>
+      <h3>Le opzioni non compaiono</h3>
+      <p>Controlla che <code>ox_lib</code> e <code>ox_target</code> partano <b>prima</b> di <code>adv_hide</code> e che non ci siano errori in console (F8 e server).</p>
+      <h3>“Nasconditi sotto il veicolo” non compare</h3>
+      <p>Il veicolo si sta muovendo, la sua classe è esclusa, sei dentro un veicolo oppure sotto c'è già qualcuno.</p>
+      <h3>“Nasconditi nel bagagliaio” non compare</h3>
+      <p>Devi puntare la zona del bagagliaio. Il veicolo può essere chiuso a chiave (<code>allowLocked = false</code>), non avere un bagagliaio o essere già occupato.</p>
+      <h3>Il personaggio entra nell'asfalto o nella carrozzeria</h3>
+      <p>Regola <code>Config.Vehicle.Under.pedHeight</code> a piccoli passi (±0.05).</p>
+      <h3>La camera è dentro un muro o si esce nel punto sbagliato</h3>
+      <p>Regola <code>camOffset</code> ed <code>exitOffset</code> del nascondiglio in <code>Config.Spots</code>.</p>
+      <h3>La minimappa non torna</h3>
+      <p>Un altro HUD gestisce il radar: imposta <code>Config.HideRadar = false</code>.</p>
+      <h3>“attempt to index a nil value (global 'lib')”</h3>
+      <p><code>ox_lib</code> non è avviato oppure parte dopo <code>adv_hide</code>.</p>
+      <h3>“You lack the required entitlement to use adv_hide”</h3>
+      <p>La <code>sv_licenseKey</code> del server appartiene a un account Cfx diverso da quello che ha acquistato la risorsa. Usa una license key generata dallo stesso account (portal.cfx.re → Server Management) oppure trasferisci la risorsa all'account giusto.</p>
+      <h3>“Failed to verify protected resource” / la risorsa non si avvia</h3>
+      <p>Un file protetto è stato modificato, rinominato o si è corrotto durante l'upload (es. FTP in modalità testo). Scarica di nuovo la risorsa dal portale Cfx e caricala in modalità <b>binaria</b>, modificando solo i file indicati in <a href="#escrow">File modificabili</a>.</p>
+      <div class="card">Serve aiuto? <a href="https://discord.gg/UNeFWPYmEq" target="_blank" rel="noopener">Entra nel Discord di supporto</a>.</div>
+    </section>
+  </main>
+</div>
+
+<footer>Advanced Hide · © MintDev · <a href="https://discord.gg/UNeFWPYmEq" target="_blank" rel="noopener">discord.gg/UNeFWPYmEq</a></footer>
+</body>
+</html>

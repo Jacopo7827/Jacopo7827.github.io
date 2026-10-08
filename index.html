@@ -74,7 +74,7 @@ nav .links a.nav-hw:hover{color:#ffc27a}
 nav .links a.nav-xm{display:inline-flex;align-items:center;gap:7px;color:#ff8a96}
 nav .links a.nav-xm::before{content:"";width:7px;height:7px;border-radius:50%;background:#e3253c;box-shadow:0 0 10px #e3253c,8px 0 0 -1px #ffcc4d;animation:pulse 1.8s infinite}
 nav .links a.nav-xm:hover{color:#ffcc4d}
-@media(max-width:900px){nav .links{display:none}nav{gap:14px}}
+@media(max-width:1020px){nav .links{display:none}nav{gap:14px}}
 
 /* ---------- menu mobile ---------- */
 .burger,#mnav{--mn-acc:var(--mint)}
@@ -102,7 +102,7 @@ nav .links a.nav-xm:hover{color:#ffcc4d}
 #mnav .mn-cta{display:flex;gap:10px;margin-top:28px}
 #mnav .mn-cta .btn{flex:1;justify-content:center}
 html.menu-open,html.menu-open body{overflow:hidden}
-@media(max-width:900px){.burger{display:block}nav.hide{transform:translateX(-50%)}}
+@media(max-width:1020px){.burger{display:block}nav.hide{transform:translateX(-50%)}}
 @media(max-width:480px){nav .brand small{display:none}}
 @media(max-width:360px){nav{gap:10px;padding-left:14px}nav .btn{padding:10px 16px}}
 
@@ -187,8 +187,8 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinb 3.5s linear infinite}
 @keyframes spinb{to{--ang:360deg}}
 
-/* ---------- SHOWCASE (demo live autolavaggio) ---------- */
-#showcase{height:100vh;min-height:640px;overflow:hidden;background:radial-gradient(ellipse at 72% 55%,rgba(95,227,180,.14),transparent 55%)}
+/* ---------- AUTOLAVAGGIO (demo live) ---------- */
+#autolavaggio{height:100vh;min-height:640px;overflow:hidden;background:radial-gradient(ellipse at 72% 55%,rgba(95,227,180,.14),transparent 55%)}
 .sc-word{position:absolute;top:50%;left:0;transform:translateY(-50%);white-space:nowrap;font-family:var(--display);font-weight:800;font-size:clamp(7rem,24vw,24rem);letter-spacing:-.06em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(95,227,180,.14);pointer-events:none;z-index:0}
 .sc-grid{position:relative;z-index:2;height:100%;max-width:1240px;margin:0 auto;padding:84px 24px 32px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:4vw;align-items:center}
 .sc-copy h2{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.95;font-size:clamp(2.6rem,5.2vw,4.8rem);margin:12px 0 16px}
@@ -318,7 +318,7 @@ h1 .ln.m .char{color:var(--mint);text-shadow:0 0 40px rgba(95,227,180,.45)}
 .gstate{margin-top:8px;text-align:center;font-size:.72rem;font-weight:600;transition:color .4s}
 @media(min-width:861px) and (max-height:820px){.sc-vis{zoom:.84}.sc-copy h2{font-size:clamp(2.4rem,4.4vw,3.8rem)}.sc-steps{gap:10px;margin:18px 0}}
 @media(max-width:860px){
-  #showcase{height:auto;min-height:0;padding:16vh 0 10vh}
+  #autolavaggio{height:auto;min-height:0;padding:16vh 0 10vh}
   .sc-word{top:110px;transform:none}
   .sc-grid{grid-template-columns:1fr;height:auto;padding:0 20px;gap:40px}
   .sc-vis{height:auto;perspective:none}
@@ -607,23 +607,21 @@ footer img{width:26px}
 
 <nav id="nav">
   <a href="#hero" class="brand"><img src="assets/logo.webp" alt="">MintDev</a>
-  <div class="links"><a href="#showcase">Script</a><a href="halloween/" class="nav-hw">Halloween</a><a href="natale/" class="nav-xm">Natale</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a><a href="#partner">Partner</a></div>
+  <div class="links"><a href="showcase/">Showcase</a><a href="docs/">Documentazione</a><a href="halloween/" class="nav-hw">Halloween</a><a href="natale/" class="nav-xm">Natale</a><a href="#features">Perché noi</a><a href="#bot">Bot Discord</a><a href="#partner">Partner</a></div>
   <a class="btn primary mag" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   <button class="burger" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
 </nav>
 
 <div id="mnav" aria-hidden="true">
   <h5>Esplora</h5>
-  <a class="mn" href="#showcase" style="--i:0">Script</a>
-  <a class="mn" href="#features" style="--i:1">Perché noi</a>
-  <a class="mn" href="#bot" style="--i:2">Bot Discord</a>
-  <a class="mn" href="#partner" style="--i:3">Partner</a>
+  <a class="mn" href="showcase/" style="--i:0">Showcase</a>
+  <a class="mn" href="docs/" style="--i:1">Documentazione</a>
+  <a class="mn" href="#features" style="--i:2">Perché noi</a>
+  <a class="mn" href="#bot" style="--i:3">Bot Discord</a>
+  <a class="mn" href="#partner" style="--i:4">Partner</a>
   <h5>Eventi</h5>
-  <a class="mn" href="halloween/" style="--i:4"><span class="dot hw"></span>Halloween</a>
-  <a class="mn" href="natale/" style="--i:5"><span class="dot xm"></span>Natale</a>
-  <h5>Documentazione</h5>
-  <a class="mn" href="halloween/docs/" style="--i:6">Dolcetto o Scherzetto</a>
-  <a class="mn" href="natale/docs/" style="--i:7">Caccia ai Regali</a>
+  <a class="mn" href="halloween/" style="--i:5"><span class="dot hw"></span>Halloween</a>
+  <a class="mn" href="natale/" style="--i:6"><span class="dot xm"></span>Natale</a>
   <div class="mn-cta">
     <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
     <a class="btn ghost" data-link="discord" href="#" target="_blank" rel="noopener">Discord</a>
@@ -677,8 +675,8 @@ footer img{width:26px}
   </div>
 </section>
 
-<!-- ============ SHOWCASE ============ -->
-<section id="showcase">
+<!-- ============ AUTOLAVAGGIO (demo live) ============ -->
+<section id="autolavaggio">
   <div class="sc-beam" aria-hidden="true"></div><div class="sc-beam b2" aria-hidden="true"></div><div class="sc-floor" aria-hidden="true"></div><div class="sc-bubbles" id="bubBack" aria-hidden="true"></div><div class="sc-bubbles front" id="bubFront" aria-hidden="true"></div>
   <div class="sc-word" aria-hidden="true">AUTOLAVAGGIO · AUTOLAVAGGIO · AUTOLAVAGGIO</div>
   <div class="sc-grid">
@@ -1020,7 +1018,7 @@ const PARTNERS = [
   btn.addEventListener('click',()=>set(!root.classList.contains('menu-open')));
   panel.addEventListener('click',e=>{if(e.target.closest('a'))set(false)},true);
   addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});
-  matchMedia('(min-width:901px)').addEventListener('change',e=>{if(e.matches)set(false)});
+  matchMedia('(min-width:1021px)').addEventListener('change',e=>{if(e.matches)set(false)});
 })();
 (function(){const box=document.getElementById('xmLights');if(!box)return;const c=['#ff5a6b','#ffcc4d','#4ade80','#6fc3ff','#ff7ad9'];let h='';
   for(let i=0;i<24;i++)h+=`<i style="left:${(2+i*4.15).toFixed(2)}%;top:${(8+Math.sin(i/2.2)*6).toFixed(1)}px;background:${c[i%5]};box-shadow:0 0 12px ${c[i%5]};animation-delay:${(-(i%5)*.3).toFixed(1)}s"></i>`;
@@ -1198,6 +1196,10 @@ function intro(){
     .from('.scrollcue',{opacity:0,duration:1},1.6);
   if(!reduce){gsap.to('.hero-logo',{y:-12,duration:3,ease:'sine.inOut',repeat:-1,yoyo:true,delay:2})}
   setupScroll();
+  // arrivando da un'altra pagina con un'ancora (es. /#autolavaggio dallo showcase) scorre alla sezione
+  let target=null;try{target=location.hash.length>1&&document.querySelector(location.hash)}catch(e){}
+  const go=n=>lenis.scrollTo(target,{duration:n?.6:1.6,onComplete:()=>{if(n<4&&Math.abs(target.getBoundingClientRect().top)>2)go(n+1)}});
+  if(target)setTimeout(()=>lenis?go(0):target.scrollIntoView({behavior:'smooth'}),900);
 }
 runLoader();
 
@@ -1269,14 +1271,14 @@ function setupScroll(){
 
   /* ---- SHOWCASE: demo live, lo scroll lava l'auto ---- */
   const scs={p:0};wash(0);
-  gsap.from('.sc-copy > *',{y:60,opacity:0,stagger:.09,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:'#showcase',start:'top 65%'}});
+  gsap.from('.sc-copy > *',{y:60,opacity:0,stagger:.09,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:'#autolavaggio',start:'top 65%'}});
   mm.add('(min-width:861px)',()=>{
-    gsap.timeline({scrollTrigger:{trigger:'#showcase',start:'top 85%',end:'top top',scrub:1}})
+    gsap.timeline({scrollTrigger:{trigger:'#autolavaggio',start:'top 85%',end:'top top',scrub:1}})
       .fromTo('.sc-back',{opacity:0,z:-700,rotationY:45,rotationX:10},{opacity:.5,z:-140,rotationY:20,rotationX:4,ease:'power2.out'},0)
       .fromTo('.hud',{opacity:0,z:-600,x:160,rotationY:-35,rotationX:12},{opacity:1,z:0,x:0,rotationY:-12,rotationX:4,ease:'power3.out'},.1)
       .fromTo('.gcard',{opacity:0,z:-300,x:-120,y:120,rotation:-12},{opacity:1,z:110,x:0,y:0,rotation:-4,ease:'power3.out'},.25)
       .fromTo('.sc-live',{opacity:0,y:-20},{opacity:1,y:0},.5);
-    gsap.timeline({scrollTrigger:{trigger:'#showcase',start:'top top',end:'+=280%',scrub:1.6,pin:true}})
+    gsap.timeline({scrollTrigger:{trigger:'#autolavaggio',start:'top top',end:'+=280%',scrub:1.6,pin:true}})
       .fromTo('.sc-word',{xPercent:0},{xPercent:-45,ease:'none',duration:1.25},0)
       .to(scs,{p:1,duration:1,ease:'none',onUpdate:()=>wash(scs.p)},0)
       .fromTo('.hud',{rotationY:-12,rotationX:4,z:0},{rotationY:-3,rotationX:0,z:40,ease:'none',duration:1,immediateRender:false},0)
@@ -1287,7 +1289,7 @@ function setupScroll(){
   });
   if(fine){
     const st2=document.getElementById('scTilt'),tx=gsap.quickTo(st2,'rotationY',{duration:1.2,ease:'power3'}),ty=gsap.quickTo(st2,'rotationX',{duration:1.2,ease:'power3'});
-    document.getElementById('showcase').addEventListener('mousemove',e=>{tx((e.clientX/innerWidth-.5)*10);ty(-(e.clientY/innerHeight-.5)*8)});
+    document.getElementById('autolavaggio').addEventListener('mousemove',e=>{tx((e.clientX/innerWidth-.5)*10);ty(-(e.clientY/innerHeight-.5)*8)});
     document.querySelectorAll('.hud,.gcard').forEach(card=>card.addEventListener('mousemove',e=>{
       const r=card.getBoundingClientRect();card.style.setProperty('--mx',e.clientX-r.left+'px');card.style.setProperty('--my',e.clientY-r.top+'px');
     }));

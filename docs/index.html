@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentazione · Tutte le guide — MintDev</title>
+<meta name="description" content="Documentazione ufficiale degli script FiveM di MintDev: installazione, configurazione e risoluzione problemi di Advanced Hide, Autolavaggio, Dolcetto o Scherzetto e Caccia ai Regali.">
+<meta name="author" content="MintDev.eu">
+<meta name="theme-color" content="#040907">
+<link rel="canonical" href="https://mintdev.eu/docs/">
+<link rel="icon" href="../assets/logo.webp">
+<meta property="og:title" content="Documentazione · Tutte le guide — MintDev">
+<meta property="og:description" content="Installazione, configurazione e risoluzione problemi di ogni script MintDev.">
+<meta property="og:image" content="https://mintdev.eu/assets/autolavaggio.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mintdev-pages.css">
+</head>
+<body>
+
+<nav id="nav">
+  <a href="../" class="brand"><img src="../assets/logo.webp" alt="">MintDev</a>
+  <div class="links"><a href="../">Home</a><a href="../showcase/">Showcase</a><a href="../docs/" aria-current="page">Documentazione</a><a href="../halloween/" class="hw">Halloween</a><a href="../natale/" class="xm">Natale</a><a data-link="discord" href="#" target="_blank" rel="noopener">Discord</a></div>
+  <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <button class="burger" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+</nav>
+
+<div id="mnav" aria-hidden="true">
+  <h5>Esplora</h5>
+  <a class="mn" href="../">Home</a>
+  <a class="mn" href="../showcase/">Showcase</a>
+  <a class="mn" href="../docs/" aria-current="page">Documentazione</a>
+  <h5>Eventi</h5>
+  <a class="mn" href="../halloween/"><span class="dot hw"></span>Halloween</a>
+  <a class="mn" href="../natale/"><span class="dot xm"></span>Natale</a>
+  <div class="mn-cta">
+    <a class="btn primary" data-link="tebex" href="#" target="_blank" rel="noopener">Store</a>
+    <a class="btn ghost" data-link="discord" href="#" target="_blank" rel="noopener">Discord</a>
+  </div>
+</div>
+
+<main>
+  <header class="pg-hero">
+    <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+    <div class="gridbg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="eyebrow mono in-1"><b></b>Documentazione ufficiale</div>
+      <h1 class="in-2">Tutte le guide. <span class="lux pearl">A portata di click.</span></h1>
+      <p class="lead in-3">Installazione, configurazione e risoluzione problemi di ogni script MintDev, spiegate passo per passo.</p>
+      <div class="pg-tools in-4">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Cerca uno script o un argomento" aria-label="Cerca nella documentazione" autocomplete="off">
+        </label>
+        <div class="pg-count" aria-live="polite"><b id="count">0</b> guide</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="pg-body">
+    <div class="wrap">
+      <div class="doc-grid" id="docGrid"></div>
+      <div class="doc-empty" id="empty">Nessuna guida trovata. Prova con un'altra parola oppure chiedi su Discord.</div>
+      <div class="doc-help reveal"><span><b>Non trovi la risposta?</b> Apri un ticket e ti aiuto a installare e configurare lo script.</span><a class="btn ghost" data-link="discord" href="#" target="_blank" rel="noopener">Supporto su Discord</a></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div class="brand"><img src="../assets/logo.webp" alt="">MintDev</div>
+  <nav aria-label="Link del sito"><a href="../">Home</a><a href="../showcase/">Showcase</a><a href="../docs/">Documentazione</a></nav>
+  <div>La tua idea, il mio codice. © <span id="yr"></span> MintDev</div>
+</div></footer>
+
+<script src="../assets/mintdev-scripts.js"></script>
+<script>
+MintDev.page();
+const grid = document.getElementById('docGrid');
+MintDev.docs(grid, '../');
+MintDev.reveal(document);
+
+// ricerca tra le guide
+const q = document.getElementById('q'), count = document.getElementById('count'), empty = document.getElementById('empty');
+function search() {
+  const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  let n = 0;
+  grid.querySelectorAll('.doc-card').forEach(c => {
+    const show = words.every(w => c.dataset.search.includes(w));
+    c.hidden = !show;
+    if (show) { n++; c.classList.add('in'); }
+  });
+  count.textContent = n;
+  empty.classList.toggle('show', n === 0);
+}
+q.addEventListener('input', search);
+count.textContent = grid.children.length;
+</script>
+</body>
+</html>
